@@ -1,4 +1,4 @@
-require 'overpass_parser'
+require "overpass_parser"
 
 module OverpassParser
   class Walker < OverpassParser::Visitor
@@ -11,7 +11,7 @@ module OverpassParser
 
     def visit_request(ctx)
       visit_children(ctx)
-      r = {type: :request, queries: @stack}
+      r = { type: :request, queries: @stack }
       @stack = []
       @stack.push(r)
     end
@@ -19,7 +19,7 @@ module OverpassParser
     def visit_query_group(ctx)
       @stack.push([])
       visit_children(ctx)
-      r = {type: :query_group, queries: @stack.pop}
+      r = { type: :query_group, queries: @stack.pop }
       @stack.push(r)
     end
 
@@ -27,7 +27,8 @@ module OverpassParser
       @filters = []
       @selectors = []
       visit_children(ctx)
-      r = {type: :query_object, set: ctx.DOT_ID&.text, object_type: ctx.object_type.text, selectors: @selectors.compact.dup, filter: @filters.compact.dup}
+      r = { type: :query_object, set: ctx.DOT_ID&.text, object_type: ctx.object_type.text,
+            selectors: @selectors.compact.dup, filter: @filters.compact.dup }
       if @stack[-1].is_a?(Array)
         @stack[-1] << r
       else
@@ -37,7 +38,7 @@ module OverpassParser
 
     def visit_query_recurse(ctx)
       visit_children(ctx)
-      r = {type: :query_recurse, recurse: ctx.text}
+      r = { type: :query_recurse, recurse: ctx.text }
       if @stack[-1].is_a?(Array)
         @stack[-1] << r
       else
@@ -48,10 +49,10 @@ module OverpassParser
     def visit_selector(ctx)
       visit_children(ctx)
       r = if ctx.token[1].nil?
-        {type: :selector, key: @stack, not: ctx.NOT&.text == '!'}
-      else
-        {type: :selector, value: @stack.pop, key: @stack.pop, operator: ctx.OPERATOR.text}
-      end
+            { type: :selector, key: @stack, not: ctx.NOT&.text == "!" }
+          else
+            { type: :selector, value: @stack.pop, key: @stack.pop, operator: ctx.OPERATOR.text }
+          end
       @selectors << r
     end
 

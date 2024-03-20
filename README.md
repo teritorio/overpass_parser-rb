@@ -14,5 +14,12 @@ require 'overpass_parser/visitor'
 tree = OverpassParser.tree('[out:json]...')
 ```
 
+## Dev
+
+Rubocop
+```
+bundle exec rubocop -c .rubocop.yml --autocorrect
+```
+
 ## License
 Licensed under the MIT license. See LICENSE.txt for details.

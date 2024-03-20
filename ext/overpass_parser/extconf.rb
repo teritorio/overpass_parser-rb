@@ -1,27 +1,25 @@
-require 'mkmf-rice'
+require "mkmf-rice"
 
-extension_name = 'overpass_parser'
+extension_name = "overpass_parser"
 dir_config(extension_name)
 
-have_library('stdc++')
+have_library("stdc++")
 
-$CFLAGS << ' -std=c++14'
+$CFLAGS << " -std=c++14"
 
-if enable_config('static') && !$defs.include?('-DANTLR4CPP_STATIC')
-  $defs.push '-DANTLR4CPP_STATIC'
-end
+$defs.push "-DANTLR4CPP_STATIC" if enable_config("static") && !$defs.include?("-DANTLR4CPP_STATIC")
 
 include_paths = [
-  '.',
-  'antlrgen',
-  'antlr4-upstream/runtime/Cpp/runtime/src',
-  'antlr4-upstream/runtime/Cpp/runtime/src/atn',
-  'antlr4-upstream/runtime/Cpp/runtime/src/dfa',
-  'antlr4-upstream/runtime/Cpp/runtime/src/misc',
-  'antlr4-upstream/runtime/Cpp/runtime/src/support',
-  'antlr4-upstream/runtime/Cpp/runtime/src/tree',
-  'antlr4-upstream/runtime/Cpp/runtime/src/tree/pattern',
-  'antlr4-upstream/runtime/Cpp/runtime/src/tree/xpath'
+  ".",
+  "antlrgen",
+  "antlr4-upstream/runtime/Cpp/runtime/src",
+  "antlr4-upstream/runtime/Cpp/runtime/src/atn",
+  "antlr4-upstream/runtime/Cpp/runtime/src/dfa",
+  "antlr4-upstream/runtime/Cpp/runtime/src/misc",
+  "antlr4-upstream/runtime/Cpp/runtime/src/support",
+  "antlr4-upstream/runtime/Cpp/runtime/src/tree",
+  "antlr4-upstream/runtime/Cpp/runtime/src/tree/pattern",
+  "antlr4-upstream/runtime/Cpp/runtime/src/tree/xpath"
 ]
 
 $srcs = []
