@@ -51,7 +51,7 @@ module OverpassParser
     def visit_selector(ctx)
       visit_children(ctx)
       r = if ctx.token[1].nil?
-            { type: :selector, key: @stack, not: ctx.NOT&.text == "!" }
+            { type: :selector, key: @stack.pop, not: ctx.NOT&.text == "!" }
           else
             { type: :selector, value: @stack.pop, key: @stack.pop, operator: ctx.OPERATOR.text }
           end

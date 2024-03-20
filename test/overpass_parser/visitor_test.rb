@@ -11,7 +11,15 @@ class OverpassParser::TestVisitor < Minitest::Test
     )
   end
 
-  def test_selector
+  def test_selector_key
+    tree = OverpassParser.tree("node[highway];")
+    assert_equal(
+      { type: :query_object, set: nil, object_type: "node",
+        selectors: [{ type: :selector, key: "highway", not: false }], filter: [] }, tree[0][:queries][0]
+    )
+  end
+
+  def test_selector_key_value
     tree = OverpassParser.tree("node[highway=primary];")
     assert_equal(
       { type: :query_object, set: nil, object_type: "node",
