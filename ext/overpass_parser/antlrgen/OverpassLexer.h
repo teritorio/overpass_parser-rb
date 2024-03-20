@@ -16,8 +16,8 @@ public:
     T__7 = 8, T__8 = 9, T__9 = 10, T__10 = 11, T__11 = 12, T__12 = 13, T__13 = 14, 
     T__14 = 15, T__15 = 16, T__16 = 17, T__17 = 18, T__18 = 19, T__19 = 20, 
     T__20 = 21, T__21 = 22, WS = 23, SL_COMMENT = 24, ML_COMMENT = 25, NUMBER = 26, 
-    OPERATOR = 27, NOT = 28, UNQUOTED_STRING = 29, QUOTED_STRING = 30, ID = 31, 
-    DOT_ID = 32
+    OPERATOR = 27, NOT = 28, UNQUOTED_STRING = 29, SIMPLE_QUOTED_STRING = 30, 
+    DOUBLE_QUOTED_STRING = 31, ID = 32, DOT_ID = 33
   };
 
   explicit OverpassLexer(antlr4::CharStream *input);

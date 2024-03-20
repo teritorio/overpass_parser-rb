@@ -150,7 +150,8 @@ class TokenContextProxy : public ContextProxy {
 public:
   TokenContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
 
-  Object QUOTED_STRING();
+  Object SIMPLE_QUOTED_STRING();
+  Object DOUBLE_QUOTED_STRING();
   Object UNQUOTED_STRING();
 };
 
@@ -626,12 +627,27 @@ namespace Rice::detail {
 }
 
 
-Object TokenContextProxy::QUOTED_STRING() {
+Object TokenContextProxy::SIMPLE_QUOTED_STRING() {
   if (orig == nullptr) {
     return Qnil;
   }
 
-  auto token = ((OverpassParser::TokenContext*)orig) -> QUOTED_STRING();
+  auto token = ((OverpassParser::TokenContext*)orig) -> SIMPLE_QUOTED_STRING();
+
+  if (token == nullptr) {
+    return Qnil;
+  }
+
+  TerminalNodeProxy proxy(token);
+  return detail::To_Ruby<TerminalNodeProxy>().convert(proxy);
+}
+
+Object TokenContextProxy::DOUBLE_QUOTED_STRING() {
+  if (orig == nullptr) {
+    return Qnil;
+  }
+
+  auto token = ((OverpassParser::TokenContext*)orig) -> DOUBLE_QUOTED_STRING();
 
   if (token == nullptr) {
     return Qnil;
@@ -1551,7 +1567,8 @@ void Init_overpass_parser() {
     .define_method("visit", &ParserProxy::visit);
 
   rb_cTokenContext = define_class_under<TokenContextProxy, ContextProxy>(rb_mOverpassParser, "TokenContext")
-    .define_method("QUOTED_STRING", &TokenContextProxy::QUOTED_STRING)
+    .define_method("SIMPLE_QUOTED_STRING", &TokenContextProxy::SIMPLE_QUOTED_STRING)
+    .define_method("DOUBLE_QUOTED_STRING", &TokenContextProxy::DOUBLE_QUOTED_STRING)
     .define_method("UNQUOTED_STRING", &TokenContextProxy::UNQUOTED_STRING);
 
   rb_cMetadataContext = define_class_under<MetadataContextProxy, ContextProxy>(rb_mOverpassParser, "MetadataContext")
