@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
+# Specify your gem's dependencies in overpass_parser-rb.gemspec
 gemspec
 
 group :development do
@@ -9,4 +12,6 @@ end
 
 group :development, :test do
   gem 'rake'
+  gem 'minitest'
+  gem "rubocop", "~> 1.21"
 end

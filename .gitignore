@@ -6,3 +6,11 @@ pkg/
 ext/overpass_parser/Makefile
 ext/overpass_parser/mkmf.log
 *.bundle
+/.bundle/
+/.yardoc
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
