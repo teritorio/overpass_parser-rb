@@ -46,6 +46,12 @@ public:
   virtual void enterObject_type(OverpassParser::Object_typeContext * /*ctx*/) override { }
   virtual void exitObject_type(OverpassParser::Object_typeContext * /*ctx*/) override { }
 
+  virtual void enterQuery_object(OverpassParser::Query_objectContext * /*ctx*/) override { }
+  virtual void exitQuery_object(OverpassParser::Query_objectContext * /*ctx*/) override { }
+
+  virtual void enterQuery_recurse(OverpassParser::Query_recurseContext * /*ctx*/) override { }
+  virtual void exitQuery_recurse(OverpassParser::Query_recurseContext * /*ctx*/) override { }
+
   virtual void enterQuery(OverpassParser::QueryContext * /*ctx*/) override { }
   virtual void exitQuery(OverpassParser::QueryContext * /*ctx*/) override { }
 

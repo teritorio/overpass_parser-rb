@@ -34,6 +34,8 @@ Class rb_cFilter_areaContext;
 Class rb_cFilterContext;
 Class rb_cAsignationContext;
 Class rb_cObject_typeContext;
+Class rb_cQuery_objectContext;
+Class rb_cQuery_recurseContext;
 Class rb_cQueryContext;
 Class rb_cQuery_groupContext;
 Class rb_cQuery_sequenceContext;
@@ -222,15 +224,30 @@ public:
 
 };
 
-class QueryContextProxy : public ContextProxy {
+class Query_objectContextProxy : public ContextProxy {
 public:
-  QueryContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
+  Query_objectContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
   Object object_type();
   Object selector();
   Object selectorAt(size_t i);
   Object filter();
   Object filterAt(size_t i);
   Object asignation();
+  Object DOT_ID();
+};
+
+class Query_recurseContextProxy : public ContextProxy {
+public:
+  Query_recurseContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
+
+
+};
+
+class QueryContextProxy : public ContextProxy {
+public:
+  QueryContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
+  Object query_object();
+  Object query_recurse();
 
 };
 
@@ -464,6 +481,46 @@ namespace Rice::detail {
     VALUE convert(Object_typeContextProxy* const &x) {
       if (!x) return Nil;
       return Data_Object<Object_typeContextProxy>(x, false, rb_cObject_typeContext);
+    }
+  };
+}
+
+namespace Rice::detail {
+  template <>
+  class To_Ruby<OverpassParser::Query_objectContext*> {
+  public:
+    VALUE convert(OverpassParser::Query_objectContext* const &x) {
+      if (!x) return Nil;
+      return Data_Object<OverpassParser::Query_objectContext>(x, false, rb_cQuery_objectContext);
+    }
+  };
+
+  template <>
+  class To_Ruby<Query_objectContextProxy*> {
+  public:
+    VALUE convert(Query_objectContextProxy* const &x) {
+      if (!x) return Nil;
+      return Data_Object<Query_objectContextProxy>(x, false, rb_cQuery_objectContext);
+    }
+  };
+}
+
+namespace Rice::detail {
+  template <>
+  class To_Ruby<OverpassParser::Query_recurseContext*> {
+  public:
+    VALUE convert(OverpassParser::Query_recurseContext* const &x) {
+      if (!x) return Nil;
+      return Data_Object<OverpassParser::Query_recurseContext>(x, false, rb_cQuery_recurseContext);
+    }
+  };
+
+  template <>
+  class To_Ruby<Query_recurseContextProxy*> {
+  public:
+    VALUE convert(Query_recurseContextProxy* const &x) {
+      if (!x) return Nil;
+      return Data_Object<Query_recurseContextProxy>(x, false, rb_cQuery_recurseContext);
     }
   };
 }
@@ -867,12 +924,12 @@ Object AsignationContextProxy::DOT_ID() {
   return detail::To_Ruby<TerminalNodeProxy>().convert(proxy);
 }
 
-Object QueryContextProxy::object_type() {
+Object Query_objectContextProxy::object_type() {
   if (orig == nullptr) {
     return Qnil;
   }
 
-  auto ctx = ((OverpassParser::QueryContext*)orig) -> object_type();
+  auto ctx = ((OverpassParser::Query_objectContext*)orig) -> object_type();
 
   if (ctx == nullptr) {
     return Qnil;
@@ -887,11 +944,11 @@ Object QueryContextProxy::object_type() {
   return Nil;
 }
 
-Object QueryContextProxy::selector() {
+Object Query_objectContextProxy::selector() {
   Array a;
 
   if (orig != nullptr) {
-    size_t count = ((OverpassParser::QueryContext*)orig) -> selector().size();
+    size_t count = ((OverpassParser::Query_objectContext*)orig) -> selector().size();
 
     for (size_t i = 0; i < count; i ++) {
       a.push(selectorAt(i));
@@ -901,12 +958,12 @@ Object QueryContextProxy::selector() {
   return std::move(a);
 }
 
-Object QueryContextProxy::selectorAt(size_t i) {
+Object Query_objectContextProxy::selectorAt(size_t i) {
   if (orig == nullptr) {
     return Qnil;
   }
 
-  auto ctx = ((OverpassParser::QueryContext*)orig) -> selector(i);
+  auto ctx = ((OverpassParser::Query_objectContext*)orig) -> selector(i);
 
   if (ctx == nullptr) {
     return Qnil;
@@ -921,11 +978,11 @@ Object QueryContextProxy::selectorAt(size_t i) {
   return Nil;
 }
 
-Object QueryContextProxy::filter() {
+Object Query_objectContextProxy::filter() {
   Array a;
 
   if (orig != nullptr) {
-    size_t count = ((OverpassParser::QueryContext*)orig) -> filter().size();
+    size_t count = ((OverpassParser::Query_objectContext*)orig) -> filter().size();
 
     for (size_t i = 0; i < count; i ++) {
       a.push(filterAt(i));
@@ -935,12 +992,12 @@ Object QueryContextProxy::filter() {
   return std::move(a);
 }
 
-Object QueryContextProxy::filterAt(size_t i) {
+Object Query_objectContextProxy::filterAt(size_t i) {
   if (orig == nullptr) {
     return Qnil;
   }
 
-  auto ctx = ((OverpassParser::QueryContext*)orig) -> filter(i);
+  auto ctx = ((OverpassParser::Query_objectContext*)orig) -> filter(i);
 
   if (ctx == nullptr) {
     return Qnil;
@@ -955,12 +1012,67 @@ Object QueryContextProxy::filterAt(size_t i) {
   return Nil;
 }
 
-Object QueryContextProxy::asignation() {
+Object Query_objectContextProxy::asignation() {
   if (orig == nullptr) {
     return Qnil;
   }
 
-  auto ctx = ((OverpassParser::QueryContext*)orig) -> asignation();
+  auto ctx = ((OverpassParser::Query_objectContext*)orig) -> asignation();
+
+  if (ctx == nullptr) {
+    return Qnil;
+  }
+
+  for (auto child : getChildren()) {
+    if (ctx == detail::From_Ruby<ContextProxy>().convert(child.value()).getOriginal()) {
+      return child;
+    }
+  }
+
+  return Nil;
+}
+
+Object Query_objectContextProxy::DOT_ID() {
+  if (orig == nullptr) {
+    return Qnil;
+  }
+
+  auto token = ((OverpassParser::Query_objectContext*)orig) -> DOT_ID();
+
+  if (token == nullptr) {
+    return Qnil;
+  }
+
+  TerminalNodeProxy proxy(token);
+  return detail::To_Ruby<TerminalNodeProxy>().convert(proxy);
+}
+
+Object QueryContextProxy::query_object() {
+  if (orig == nullptr) {
+    return Qnil;
+  }
+
+  auto ctx = ((OverpassParser::QueryContext*)orig) -> query_object();
+
+  if (ctx == nullptr) {
+    return Qnil;
+  }
+
+  for (auto child : getChildren()) {
+    if (ctx == detail::From_Ruby<ContextProxy>().convert(child.value()).getOriginal()) {
+      return child;
+    }
+  }
+
+  return Nil;
+}
+
+Object QueryContextProxy::query_recurse() {
+  if (orig == nullptr) {
+    return Qnil;
+  }
+
+  auto ctx = ((OverpassParser::QueryContext*)orig) -> query_recurse();
 
   if (ctx == nullptr) {
     return Qnil;
@@ -1196,6 +1308,16 @@ public:
     return getSelf().call("visit_object_type", &proxy);
   }
 
+  virtual antlrcpp::Any visitQuery_object(OverpassParser::Query_objectContext *ctx) override {
+    Query_objectContextProxy proxy(ctx);
+    return getSelf().call("visit_query_object", &proxy);
+  }
+
+  virtual antlrcpp::Any visitQuery_recurse(OverpassParser::Query_recurseContext *ctx) override {
+    Query_recurseContextProxy proxy(ctx);
+    return getSelf().call("visit_query_recurse", &proxy);
+  }
+
   virtual antlrcpp::Any visitQuery(OverpassParser::QueryContext *ctx) override {
     QueryContextProxy proxy(ctx);
     return getSelf().call("visit_query", &proxy);
@@ -1340,6 +1462,14 @@ Object ContextProxy::wrapParseTree(tree::ParseTree* node) {
     Object_typeContextProxy proxy((OverpassParser::Object_typeContext*)node);
     return detail::To_Ruby<Object_typeContextProxy>().convert(proxy);
   }
+  else if (antlrcpp::is<OverpassParser::Query_objectContext*>(node)) {
+    Query_objectContextProxy proxy((OverpassParser::Query_objectContext*)node);
+    return detail::To_Ruby<Query_objectContextProxy>().convert(proxy);
+  }
+  else if (antlrcpp::is<OverpassParser::Query_recurseContext*>(node)) {
+    Query_recurseContextProxy proxy((OverpassParser::Query_recurseContext*)node);
+    return detail::To_Ruby<Query_recurseContextProxy>().convert(proxy);
+  }
   else if (antlrcpp::is<OverpassParser::QueryContext*>(node)) {
     QueryContextProxy proxy((OverpassParser::QueryContext*)node);
     return detail::To_Ruby<QueryContextProxy>().convert(proxy);
@@ -1406,6 +1536,8 @@ void Init_overpass_parser() {
     .define_method("visit_filter", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_asignation", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_object_type", &VisitorProxy::ruby_visitChildren)
+    .define_method("visit_query_object", &VisitorProxy::ruby_visitChildren)
+    .define_method("visit_query_recurse", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_query", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_query_group", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_query_sequence", &VisitorProxy::ruby_visitChildren)
@@ -1456,13 +1588,20 @@ void Init_overpass_parser() {
 
   rb_cObject_typeContext = define_class_under<Object_typeContextProxy, ContextProxy>(rb_mOverpassParser, "Object_typeContext");
 
+  rb_cQuery_objectContext = define_class_under<Query_objectContextProxy, ContextProxy>(rb_mOverpassParser, "Query_objectContext")
+    .define_method("object_type", &Query_objectContextProxy::object_type)
+    .define_method("selector", &Query_objectContextProxy::selector)
+    .define_method("selector_at", &Query_objectContextProxy::selectorAt)
+    .define_method("filter", &Query_objectContextProxy::filter)
+    .define_method("filter_at", &Query_objectContextProxy::filterAt)
+    .define_method("asignation", &Query_objectContextProxy::asignation)
+    .define_method("DOT_ID", &Query_objectContextProxy::DOT_ID);
+
+  rb_cQuery_recurseContext = define_class_under<Query_recurseContextProxy, ContextProxy>(rb_mOverpassParser, "Query_recurseContext");
+
   rb_cQueryContext = define_class_under<QueryContextProxy, ContextProxy>(rb_mOverpassParser, "QueryContext")
-    .define_method("object_type", &QueryContextProxy::object_type)
-    .define_method("selector", &QueryContextProxy::selector)
-    .define_method("selector_at", &QueryContextProxy::selectorAt)
-    .define_method("filter", &QueryContextProxy::filter)
-    .define_method("filter_at", &QueryContextProxy::filterAt)
-    .define_method("asignation", &QueryContextProxy::asignation);
+    .define_method("query_object", &QueryContextProxy::query_object)
+    .define_method("query_recurse", &QueryContextProxy::query_recurse);
 
   rb_cQuery_groupContext = define_class_under<Query_groupContextProxy, ContextProxy>(rb_mOverpassParser, "Query_groupContext")
     .define_method("query_sequence", &Query_groupContextProxy::query_sequence)

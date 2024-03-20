@@ -55,6 +55,14 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual std::any visitQuery_object(OverpassParser::Query_objectContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitQuery_recurse(OverpassParser::Query_recurseContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual std::any visitQuery(OverpassParser::QueryContext *ctx) override {
     return visitChildren(ctx);
   }

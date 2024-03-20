@@ -23,11 +23,21 @@ module OverpassParser
       @stack.push(r)
     end
 
-    def visit_query(ctx)
+    def visit_query_object(ctx)
       @filters = []
       @selectors = []
       visit_children(ctx)
-      r = {type: :query, object_type: ctx.object_type.text, selectors: @selectors.compact.dup, filter: @filters.compact.dup}
+      r = {type: :query_object, set: ctx.DOT_ID&.text, object_type: ctx.object_type.text, selectors: @selectors.compact.dup, filter: @filters.compact.dup}
+      if @stack[-1].is_a?(Array)
+        @stack[-1] << r
+      else
+        @stack.push(r)
+      end
+    end
+
+    def visit_query_recurse(ctx)
+      visit_children(ctx)
+      r = {type: :query_recurse, recurse: ctx.text}
       if @stack[-1].is_a?(Array)
         @stack[-1] << r
       else

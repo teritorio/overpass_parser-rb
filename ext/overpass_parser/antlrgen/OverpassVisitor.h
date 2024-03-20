@@ -39,6 +39,10 @@ public:
 
     virtual std::any visitObject_type(OverpassParser::Object_typeContext *context) = 0;
 
+    virtual std::any visitQuery_object(OverpassParser::Query_objectContext *context) = 0;
+
+    virtual std::any visitQuery_recurse(OverpassParser::Query_recurseContext *context) = 0;
+
     virtual std::any visitQuery(OverpassParser::QueryContext *context) = 0;
 
     virtual std::any visitQuery_group(OverpassParser::Query_groupContext *context) = 0;

@@ -14,16 +14,18 @@ public:
   enum {
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
     T__7 = 8, T__8 = 9, T__9 = 10, T__10 = 11, T__11 = 12, T__12 = 13, T__13 = 14, 
-    T__14 = 15, T__15 = 16, T__16 = 17, T__17 = 18, WS = 19, SL_COMMENT = 20, 
-    ML_COMMENT = 21, NUMBER = 22, OPERATOR = 23, NOT = 24, UNQUOTED_STRING = 25, 
-    QUOTED_STRING = 26, ID = 27, DOT_ID = 28
+    T__14 = 15, T__15 = 16, T__16 = 17, T__17 = 18, T__18 = 19, T__19 = 20, 
+    T__20 = 21, T__21 = 22, WS = 23, SL_COMMENT = 24, ML_COMMENT = 25, NUMBER = 26, 
+    OPERATOR = 27, NOT = 28, UNQUOTED_STRING = 29, QUOTED_STRING = 30, ID = 31, 
+    DOT_ID = 32
   };
 
   enum {
     RuleToken = 0, RuleMetadata = 1, RuleSelector = 2, RuleFilter_bbox = 3, 
     RuleFilter_osm_id = 4, RuleFilter_osm_ids = 5, RuleFilter_area = 6, 
-    RuleFilter = 7, RuleAsignation = 8, RuleObject_type = 9, RuleQuery = 10, 
-    RuleQuery_group = 11, RuleQuery_sequence = 12, RuleOuput = 13, RuleRequest = 14
+    RuleFilter = 7, RuleAsignation = 8, RuleObject_type = 9, RuleQuery_object = 10, 
+    RuleQuery_recurse = 11, RuleQuery = 12, RuleQuery_group = 13, RuleQuery_sequence = 14, 
+    RuleOuput = 15, RuleRequest = 16
   };
 
   explicit OverpassParser(antlr4::TokenStream *input);
@@ -53,6 +55,8 @@ public:
   class FilterContext;
   class AsignationContext;
   class Object_typeContext;
+  class Query_objectContext;
+  class Query_recurseContext;
   class QueryContext;
   class Query_groupContext;
   class Query_sequenceContext;
@@ -219,16 +223,47 @@ public:
 
   Object_typeContext* object_type();
 
-  class  QueryContext : public antlr4::ParserRuleContext {
+  class  Query_objectContext : public antlr4::ParserRuleContext {
   public:
-    QueryContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    Query_objectContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     Object_typeContext *object_type();
+    antlr4::tree::TerminalNode *DOT_ID();
     std::vector<SelectorContext *> selector();
     SelectorContext* selector(size_t i);
     std::vector<FilterContext *> filter();
     FilterContext* filter(size_t i);
     AsignationContext *asignation();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  Query_objectContext* query_object();
+
+  class  Query_recurseContext : public antlr4::ParserRuleContext {
+  public:
+    Query_recurseContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  Query_recurseContext* query_recurse();
+
+  class  QueryContext : public antlr4::ParserRuleContext {
+  public:
+    QueryContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    Query_objectContext *query_object();
+    Query_recurseContext *query_recurse();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;

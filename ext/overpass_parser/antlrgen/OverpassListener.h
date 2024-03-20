@@ -44,6 +44,12 @@ public:
   virtual void enterObject_type(OverpassParser::Object_typeContext *ctx) = 0;
   virtual void exitObject_type(OverpassParser::Object_typeContext *ctx) = 0;
 
+  virtual void enterQuery_object(OverpassParser::Query_objectContext *ctx) = 0;
+  virtual void exitQuery_object(OverpassParser::Query_objectContext *ctx) = 0;
+
+  virtual void enterQuery_recurse(OverpassParser::Query_recurseContext *ctx) = 0;
+  virtual void exitQuery_recurse(OverpassParser::Query_recurseContext *ctx) = 0;
+
   virtual void enterQuery(OverpassParser::QueryContext *ctx) = 0;
   virtual void exitQuery(OverpassParser::QueryContext *ctx) = 0;
 

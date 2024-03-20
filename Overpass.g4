@@ -41,7 +41,12 @@ filter:
 asignation: '->' DOT_ID;
 
 object_type: 'node' | 'way' | 'relation' | 'area' | 'nwr';
-query: (object_type selector* filter* asignation?);
+query_object: (object_type DOT_ID? selector* filter* asignation?);
+
+query_recurse: '<' | '<<' | '>' | '>>';
+
+query: query_object | query_recurse;
+
 query_group: ('(' (query_sequence ';')+ ')');
 query_sequence: query | query_group;
 
