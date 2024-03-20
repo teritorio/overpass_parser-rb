@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "overpass_parser"
 
 module OverpassParser

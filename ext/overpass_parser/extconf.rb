@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "mkmf-rice"
 
 extension_name = "overpass_parser"
