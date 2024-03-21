@@ -10,10 +10,8 @@ NUMBER: [0-9]+ ('.' [0-9]+)?;
 OPERATOR: '=' | '~=' | '=~' | '!=' | '!~' | '~';
 NOT: '!';
 UNQUOTED_STRING: [-_a-zA-Z0-9]+;
-SIMPLE_QUOTED_STRING:
-	'\'' (~('"' | '\\' | '\r' | '\n') | '\\' ('"' | '\\'))* '\'';
-DOUBLE_QUOTED_STRING:
-	'"' (~('\'' | '\\' | '\r' | '\n') | '\\' ('"' | '\\'))* '"';
+SIMPLE_QUOTED_STRING: ['] (~['] | '\\' ["])* ['];
+DOUBLE_QUOTED_STRING: '"' (~["] | '\\' ["])* '"';
 ID: [a-zA-Z_] [-_a-zA-Z0-9]*;
 DOT_ID: '.' ID;
 

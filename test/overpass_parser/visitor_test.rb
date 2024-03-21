@@ -5,10 +5,11 @@ require "test_helper"
 module OverpassParser
   class TestVisitor < Minitest::Test
     def test_quote
-      tree = OverpassParser.tree("node['highway'=\"primary\"];")
+      tree = OverpassParser.tree("node['highway'=\"primary\"][operator=\"Commune d'Anglet\"];")
       assert_equal(
         { type: :query_object, set: nil, object_type: "node", selectors: [
-          { type: :selector, value: "primary", key: "highway", operator: "=" }
+          { type: :selector, value: "primary", key: "highway", operator: "=" },
+          { type: :selector, value: "Commune d'Anglet", key: "operator", operator: "=" }
         ], filter: [] }, tree[0][:queries][0]
       )
     end
