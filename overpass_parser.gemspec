@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
   s.description = s.summary = "An Overpass API subset parser for Ruby"
 
   s.platform = Gem::Platform::RUBY
+  s.required_ruby_version = ">= 3.0"
 
   s.add_dependency "rice", "~> 4.0"
 

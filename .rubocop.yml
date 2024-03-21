@@ -1,5 +1,7 @@
 AllCops:
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 3.0
+  Exclude:
+  - 'ext/**/*'
 
 Style/StringLiterals:
   Enabled: true
