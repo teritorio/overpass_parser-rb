@@ -35,6 +35,9 @@ public:
   virtual void enterFilter_area(OverpassParser::Filter_areaContext *ctx) = 0;
   virtual void exitFilter_area(OverpassParser::Filter_areaContext *ctx) = 0;
 
+  virtual void enterFilter_around(OverpassParser::Filter_aroundContext *ctx) = 0;
+  virtual void exitFilter_around(OverpassParser::Filter_aroundContext *ctx) = 0;
+
   virtual void enterFilter(OverpassParser::FilterContext *ctx) = 0;
   virtual void exitFilter(OverpassParser::FilterContext *ctx) = 0;
 

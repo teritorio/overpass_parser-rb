@@ -33,6 +33,8 @@ public:
 
     virtual std::any visitFilter_area(OverpassParser::Filter_areaContext *context) = 0;
 
+    virtual std::any visitFilter_around(OverpassParser::Filter_aroundContext *context) = 0;
+
     virtual std::any visitFilter(OverpassParser::FilterContext *context) = 0;
 
     virtual std::any visitAsignation(OverpassParser::AsignationContext *context) = 0;

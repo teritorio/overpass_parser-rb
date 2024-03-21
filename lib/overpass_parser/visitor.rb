@@ -64,7 +64,8 @@ module OverpassParser
         type: :filter,
         bbox: ctx.filter_bbox&.FLOAT_NUMBER&.collect(&:text)&.collect(&:to_f),
         ids: !ctx.filter_osm_id.nil? ? [ctx.filter_osm_id] : ctx.filter_osm_ids&.INTEGER_NUMBER,
-        area_id: ctx.filter_area&.DOT_ID&.text
+        area_id: ctx.filter_area&.DOT_ID&.text,
+        around: { core: ctx.filter_around&.DOT_ID&.text, radius: ctx.filter_around&.FLOAT_NUMBER&.text }
       }
       @filters << r
     end

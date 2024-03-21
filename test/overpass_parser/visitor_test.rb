@@ -41,6 +41,16 @@ module OverpassParser
       )
     end
 
+    def test_filter_arround
+      tree = OverpassParser.tree("node(around.a:100.0);")
+      assert_equal(
+        { type: :query_object, set: nil, object_type: "node", selectors: [],
+          filter: [
+            { type: :filter, bbox: nil, ids: nil, area_id: nil, around: { core: ".a", radius: "100.0" } }
+          ] }, tree[0][:queries][0]
+      )
+    end
+
     def test_recurse
       tree = OverpassParser.tree(">;")
       assert_equal({ type: :query_recurse, recurse: ">" }, tree[0][:queries][0])

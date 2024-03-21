@@ -38,12 +38,14 @@ filter_bbox:
 filter_osm_id: INTEGER_NUMBER;
 filter_osm_ids: 'id:' INTEGER_NUMBER (',' INTEGER_NUMBER)*;
 filter_area: 'area' DOT_ID;
+filter_around: 'around' DOT_ID ':' FLOAT_NUMBER;
 filter:
 	'(' (
 		filter_bbox
 		| filter_osm_id
 		| filter_osm_ids
 		| filter_area
+		| filter_around
 	) ')';
 asignation: '->' DOT_ID;
 

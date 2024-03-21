@@ -31,6 +31,7 @@ Class rb_cFilter_bboxContext;
 Class rb_cFilter_osm_idContext;
 Class rb_cFilter_osm_idsContext;
 Class rb_cFilter_areaContext;
+Class rb_cFilter_aroundContext;
 Class rb_cFilterContext;
 Class rb_cAsignationContext;
 Class rb_cObject_typeContext;
@@ -202,6 +203,14 @@ public:
   Object DOT_ID();
 };
 
+class Filter_aroundContextProxy : public ContextProxy {
+public:
+  Filter_aroundContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
+
+  Object DOT_ID();
+  Object FLOAT_NUMBER();
+};
+
 class FilterContextProxy : public ContextProxy {
 public:
   FilterContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
@@ -209,6 +218,7 @@ public:
   Object filter_osm_id();
   Object filter_osm_ids();
   Object filter_area();
+  Object filter_around();
 
 };
 
@@ -423,6 +433,26 @@ namespace Rice::detail {
     VALUE convert(Filter_areaContextProxy* const &x) {
       if (!x) return Nil;
       return Data_Object<Filter_areaContextProxy>(x, false, rb_cFilter_areaContext);
+    }
+  };
+}
+
+namespace Rice::detail {
+  template <>
+  class To_Ruby<OverpassParser::Filter_aroundContext*> {
+  public:
+    VALUE convert(OverpassParser::Filter_aroundContext* const &x) {
+      if (!x) return Nil;
+      return Data_Object<OverpassParser::Filter_aroundContext>(x, false, rb_cFilter_aroundContext);
+    }
+  };
+
+  template <>
+  class To_Ruby<Filter_aroundContextProxy*> {
+  public:
+    VALUE convert(Filter_aroundContextProxy* const &x) {
+      if (!x) return Nil;
+      return Data_Object<Filter_aroundContextProxy>(x, false, rb_cFilter_aroundContext);
     }
   };
 }
@@ -861,6 +891,36 @@ Object Filter_areaContextProxy::DOT_ID() {
   return detail::To_Ruby<TerminalNodeProxy>().convert(proxy);
 }
 
+Object Filter_aroundContextProxy::DOT_ID() {
+  if (orig == nullptr) {
+    return Qnil;
+  }
+
+  auto token = ((OverpassParser::Filter_aroundContext*)orig) -> DOT_ID();
+
+  if (token == nullptr) {
+    return Qnil;
+  }
+
+  TerminalNodeProxy proxy(token);
+  return detail::To_Ruby<TerminalNodeProxy>().convert(proxy);
+}
+
+Object Filter_aroundContextProxy::FLOAT_NUMBER() {
+  if (orig == nullptr) {
+    return Qnil;
+  }
+
+  auto token = ((OverpassParser::Filter_aroundContext*)orig) -> FLOAT_NUMBER();
+
+  if (token == nullptr) {
+    return Qnil;
+  }
+
+  TerminalNodeProxy proxy(token);
+  return detail::To_Ruby<TerminalNodeProxy>().convert(proxy);
+}
+
 Object FilterContextProxy::filter_bbox() {
   if (orig == nullptr) {
     return Qnil;
@@ -927,6 +987,26 @@ Object FilterContextProxy::filter_area() {
   }
 
   auto ctx = ((OverpassParser::FilterContext*)orig) -> filter_area();
+
+  if (ctx == nullptr) {
+    return Qnil;
+  }
+
+  for (auto child : getChildren()) {
+    if (ctx == detail::From_Ruby<ContextProxy>().convert(child.value()).getOriginal()) {
+      return child;
+    }
+  }
+
+  return Nil;
+}
+
+Object FilterContextProxy::filter_around() {
+  if (orig == nullptr) {
+    return Qnil;
+  }
+
+  auto ctx = ((OverpassParser::FilterContext*)orig) -> filter_around();
 
   if (ctx == nullptr) {
     return Qnil;
@@ -1325,6 +1405,11 @@ public:
     return getSelf().call("visit_filter_area", &proxy);
   }
 
+  virtual antlrcpp::Any visitFilter_around(OverpassParser::Filter_aroundContext *ctx) override {
+    Filter_aroundContextProxy proxy(ctx);
+    return getSelf().call("visit_filter_around", &proxy);
+  }
+
   virtual antlrcpp::Any visitFilter(OverpassParser::FilterContext *ctx) override {
     FilterContextProxy proxy(ctx);
     return getSelf().call("visit_filter", &proxy);
@@ -1482,6 +1567,10 @@ Object ContextProxy::wrapParseTree(tree::ParseTree* node) {
     Filter_areaContextProxy proxy((OverpassParser::Filter_areaContext*)node);
     return detail::To_Ruby<Filter_areaContextProxy>().convert(proxy);
   }
+  else if (antlrcpp::is<OverpassParser::Filter_aroundContext*>(node)) {
+    Filter_aroundContextProxy proxy((OverpassParser::Filter_aroundContext*)node);
+    return detail::To_Ruby<Filter_aroundContextProxy>().convert(proxy);
+  }
   else if (antlrcpp::is<OverpassParser::FilterContext*>(node)) {
     FilterContextProxy proxy((OverpassParser::FilterContext*)node);
     return detail::To_Ruby<FilterContextProxy>().convert(proxy);
@@ -1565,6 +1654,7 @@ void Init_overpass_parser() {
     .define_method("visit_filter_osm_id", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_filter_osm_ids", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_filter_area", &VisitorProxy::ruby_visitChildren)
+    .define_method("visit_filter_around", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_filter", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_asignation", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_object_type", &VisitorProxy::ruby_visitChildren)
@@ -1611,11 +1701,16 @@ void Init_overpass_parser() {
   rb_cFilter_areaContext = define_class_under<Filter_areaContextProxy, ContextProxy>(rb_mOverpassParser, "Filter_areaContext")
     .define_method("DOT_ID", &Filter_areaContextProxy::DOT_ID);
 
+  rb_cFilter_aroundContext = define_class_under<Filter_aroundContextProxy, ContextProxy>(rb_mOverpassParser, "Filter_aroundContext")
+    .define_method("DOT_ID", &Filter_aroundContextProxy::DOT_ID)
+    .define_method("FLOAT_NUMBER", &Filter_aroundContextProxy::FLOAT_NUMBER);
+
   rb_cFilterContext = define_class_under<FilterContextProxy, ContextProxy>(rb_mOverpassParser, "FilterContext")
     .define_method("filter_bbox", &FilterContextProxy::filter_bbox)
     .define_method("filter_osm_id", &FilterContextProxy::filter_osm_id)
     .define_method("filter_osm_ids", &FilterContextProxy::filter_osm_ids)
-    .define_method("filter_area", &FilterContextProxy::filter_area);
+    .define_method("filter_area", &FilterContextProxy::filter_area)
+    .define_method("filter_around", &FilterContextProxy::filter_around);
 
   rb_cAsignationContext = define_class_under<AsignationContextProxy, ContextProxy>(rb_mOverpassParser, "AsignationContext")
     .define_method("DOT_ID", &AsignationContextProxy::DOT_ID);

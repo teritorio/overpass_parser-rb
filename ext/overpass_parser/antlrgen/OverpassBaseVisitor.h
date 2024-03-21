@@ -43,6 +43,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual std::any visitFilter_around(OverpassParser::Filter_aroundContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual std::any visitFilter(OverpassParser::FilterContext *ctx) override {
     return visitChildren(ctx);
   }
