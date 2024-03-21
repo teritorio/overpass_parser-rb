@@ -19,6 +19,8 @@ public:
   /**
    * Visit parse trees produced by OverpassParser.
    */
+    virtual std::any visitNumber(OverpassParser::NumberContext *context) = 0;
+
     virtual std::any visitToken(OverpassParser::TokenContext *context) = 0;
 
     virtual std::any visitMetadata(OverpassParser::MetadataContext *context) = 0;

@@ -57,7 +57,11 @@ module OverpassParser
     end
 
     def test_full
-      tree = OverpassParser.tree('relation[name="En aban !"];>;nwr._[highway=bus_stop];')
+      tree = OverpassParser.tree('
+        [out:json][timeout:25];
+        relation[name="En aban !"];>;nwr._[highway=bus_stop];
+        out center meta;
+      ')
       assert_equal(
         [
           { type: :query_object, set: nil, object_type: "relation", selectors: [

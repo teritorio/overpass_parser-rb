@@ -14,6 +14,9 @@
 class  OverpassListener : public antlr4::tree::ParseTreeListener {
 public:
 
+  virtual void enterNumber(OverpassParser::NumberContext *ctx) = 0;
+  virtual void exitNumber(OverpassParser::NumberContext *ctx) = 0;
+
   virtual void enterToken(OverpassParser::TokenContext *ctx) = 0;
   virtual void exitToken(OverpassParser::TokenContext *ctx) = 0;
 

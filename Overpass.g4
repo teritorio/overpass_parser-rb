@@ -6,8 +6,8 @@ WS: (' ' | '\t' | '\n' | '\r' | '\f') -> channel(HIDDEN);
 SL_COMMENT: '//' .*? '\r'? '\n' -> channel(HIDDEN);
 ML_COMMENT: '/*' .*? '*/' -> channel(HIDDEN);
 
-FLOAT_NUMBER: [0-9]+ ('.' [0-9]+)?;
-INTEGER_NUMBER: [0-9]+;
+INTEGER: [0-9]+;
+FLOAT: INTEGER '.' INTEGER;
 OPERATOR: '=' | '~=' | '=~' | '!=' | '!~' | '~';
 NOT: '!';
 UNQUOTED_STRING: [-_a-zA-Z0-9]+;
@@ -18,14 +18,16 @@ DOT_ID: '.' ID;
 
 // Parser rules
 
+number: INTEGER | FLOAT;
+
 token:
 	SIMPLE_QUOTED_STRING
 	| DOUBLE_QUOTED_STRING
 	| UNQUOTED_STRING
-	| FLOAT_NUMBER;
+	| number;
 
 metadata:
-	'[' 'out:json' ']' ('[' 'timeout:' INTEGER_NUMBER ']')?;
+	'[' 'out:json' ']' ('[' 'timeout:' number ']')?;
 
 selector:
 	'[' (
@@ -34,11 +36,11 @@ selector:
 	) ']';
 
 filter_bbox:
-	FLOAT_NUMBER ',' FLOAT_NUMBER ',' FLOAT_NUMBER ',' FLOAT_NUMBER;
-filter_osm_id: INTEGER_NUMBER;
-filter_osm_ids: 'id:' INTEGER_NUMBER (',' INTEGER_NUMBER)*;
+	number ',' number ',' number ',' number;
+filter_osm_id: INTEGER;
+filter_osm_ids: 'id:' INTEGER (',' INTEGER)*;
 filter_area: 'area' DOT_ID;
-filter_around: 'around' DOT_ID ':' FLOAT_NUMBER;
+filter_around: 'around' DOT_ID ':' number;
 filter:
 	'(' (
 		filter_bbox

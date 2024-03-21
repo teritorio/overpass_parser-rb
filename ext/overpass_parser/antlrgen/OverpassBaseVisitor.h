@@ -15,6 +15,10 @@
 class  OverpassBaseVisitor : public OverpassVisitor {
 public:
 
+  virtual std::any visitNumber(OverpassParser::NumberContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual std::any visitToken(OverpassParser::TokenContext *ctx) override {
     return visitChildren(ctx);
   }

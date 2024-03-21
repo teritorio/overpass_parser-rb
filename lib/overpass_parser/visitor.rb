@@ -62,17 +62,17 @@ module OverpassParser
       visit_children(ctx)
       r = {
         type: :filter,
-        bbox: ctx.filter_bbox&.FLOAT_NUMBER&.collect(&:text)&.collect(&:to_f),
-        ids: !ctx.filter_osm_id.nil? ? [ctx.filter_osm_id] : ctx.filter_osm_ids&.INTEGER_NUMBER,
+        bbox: ctx.filter_bbox&.number&.collect(&:text)&.collect(&:to_f),
+        ids: !ctx.filter_osm_id.nil? ? [ctx.filter_osm_id] : ctx.filter_osm_ids&.INTEGER,
         area_id: ctx.filter_area&.DOT_ID&.text,
-        around: { core: ctx.filter_around&.DOT_ID&.text, radius: ctx.filter_around&.FLOAT_NUMBER&.text }
+        around: { core: ctx.filter_around&.DOT_ID&.text, radius: ctx.filter_around&.number&.text }
       }
       @filters << r
     end
 
     def visit_token(ctx)
       visit_children(ctx)
-      text = !ctx.UNQUOTED_STRING.nil? || !ctx.FLOAT_NUMBER.nil? ? (ctx.UNQUOTED_STRING || ctx.FLOAT_NUMBER).text : ctx.text[1..-2]
+      text = !ctx.UNQUOTED_STRING.nil? || !ctx.number.nil? ? (ctx.UNQUOTED_STRING || ctx.number).text : ctx.text[1..-2]
       @stack.push(text)
     end
   end
