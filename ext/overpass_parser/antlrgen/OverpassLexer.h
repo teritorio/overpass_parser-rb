@@ -15,9 +15,9 @@ public:
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
     T__7 = 8, T__8 = 9, T__9 = 10, T__10 = 11, T__11 = 12, T__12 = 13, T__13 = 14, 
     T__14 = 15, T__15 = 16, T__16 = 17, T__17 = 18, T__18 = 19, T__19 = 20, 
-    T__20 = 21, T__21 = 22, WS = 23, SL_COMMENT = 24, ML_COMMENT = 25, NUMBER = 26, 
-    OPERATOR = 27, NOT = 28, UNQUOTED_STRING = 29, SIMPLE_QUOTED_STRING = 30, 
-    DOUBLE_QUOTED_STRING = 31, ID = 32, DOT_ID = 33
+    T__20 = 21, T__21 = 22, WS = 23, SL_COMMENT = 24, ML_COMMENT = 25, FLOAT_NUMBER = 26, 
+    INTEGER_NUMBER = 27, OPERATOR = 28, NOT = 29, UNQUOTED_STRING = 30, 
+    SIMPLE_QUOTED_STRING = 31, DOUBLE_QUOTED_STRING = 32, ID = 33, DOT_ID = 34
   };
 
   explicit OverpassLexer(antlr4::CharStream *input);

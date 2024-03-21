@@ -19,8 +19,9 @@ public class OverpassParser extends Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, WS=23, SL_COMMENT=24, 
-		ML_COMMENT=25, NUMBER=26, OPERATOR=27, NOT=28, UNQUOTED_STRING=29, SIMPLE_QUOTED_STRING=30, 
-		DOUBLE_QUOTED_STRING=31, ID=32, DOT_ID=33;
+		ML_COMMENT=25, FLOAT_NUMBER=26, INTEGER_NUMBER=27, OPERATOR=28, NOT=29, 
+		UNQUOTED_STRING=30, SIMPLE_QUOTED_STRING=31, DOUBLE_QUOTED_STRING=32, 
+		ID=33, DOT_ID=34;
 	public static final int
 		RULE_token = 0, RULE_metadata = 1, RULE_selector = 2, RULE_filter_bbox = 3, 
 		RULE_filter_osm_id = 4, RULE_filter_osm_ids = 5, RULE_filter_area = 6, 
@@ -41,7 +42,7 @@ public class OverpassParser extends Parser {
 			null, "'['", "'out:json'", "']'", "'timeout:'", "','", "'id:'", "'area'", 
 			"'('", "')'", "'->'", "'node'", "'way'", "'relation'", "'nwr'", "'<'", 
 			"'<<'", "'>'", "'>>'", "';'", "'out'", "'center'", "'meta'", null, null, 
-			null, null, null, "'!'"
+			null, null, null, null, "'!'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -49,8 +50,9 @@ public class OverpassParser extends Parser {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, null, null, null, null, null, null, null, null, null, "WS", 
-			"SL_COMMENT", "ML_COMMENT", "NUMBER", "OPERATOR", "NOT", "UNQUOTED_STRING", 
-			"SIMPLE_QUOTED_STRING", "DOUBLE_QUOTED_STRING", "ID", "DOT_ID"
+			"SL_COMMENT", "ML_COMMENT", "FLOAT_NUMBER", "INTEGER_NUMBER", "OPERATOR", 
+			"NOT", "UNQUOTED_STRING", "SIMPLE_QUOTED_STRING", "DOUBLE_QUOTED_STRING", 
+			"ID", "DOT_ID"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -108,7 +110,7 @@ public class OverpassParser extends Parser {
 		public TerminalNode SIMPLE_QUOTED_STRING() { return getToken(OverpassParser.SIMPLE_QUOTED_STRING, 0); }
 		public TerminalNode DOUBLE_QUOTED_STRING() { return getToken(OverpassParser.DOUBLE_QUOTED_STRING, 0); }
 		public TerminalNode UNQUOTED_STRING() { return getToken(OverpassParser.UNQUOTED_STRING, 0); }
-		public TerminalNode NUMBER() { return getToken(OverpassParser.NUMBER, 0); }
+		public TerminalNode FLOAT_NUMBER() { return getToken(OverpassParser.FLOAT_NUMBER, 0); }
 		public TokenContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -124,7 +126,7 @@ public class OverpassParser extends Parser {
 			{
 			setState(34);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NUMBER) | (1L << UNQUOTED_STRING) | (1L << SIMPLE_QUOTED_STRING) | (1L << DOUBLE_QUOTED_STRING))) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << FLOAT_NUMBER) | (1L << UNQUOTED_STRING) | (1L << SIMPLE_QUOTED_STRING) | (1L << DOUBLE_QUOTED_STRING))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -146,7 +148,7 @@ public class OverpassParser extends Parser {
 	}
 
 	public static class MetadataContext extends ParserRuleContext {
-		public TerminalNode NUMBER() { return getToken(OverpassParser.NUMBER, 0); }
+		public TerminalNode INTEGER_NUMBER() { return getToken(OverpassParser.INTEGER_NUMBER, 0); }
 		public MetadataContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -176,7 +178,7 @@ public class OverpassParser extends Parser {
 				setState(40);
 				match(T__3);
 				setState(41);
-				match(NUMBER);
+				match(INTEGER_NUMBER);
 				setState(42);
 				match(T__2);
 				}
@@ -271,9 +273,9 @@ public class OverpassParser extends Parser {
 	}
 
 	public static class Filter_bboxContext extends ParserRuleContext {
-		public List<TerminalNode> NUMBER() { return getTokens(OverpassParser.NUMBER); }
-		public TerminalNode NUMBER(int i) {
-			return getToken(OverpassParser.NUMBER, i);
+		public List<TerminalNode> FLOAT_NUMBER() { return getTokens(OverpassParser.FLOAT_NUMBER); }
+		public TerminalNode FLOAT_NUMBER(int i) {
+			return getToken(OverpassParser.FLOAT_NUMBER, i);
 		}
 		public Filter_bboxContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -288,19 +290,19 @@ public class OverpassParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(58);
-			match(NUMBER);
+			match(FLOAT_NUMBER);
 			setState(59);
 			match(T__4);
 			setState(60);
-			match(NUMBER);
+			match(FLOAT_NUMBER);
 			setState(61);
 			match(T__4);
 			setState(62);
-			match(NUMBER);
+			match(FLOAT_NUMBER);
 			setState(63);
 			match(T__4);
 			setState(64);
-			match(NUMBER);
+			match(FLOAT_NUMBER);
 			}
 		}
 		catch (RecognitionException re) {
@@ -315,7 +317,7 @@ public class OverpassParser extends Parser {
 	}
 
 	public static class Filter_osm_idContext extends ParserRuleContext {
-		public TerminalNode NUMBER() { return getToken(OverpassParser.NUMBER, 0); }
+		public TerminalNode INTEGER_NUMBER() { return getToken(OverpassParser.INTEGER_NUMBER, 0); }
 		public Filter_osm_idContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -329,7 +331,7 @@ public class OverpassParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(66);
-			match(NUMBER);
+			match(INTEGER_NUMBER);
 			}
 		}
 		catch (RecognitionException re) {
@@ -344,9 +346,9 @@ public class OverpassParser extends Parser {
 	}
 
 	public static class Filter_osm_idsContext extends ParserRuleContext {
-		public List<TerminalNode> NUMBER() { return getTokens(OverpassParser.NUMBER); }
-		public TerminalNode NUMBER(int i) {
-			return getToken(OverpassParser.NUMBER, i);
+		public List<TerminalNode> INTEGER_NUMBER() { return getTokens(OverpassParser.INTEGER_NUMBER); }
+		public TerminalNode INTEGER_NUMBER(int i) {
+			return getToken(OverpassParser.INTEGER_NUMBER, i);
 		}
 		public Filter_osm_idsContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -364,7 +366,7 @@ public class OverpassParser extends Parser {
 			setState(68);
 			match(T__5);
 			setState(69);
-			match(NUMBER);
+			match(INTEGER_NUMBER);
 			setState(74);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -374,7 +376,7 @@ public class OverpassParser extends Parser {
 				setState(70);
 				match(T__4);
 				setState(71);
-				match(NUMBER);
+				match(INTEGER_NUMBER);
 				}
 				}
 				setState(76);
@@ -454,31 +456,33 @@ public class OverpassParser extends Parser {
 			match(T__7);
 			setState(85);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
-			case 1:
+			switch (_input.LA(1)) {
+			case FLOAT_NUMBER:
 				{
 				setState(81);
 				filter_bbox();
 				}
 				break;
-			case 2:
+			case INTEGER_NUMBER:
 				{
 				setState(82);
 				filter_osm_id();
 				}
 				break;
-			case 3:
+			case T__5:
 				{
 				setState(83);
 				filter_osm_ids();
 				}
 				break;
-			case 4:
+			case T__6:
 				{
 				setState(84);
 				filter_area();
 				}
 				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 			setState(87);
 			match(T__8);
@@ -978,7 +982,7 @@ public class OverpassParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3#\u009d\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3$\u009d\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3.\n\3\3\4\3\4\5\4\62\n\4\3\4\3"+
@@ -990,21 +994,21 @@ public class OverpassParser extends Parser {
 		"\3\17\3\20\3\20\5\20\u0086\n\20\3\21\3\21\3\21\3\21\3\22\3\22\3\22\5\22"+
 		"\u008f\n\22\3\22\3\22\3\22\6\22\u0094\n\22\r\22\16\22\u0095\3\22\3\22"+
 		"\3\22\5\22\u009b\n\22\3\22\2\2\23\2\4\6\b\n\f\16\20\22\24\26\30\32\34"+
-		"\36 \"\2\5\4\2\34\34\37!\4\2\t\t\r\20\3\2\21\24\2\u009c\2$\3\2\2\2\4&"+
-		"\3\2\2\2\6/\3\2\2\2\b<\3\2\2\2\nD\3\2\2\2\fF\3\2\2\2\16O\3\2\2\2\20R\3"+
-		"\2\2\2\22[\3\2\2\2\24^\3\2\2\2\26`\3\2\2\2\30s\3\2\2\2\32w\3\2\2\2\34"+
-		"y\3\2\2\2\36\u0085\3\2\2\2 \u0087\3\2\2\2\"\u008e\3\2\2\2$%\t\2\2\2%\3"+
-		"\3\2\2\2&\'\7\3\2\2\'(\7\4\2\2(-\7\5\2\2)*\7\3\2\2*+\7\6\2\2+,\7\34\2"+
-		"\2,.\7\5\2\2-)\3\2\2\2-.\3\2\2\2.\5\3\2\2\2/8\7\3\2\2\60\62\7\36\2\2\61"+
+		"\36 \"\2\5\4\2\34\34 \"\4\2\t\t\r\20\3\2\21\24\2\u009c\2$\3\2\2\2\4&\3"+
+		"\2\2\2\6/\3\2\2\2\b<\3\2\2\2\nD\3\2\2\2\fF\3\2\2\2\16O\3\2\2\2\20R\3\2"+
+		"\2\2\22[\3\2\2\2\24^\3\2\2\2\26`\3\2\2\2\30s\3\2\2\2\32w\3\2\2\2\34y\3"+
+		"\2\2\2\36\u0085\3\2\2\2 \u0087\3\2\2\2\"\u008e\3\2\2\2$%\t\2\2\2%\3\3"+
+		"\2\2\2&\'\7\3\2\2\'(\7\4\2\2(-\7\5\2\2)*\7\3\2\2*+\7\6\2\2+,\7\35\2\2"+
+		",.\7\5\2\2-)\3\2\2\2-.\3\2\2\2.\5\3\2\2\2/8\7\3\2\2\60\62\7\37\2\2\61"+
 		"\60\3\2\2\2\61\62\3\2\2\2\62\63\3\2\2\2\639\5\2\2\2\64\65\5\2\2\2\65\66"+
-		"\7\35\2\2\66\67\5\2\2\2\679\3\2\2\28\61\3\2\2\28\64\3\2\2\29:\3\2\2\2"+
+		"\7\36\2\2\66\67\5\2\2\2\679\3\2\2\28\61\3\2\2\28\64\3\2\2\29:\3\2\2\2"+
 		":;\7\5\2\2;\7\3\2\2\2<=\7\34\2\2=>\7\7\2\2>?\7\34\2\2?@\7\7\2\2@A\7\34"+
-		"\2\2AB\7\7\2\2BC\7\34\2\2C\t\3\2\2\2DE\7\34\2\2E\13\3\2\2\2FG\7\b\2\2"+
-		"GL\7\34\2\2HI\7\7\2\2IK\7\34\2\2JH\3\2\2\2KN\3\2\2\2LJ\3\2\2\2LM\3\2\2"+
-		"\2M\r\3\2\2\2NL\3\2\2\2OP\7\t\2\2PQ\7#\2\2Q\17\3\2\2\2RW\7\n\2\2SX\5\b"+
+		"\2\2AB\7\7\2\2BC\7\34\2\2C\t\3\2\2\2DE\7\35\2\2E\13\3\2\2\2FG\7\b\2\2"+
+		"GL\7\35\2\2HI\7\7\2\2IK\7\35\2\2JH\3\2\2\2KN\3\2\2\2LJ\3\2\2\2LM\3\2\2"+
+		"\2M\r\3\2\2\2NL\3\2\2\2OP\7\t\2\2PQ\7$\2\2Q\17\3\2\2\2RW\7\n\2\2SX\5\b"+
 		"\5\2TX\5\n\6\2UX\5\f\7\2VX\5\16\b\2WS\3\2\2\2WT\3\2\2\2WU\3\2\2\2WV\3"+
-		"\2\2\2XY\3\2\2\2YZ\7\13\2\2Z\21\3\2\2\2[\\\7\f\2\2\\]\7#\2\2]\23\3\2\2"+
-		"\2^_\t\3\2\2_\25\3\2\2\2`b\5\24\13\2ac\7#\2\2ba\3\2\2\2bc\3\2\2\2cg\3"+
+		"\2\2\2XY\3\2\2\2YZ\7\13\2\2Z\21\3\2\2\2[\\\7\f\2\2\\]\7$\2\2]\23\3\2\2"+
+		"\2^_\t\3\2\2_\25\3\2\2\2`b\5\24\13\2ac\7$\2\2ba\3\2\2\2bc\3\2\2\2cg\3"+
 		"\2\2\2df\5\6\4\2ed\3\2\2\2fi\3\2\2\2ge\3\2\2\2gh\3\2\2\2hm\3\2\2\2ig\3"+
 		"\2\2\2jl\5\20\t\2kj\3\2\2\2lo\3\2\2\2mk\3\2\2\2mn\3\2\2\2nq\3\2\2\2om"+
 		"\3\2\2\2pr\5\22\n\2qp\3\2\2\2qr\3\2\2\2r\27\3\2\2\2st\t\4\2\2t\31\3\2"+

@@ -53,17 +53,17 @@ void overpassParserInitialize() {
       "", "'['", "'out:json'", "']'", "'timeout:'", "','", "'id:'", "'area'", 
       "'('", "')'", "'->'", "'node'", "'way'", "'relation'", "'nwr'", "'<'", 
       "'<<'", "'>'", "'>>'", "';'", "'out'", "'center'", "'meta'", "", "", 
-      "", "", "", "'!'"
+      "", "", "", "", "'!'"
     },
     std::vector<std::string>{
       "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", 
-      "", "", "", "", "", "", "WS", "SL_COMMENT", "ML_COMMENT", "NUMBER", 
-      "OPERATOR", "NOT", "UNQUOTED_STRING", "SIMPLE_QUOTED_STRING", "DOUBLE_QUOTED_STRING", 
-      "ID", "DOT_ID"
+      "", "", "", "", "", "", "WS", "SL_COMMENT", "ML_COMMENT", "FLOAT_NUMBER", 
+      "INTEGER_NUMBER", "OPERATOR", "NOT", "UNQUOTED_STRING", "SIMPLE_QUOTED_STRING", 
+      "DOUBLE_QUOTED_STRING", "ID", "DOT_ID"
     }
   );
   static const int32_t serializedATNSegment[] = {
-  	4,1,33,155,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
+  	4,1,34,155,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
   	7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,14,7,
   	14,2,15,7,15,2,16,7,16,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,44,8,1,
   	1,2,1,2,3,2,48,8,2,1,2,1,2,1,2,1,2,1,2,3,2,55,8,2,1,2,1,2,1,3,1,3,1,3,
@@ -75,25 +75,25 @@ void overpassParserInitialize() {
   	1,13,1,13,1,14,1,14,3,14,132,8,14,1,15,1,15,1,15,1,15,1,16,1,16,1,16,
   	3,16,141,8,16,1,16,1,16,1,16,4,16,146,8,16,11,16,12,16,147,1,16,1,16,
   	1,16,3,16,153,8,16,1,16,0,0,17,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,
-  	30,32,0,3,2,0,26,26,29,31,2,0,7,7,11,14,1,0,15,18,154,0,34,1,0,0,0,2,
+  	30,32,0,3,2,0,26,26,30,32,2,0,7,7,11,14,1,0,15,18,154,0,34,1,0,0,0,2,
   	36,1,0,0,0,4,45,1,0,0,0,6,58,1,0,0,0,8,66,1,0,0,0,10,68,1,0,0,0,12,77,
   	1,0,0,0,14,80,1,0,0,0,16,89,1,0,0,0,18,92,1,0,0,0,20,94,1,0,0,0,22,113,
   	1,0,0,0,24,117,1,0,0,0,26,119,1,0,0,0,28,131,1,0,0,0,30,133,1,0,0,0,32,
   	140,1,0,0,0,34,35,7,0,0,0,35,1,1,0,0,0,36,37,5,1,0,0,37,38,5,2,0,0,38,
-  	43,5,3,0,0,39,40,5,1,0,0,40,41,5,4,0,0,41,42,5,26,0,0,42,44,5,3,0,0,43,
-  	39,1,0,0,0,43,44,1,0,0,0,44,3,1,0,0,0,45,54,5,1,0,0,46,48,5,28,0,0,47,
+  	43,5,3,0,0,39,40,5,1,0,0,40,41,5,4,0,0,41,42,5,27,0,0,42,44,5,3,0,0,43,
+  	39,1,0,0,0,43,44,1,0,0,0,44,3,1,0,0,0,45,54,5,1,0,0,46,48,5,29,0,0,47,
   	46,1,0,0,0,47,48,1,0,0,0,48,49,1,0,0,0,49,55,3,0,0,0,50,51,3,0,0,0,51,
-  	52,5,27,0,0,52,53,3,0,0,0,53,55,1,0,0,0,54,47,1,0,0,0,54,50,1,0,0,0,55,
+  	52,5,28,0,0,52,53,3,0,0,0,53,55,1,0,0,0,54,47,1,0,0,0,54,50,1,0,0,0,55,
   	56,1,0,0,0,56,57,5,3,0,0,57,5,1,0,0,0,58,59,5,26,0,0,59,60,5,5,0,0,60,
   	61,5,26,0,0,61,62,5,5,0,0,62,63,5,26,0,0,63,64,5,5,0,0,64,65,5,26,0,0,
-  	65,7,1,0,0,0,66,67,5,26,0,0,67,9,1,0,0,0,68,69,5,6,0,0,69,74,5,26,0,0,
-  	70,71,5,5,0,0,71,73,5,26,0,0,72,70,1,0,0,0,73,76,1,0,0,0,74,72,1,0,0,
-  	0,74,75,1,0,0,0,75,11,1,0,0,0,76,74,1,0,0,0,77,78,5,7,0,0,78,79,5,33,
+  	65,7,1,0,0,0,66,67,5,27,0,0,67,9,1,0,0,0,68,69,5,6,0,0,69,74,5,27,0,0,
+  	70,71,5,5,0,0,71,73,5,27,0,0,72,70,1,0,0,0,73,76,1,0,0,0,74,72,1,0,0,
+  	0,74,75,1,0,0,0,75,11,1,0,0,0,76,74,1,0,0,0,77,78,5,7,0,0,78,79,5,34,
   	0,0,79,13,1,0,0,0,80,85,5,8,0,0,81,86,3,6,3,0,82,86,3,8,4,0,83,86,3,10,
   	5,0,84,86,3,12,6,0,85,81,1,0,0,0,85,82,1,0,0,0,85,83,1,0,0,0,85,84,1,
   	0,0,0,86,87,1,0,0,0,87,88,5,9,0,0,88,15,1,0,0,0,89,90,5,10,0,0,90,91,
-  	5,33,0,0,91,17,1,0,0,0,92,93,7,1,0,0,93,19,1,0,0,0,94,96,3,18,9,0,95,
-  	97,5,33,0,0,96,95,1,0,0,0,96,97,1,0,0,0,97,101,1,0,0,0,98,100,3,4,2,0,
+  	5,34,0,0,91,17,1,0,0,0,92,93,7,1,0,0,93,19,1,0,0,0,94,96,3,18,9,0,95,
+  	97,5,34,0,0,96,95,1,0,0,0,96,97,1,0,0,0,97,101,1,0,0,0,98,100,3,4,2,0,
   	99,98,1,0,0,0,100,103,1,0,0,0,101,99,1,0,0,0,101,102,1,0,0,0,102,107,
   	1,0,0,0,103,101,1,0,0,0,104,106,3,14,7,0,105,104,1,0,0,0,106,109,1,0,
   	0,0,107,105,1,0,0,0,107,108,1,0,0,0,108,111,1,0,0,0,109,107,1,0,0,0,110,
@@ -176,8 +176,8 @@ tree::TerminalNode* OverpassParser::TokenContext::UNQUOTED_STRING() {
   return getToken(OverpassParser::UNQUOTED_STRING, 0);
 }
 
-tree::TerminalNode* OverpassParser::TokenContext::NUMBER() {
-  return getToken(OverpassParser::NUMBER, 0);
+tree::TerminalNode* OverpassParser::TokenContext::FLOAT_NUMBER() {
+  return getToken(OverpassParser::FLOAT_NUMBER, 0);
 }
 
 
@@ -222,7 +222,7 @@ OverpassParser::TokenContext* OverpassParser::token() {
     setState(34);
     _la = _input->LA(1);
     if (!((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & ((1ULL << OverpassParser::NUMBER)
+      ((1ULL << _la) & ((1ULL << OverpassParser::FLOAT_NUMBER)
       | (1ULL << OverpassParser::UNQUOTED_STRING)
       | (1ULL << OverpassParser::SIMPLE_QUOTED_STRING)
       | (1ULL << OverpassParser::DOUBLE_QUOTED_STRING))) != 0))) {
@@ -249,8 +249,8 @@ OverpassParser::MetadataContext::MetadataContext(ParserRuleContext *parent, size
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* OverpassParser::MetadataContext::NUMBER() {
-  return getToken(OverpassParser::NUMBER, 0);
+tree::TerminalNode* OverpassParser::MetadataContext::INTEGER_NUMBER() {
+  return getToken(OverpassParser::INTEGER_NUMBER, 0);
 }
 
 
@@ -308,7 +308,7 @@ OverpassParser::MetadataContext* OverpassParser::metadata() {
       setState(40);
       match(OverpassParser::T__3);
       setState(41);
-      match(OverpassParser::NUMBER);
+      match(OverpassParser::INTEGER_NUMBER);
       setState(42);
       match(OverpassParser::T__2);
     }
@@ -435,12 +435,12 @@ OverpassParser::Filter_bboxContext::Filter_bboxContext(ParserRuleContext *parent
   : ParserRuleContext(parent, invokingState) {
 }
 
-std::vector<tree::TerminalNode *> OverpassParser::Filter_bboxContext::NUMBER() {
-  return getTokens(OverpassParser::NUMBER);
+std::vector<tree::TerminalNode *> OverpassParser::Filter_bboxContext::FLOAT_NUMBER() {
+  return getTokens(OverpassParser::FLOAT_NUMBER);
 }
 
-tree::TerminalNode* OverpassParser::Filter_bboxContext::NUMBER(size_t i) {
-  return getToken(OverpassParser::NUMBER, i);
+tree::TerminalNode* OverpassParser::Filter_bboxContext::FLOAT_NUMBER(size_t i) {
+  return getToken(OverpassParser::FLOAT_NUMBER, i);
 }
 
 
@@ -482,19 +482,19 @@ OverpassParser::Filter_bboxContext* OverpassParser::filter_bbox() {
   try {
     enterOuterAlt(_localctx, 1);
     setState(58);
-    match(OverpassParser::NUMBER);
+    match(OverpassParser::FLOAT_NUMBER);
     setState(59);
     match(OverpassParser::T__4);
     setState(60);
-    match(OverpassParser::NUMBER);
+    match(OverpassParser::FLOAT_NUMBER);
     setState(61);
     match(OverpassParser::T__4);
     setState(62);
-    match(OverpassParser::NUMBER);
+    match(OverpassParser::FLOAT_NUMBER);
     setState(63);
     match(OverpassParser::T__4);
     setState(64);
-    match(OverpassParser::NUMBER);
+    match(OverpassParser::FLOAT_NUMBER);
    
   }
   catch (RecognitionException &e) {
@@ -512,8 +512,8 @@ OverpassParser::Filter_osm_idContext::Filter_osm_idContext(ParserRuleContext *pa
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* OverpassParser::Filter_osm_idContext::NUMBER() {
-  return getToken(OverpassParser::NUMBER, 0);
+tree::TerminalNode* OverpassParser::Filter_osm_idContext::INTEGER_NUMBER() {
+  return getToken(OverpassParser::INTEGER_NUMBER, 0);
 }
 
 
@@ -555,7 +555,7 @@ OverpassParser::Filter_osm_idContext* OverpassParser::filter_osm_id() {
   try {
     enterOuterAlt(_localctx, 1);
     setState(66);
-    match(OverpassParser::NUMBER);
+    match(OverpassParser::INTEGER_NUMBER);
    
   }
   catch (RecognitionException &e) {
@@ -573,12 +573,12 @@ OverpassParser::Filter_osm_idsContext::Filter_osm_idsContext(ParserRuleContext *
   : ParserRuleContext(parent, invokingState) {
 }
 
-std::vector<tree::TerminalNode *> OverpassParser::Filter_osm_idsContext::NUMBER() {
-  return getTokens(OverpassParser::NUMBER);
+std::vector<tree::TerminalNode *> OverpassParser::Filter_osm_idsContext::INTEGER_NUMBER() {
+  return getTokens(OverpassParser::INTEGER_NUMBER);
 }
 
-tree::TerminalNode* OverpassParser::Filter_osm_idsContext::NUMBER(size_t i) {
-  return getToken(OverpassParser::NUMBER, i);
+tree::TerminalNode* OverpassParser::Filter_osm_idsContext::INTEGER_NUMBER(size_t i) {
+  return getToken(OverpassParser::INTEGER_NUMBER, i);
 }
 
 
@@ -623,7 +623,7 @@ OverpassParser::Filter_osm_idsContext* OverpassParser::filter_osm_ids() {
     setState(68);
     match(OverpassParser::T__5);
     setState(69);
-    match(OverpassParser::NUMBER);
+    match(OverpassParser::INTEGER_NUMBER);
     setState(74);
     _errHandler->sync(this);
     _la = _input->LA(1);
@@ -631,7 +631,7 @@ OverpassParser::Filter_osm_idsContext* OverpassParser::filter_osm_ids() {
       setState(70);
       match(OverpassParser::T__4);
       setState(71);
-      match(OverpassParser::NUMBER);
+      match(OverpassParser::INTEGER_NUMBER);
       setState(76);
       _errHandler->sync(this);
       _la = _input->LA(1);
@@ -774,33 +774,33 @@ OverpassParser::FilterContext* OverpassParser::filter() {
     match(OverpassParser::T__7);
     setState(85);
     _errHandler->sync(this);
-    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 4, _ctx)) {
-    case 1: {
-      setState(81);
-      filter_bbox();
-      break;
-    }
+    switch (_input->LA(1)) {
+      case OverpassParser::FLOAT_NUMBER: {
+        setState(81);
+        filter_bbox();
+        break;
+      }
 
-    case 2: {
-      setState(82);
-      filter_osm_id();
-      break;
-    }
+      case OverpassParser::INTEGER_NUMBER: {
+        setState(82);
+        filter_osm_id();
+        break;
+      }
 
-    case 3: {
-      setState(83);
-      filter_osm_ids();
-      break;
-    }
+      case OverpassParser::T__5: {
+        setState(83);
+        filter_osm_ids();
+        break;
+      }
 
-    case 4: {
-      setState(84);
-      filter_area();
-      break;
-    }
+      case OverpassParser::T__6: {
+        setState(84);
+        filter_area();
+        break;
+      }
 
     default:
-      break;
+      throw NoViableAltException(this);
     }
     setState(87);
     match(OverpassParser::T__8);

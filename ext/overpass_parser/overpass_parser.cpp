@@ -153,14 +153,14 @@ public:
   Object SIMPLE_QUOTED_STRING();
   Object DOUBLE_QUOTED_STRING();
   Object UNQUOTED_STRING();
-  Object NUMBER();
+  Object FLOAT_NUMBER();
 };
 
 class MetadataContextProxy : public ContextProxy {
 public:
   MetadataContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
 
-  Object NUMBER();
+  Object INTEGER_NUMBER();
 };
 
 class SelectorContextProxy : public ContextProxy {
@@ -176,23 +176,23 @@ class Filter_bboxContextProxy : public ContextProxy {
 public:
   Filter_bboxContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
 
-  Object NUMBER();
-  Object NUMBERAt(size_t i);
+  Object FLOAT_NUMBER();
+  Object FLOAT_NUMBERAt(size_t i);
 };
 
 class Filter_osm_idContextProxy : public ContextProxy {
 public:
   Filter_osm_idContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
 
-  Object NUMBER();
+  Object INTEGER_NUMBER();
 };
 
 class Filter_osm_idsContextProxy : public ContextProxy {
 public:
   Filter_osm_idsContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
 
-  Object NUMBER();
-  Object NUMBERAt(size_t i);
+  Object INTEGER_NUMBER();
+  Object INTEGER_NUMBERAt(size_t i);
 };
 
 class Filter_areaContextProxy : public ContextProxy {
@@ -673,12 +673,12 @@ Object TokenContextProxy::UNQUOTED_STRING() {
   return detail::To_Ruby<TerminalNodeProxy>().convert(proxy);
 }
 
-Object TokenContextProxy::NUMBER() {
+Object TokenContextProxy::FLOAT_NUMBER() {
   if (orig == nullptr) {
     return Qnil;
   }
 
-  auto token = ((OverpassParser::TokenContext*)orig) -> NUMBER();
+  auto token = ((OverpassParser::TokenContext*)orig) -> FLOAT_NUMBER();
 
   if (token == nullptr) {
     return Qnil;
@@ -688,12 +688,12 @@ Object TokenContextProxy::NUMBER() {
   return detail::To_Ruby<TerminalNodeProxy>().convert(proxy);
 }
 
-Object MetadataContextProxy::NUMBER() {
+Object MetadataContextProxy::INTEGER_NUMBER() {
   if (orig == nullptr) {
     return Qnil;
   }
 
-  auto token = ((OverpassParser::MetadataContext*)orig) -> NUMBER();
+  auto token = ((OverpassParser::MetadataContext*)orig) -> INTEGER_NUMBER();
 
   if (token == nullptr) {
     return Qnil;
@@ -767,14 +767,14 @@ Object SelectorContextProxy::NOT() {
   return detail::To_Ruby<TerminalNodeProxy>().convert(proxy);
 }
 
-Object Filter_bboxContextProxy::NUMBER() {
+Object Filter_bboxContextProxy::FLOAT_NUMBER() {
   Array a;
 
   if (orig == nullptr) {
     return std::move(a);
   }
 
-  auto vec = ((OverpassParser::Filter_bboxContext*)orig) -> NUMBER();
+  auto vec = ((OverpassParser::Filter_bboxContext*)orig) -> FLOAT_NUMBER();
 
   for (auto it = vec.begin(); it != vec.end(); it ++) {
     TerminalNodeProxy proxy(*it);
@@ -784,12 +784,12 @@ Object Filter_bboxContextProxy::NUMBER() {
   return std::move(a);
 }
 
-Object Filter_bboxContextProxy::NUMBERAt(size_t i) {
+Object Filter_bboxContextProxy::FLOAT_NUMBERAt(size_t i) {
   if (orig == nullptr) {
     return Qnil;
   }
 
-  auto token = ((OverpassParser::Filter_bboxContext*)orig) -> NUMBER(i);
+  auto token = ((OverpassParser::Filter_bboxContext*)orig) -> FLOAT_NUMBER(i);
 
   if (token == nullptr) {
     return Qnil;
@@ -799,12 +799,12 @@ Object Filter_bboxContextProxy::NUMBERAt(size_t i) {
   return detail::To_Ruby<TerminalNodeProxy>().convert(proxy);
 }
 
-Object Filter_osm_idContextProxy::NUMBER() {
+Object Filter_osm_idContextProxy::INTEGER_NUMBER() {
   if (orig == nullptr) {
     return Qnil;
   }
 
-  auto token = ((OverpassParser::Filter_osm_idContext*)orig) -> NUMBER();
+  auto token = ((OverpassParser::Filter_osm_idContext*)orig) -> INTEGER_NUMBER();
 
   if (token == nullptr) {
     return Qnil;
@@ -814,14 +814,14 @@ Object Filter_osm_idContextProxy::NUMBER() {
   return detail::To_Ruby<TerminalNodeProxy>().convert(proxy);
 }
 
-Object Filter_osm_idsContextProxy::NUMBER() {
+Object Filter_osm_idsContextProxy::INTEGER_NUMBER() {
   Array a;
 
   if (orig == nullptr) {
     return std::move(a);
   }
 
-  auto vec = ((OverpassParser::Filter_osm_idsContext*)orig) -> NUMBER();
+  auto vec = ((OverpassParser::Filter_osm_idsContext*)orig) -> INTEGER_NUMBER();
 
   for (auto it = vec.begin(); it != vec.end(); it ++) {
     TerminalNodeProxy proxy(*it);
@@ -831,12 +831,12 @@ Object Filter_osm_idsContextProxy::NUMBER() {
   return std::move(a);
 }
 
-Object Filter_osm_idsContextProxy::NUMBERAt(size_t i) {
+Object Filter_osm_idsContextProxy::INTEGER_NUMBERAt(size_t i) {
   if (orig == nullptr) {
     return Qnil;
   }
 
-  auto token = ((OverpassParser::Filter_osm_idsContext*)orig) -> NUMBER(i);
+  auto token = ((OverpassParser::Filter_osm_idsContext*)orig) -> INTEGER_NUMBER(i);
 
   if (token == nullptr) {
     return Qnil;
@@ -1586,10 +1586,10 @@ void Init_overpass_parser() {
     .define_method("SIMPLE_QUOTED_STRING", &TokenContextProxy::SIMPLE_QUOTED_STRING)
     .define_method("DOUBLE_QUOTED_STRING", &TokenContextProxy::DOUBLE_QUOTED_STRING)
     .define_method("UNQUOTED_STRING", &TokenContextProxy::UNQUOTED_STRING)
-    .define_method("NUMBER", &TokenContextProxy::NUMBER);
+    .define_method("FLOAT_NUMBER", &TokenContextProxy::FLOAT_NUMBER);
 
   rb_cMetadataContext = define_class_under<MetadataContextProxy, ContextProxy>(rb_mOverpassParser, "MetadataContext")
-    .define_method("NUMBER", &MetadataContextProxy::NUMBER);
+    .define_method("INTEGER_NUMBER", &MetadataContextProxy::INTEGER_NUMBER);
 
   rb_cSelectorContext = define_class_under<SelectorContextProxy, ContextProxy>(rb_mOverpassParser, "SelectorContext")
     .define_method("token", &SelectorContextProxy::token)
@@ -1598,15 +1598,15 @@ void Init_overpass_parser() {
     .define_method("NOT", &SelectorContextProxy::NOT);
 
   rb_cFilter_bboxContext = define_class_under<Filter_bboxContextProxy, ContextProxy>(rb_mOverpassParser, "Filter_bboxContext")
-    .define_method("NUMBER", &Filter_bboxContextProxy::NUMBER)
-    .define_method("NUMBERAt", &Filter_bboxContextProxy::NUMBER);
+    .define_method("FLOAT_NUMBER", &Filter_bboxContextProxy::FLOAT_NUMBER)
+    .define_method("FLOAT_NUMBERAt", &Filter_bboxContextProxy::FLOAT_NUMBER);
 
   rb_cFilter_osm_idContext = define_class_under<Filter_osm_idContextProxy, ContextProxy>(rb_mOverpassParser, "Filter_osm_idContext")
-    .define_method("NUMBER", &Filter_osm_idContextProxy::NUMBER);
+    .define_method("INTEGER_NUMBER", &Filter_osm_idContextProxy::INTEGER_NUMBER);
 
   rb_cFilter_osm_idsContext = define_class_under<Filter_osm_idsContextProxy, ContextProxy>(rb_mOverpassParser, "Filter_osm_idsContext")
-    .define_method("NUMBER", &Filter_osm_idsContextProxy::NUMBER)
-    .define_method("NUMBERAt", &Filter_osm_idsContextProxy::NUMBER);
+    .define_method("INTEGER_NUMBER", &Filter_osm_idsContextProxy::INTEGER_NUMBER)
+    .define_method("INTEGER_NUMBERAt", &Filter_osm_idsContextProxy::INTEGER_NUMBER);
 
   rb_cFilter_areaContext = define_class_under<Filter_areaContextProxy, ContextProxy>(rb_mOverpassParser, "Filter_areaContext")
     .define_method("DOT_ID", &Filter_areaContextProxy::DOT_ID);
