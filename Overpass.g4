@@ -22,7 +22,8 @@ DOT_ID: '.' ID;
 token:
 	SIMPLE_QUOTED_STRING
 	| DOUBLE_QUOTED_STRING
-	| UNQUOTED_STRING;
+	| UNQUOTED_STRING
+	| NUMBER;
 
 metadata: '[' 'out:json' ']' ('[' 'timeout:' NUMBER ']')?;
 

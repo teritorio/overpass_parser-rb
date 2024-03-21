@@ -153,6 +153,7 @@ public:
   Object SIMPLE_QUOTED_STRING();
   Object DOUBLE_QUOTED_STRING();
   Object UNQUOTED_STRING();
+  Object NUMBER();
 };
 
 class MetadataContextProxy : public ContextProxy {
@@ -663,6 +664,21 @@ Object TokenContextProxy::UNQUOTED_STRING() {
   }
 
   auto token = ((OverpassParser::TokenContext*)orig) -> UNQUOTED_STRING();
+
+  if (token == nullptr) {
+    return Qnil;
+  }
+
+  TerminalNodeProxy proxy(token);
+  return detail::To_Ruby<TerminalNodeProxy>().convert(proxy);
+}
+
+Object TokenContextProxy::NUMBER() {
+  if (orig == nullptr) {
+    return Qnil;
+  }
+
+  auto token = ((OverpassParser::TokenContext*)orig) -> NUMBER();
 
   if (token == nullptr) {
     return Qnil;
@@ -1569,7 +1585,8 @@ void Init_overpass_parser() {
   rb_cTokenContext = define_class_under<TokenContextProxy, ContextProxy>(rb_mOverpassParser, "TokenContext")
     .define_method("SIMPLE_QUOTED_STRING", &TokenContextProxy::SIMPLE_QUOTED_STRING)
     .define_method("DOUBLE_QUOTED_STRING", &TokenContextProxy::DOUBLE_QUOTED_STRING)
-    .define_method("UNQUOTED_STRING", &TokenContextProxy::UNQUOTED_STRING);
+    .define_method("UNQUOTED_STRING", &TokenContextProxy::UNQUOTED_STRING)
+    .define_method("NUMBER", &TokenContextProxy::NUMBER);
 
   rb_cMetadataContext = define_class_under<MetadataContextProxy, ContextProxy>(rb_mOverpassParser, "MetadataContext")
     .define_method("NUMBER", &MetadataContextProxy::NUMBER);

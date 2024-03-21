@@ -71,7 +71,7 @@ module OverpassParser
 
     def visit_token(ctx)
       visit_children(ctx)
-      text = !ctx.UNQUOTED_STRING.nil? ? ctx.UNQUOTED_STRING.text : ctx.text[1..-2]
+      text = !ctx.UNQUOTED_STRING.nil? || !ctx.NUMBER.nil? ? (ctx.UNQUOTED_STRING || ctx.NUMBER).text : ctx.text[1..-2]
       @stack.push(text)
     end
   end

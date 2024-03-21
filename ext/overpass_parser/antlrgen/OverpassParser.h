@@ -70,6 +70,7 @@ public:
     antlr4::tree::TerminalNode *SIMPLE_QUOTED_STRING();
     antlr4::tree::TerminalNode *DOUBLE_QUOTED_STRING();
     antlr4::tree::TerminalNode *UNQUOTED_STRING();
+    antlr4::tree::TerminalNode *NUMBER();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
