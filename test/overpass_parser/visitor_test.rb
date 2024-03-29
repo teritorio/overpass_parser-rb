@@ -8,8 +8,8 @@ module OverpassParser
       tree = OverpassParser.tree("node['highway'=\"primary\"][operator=\"Commune d'Anglet\"];")
       assert_equal(
         { type: :query_object, set: nil, object_type: "node", selectors: [
-          { type: :selector, value: "primary", key: "highway", operator: "=" },
-          { type: :selector, value: "Commune d'Anglet", key: "operator", operator: "=" }
+          Selector.new("highway", value: "primary", operator: "="),
+          Selector.new("operator", value: "Commune d'Anglet", operator: "=")
         ], filter: [] }, tree[0][:queries][0]
       )
     end
@@ -17,8 +17,9 @@ module OverpassParser
     def test_selector_key
       tree = OverpassParser.tree("node[highway];")
       assert_equal(
-        { type: :query_object, set: nil, object_type: "node",
-          selectors: [{ type: :selector, key: "highway", not: false }], filter: [] }, tree[0][:queries][0]
+        { type: :query_object, set: nil, object_type: "node", selectors: [
+          Selector.new("highway", not_: false)
+        ], filter: [] }, tree[0][:queries][0]
       )
     end
 
@@ -26,8 +27,8 @@ module OverpassParser
       tree = OverpassParser.tree("node[highway=primary][ref=33];")
       assert_equal(
         { type: :query_object, set: nil, object_type: "node", selectors: [
-          { type: :selector, value: "primary", key: "highway", operator: "=" },
-          { type: :selector, value: "33", key: "ref", operator: "=" }
+          Selector.new("highway", value: "primary", operator: "="),
+          Selector.new("ref", value: "33", operator: "=")
         ], filter: [] }, tree[0][:queries][0]
       )
     end
@@ -36,7 +37,7 @@ module OverpassParser
       tree = OverpassParser.tree("node._[highway=primary];")
       assert_equal(
         { type: :query_object, set: "._", object_type: "node", selectors: [
-          { type: :selector, value: "primary", key: "highway", operator: "=" }
+          Selector.new("highway", value: "primary", operator: "=")
         ], filter: [] }, tree[0][:queries][0]
       )
     end
@@ -65,12 +66,12 @@ module OverpassParser
       assert_equal(
         [
           { type: :query_object, set: nil, object_type: "relation", selectors: [
-            { type: :selector, value: "En aban !", key: "name", operator: "=" }
+            Selector.new("name", value: "En aban !", operator: "=")
           ], filter: [] },
           { type: :query_recurse, recurse: ">" },
           { type: :query_object, set: "._", object_type: "nwr",
             selectors: [
-              { type: :selector, value: "bus_stop", key: "highway", operator: "=" }
+              Selector.new("highway", value: "bus_stop", operator: "=")
             ], filter: [] }
         ], tree[0][:queries]
       )

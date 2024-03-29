@@ -14,4 +14,8 @@ group :development, :test do
   gem "minitest"
   gem "rake"
   gem "rubocop", "~> 1.21"
+  gem "rubocop-minitest", require: false
+  gem "rubocop-rake", require: false
+  gem "sorbet"
+  gem "tapioca", require: false
 end
