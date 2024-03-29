@@ -10,7 +10,7 @@ module OverpassParser
         { type: :query_object, set: nil, object_type: "node", selectors: [
           Selector.new("highway", value: "primary", operator: "="),
           Selector.new("operator", value: "Commune d'Anglet", operator: "=")
-        ], filter: [] }, tree[0][:queries][0]
+        ], filters: [] }, tree[0][:queries][0]
       )
     end
 
@@ -19,7 +19,7 @@ module OverpassParser
       assert_equal(
         { type: :query_object, set: nil, object_type: "node", selectors: [
           Selector.new("highway", not_: false)
-        ], filter: [] }, tree[0][:queries][0]
+        ], filters: [] }, tree[0][:queries][0]
       )
     end
 
@@ -29,7 +29,7 @@ module OverpassParser
         { type: :query_object, set: nil, object_type: "node", selectors: [
           Selector.new("highway", value: "primary", operator: "="),
           Selector.new("ref", value: "33", operator: "=")
-        ], filter: [] }, tree[0][:queries][0]
+        ], filters: [] }, tree[0][:queries][0]
       )
     end
 
@@ -38,7 +38,7 @@ module OverpassParser
       assert_equal(
         { type: :query_object, set: "._", object_type: "node", selectors: [
           Selector.new("highway", value: "primary", operator: "=")
-        ], filter: [] }, tree[0][:queries][0]
+        ], filters: [] }, tree[0][:queries][0]
       )
     end
 
@@ -46,7 +46,7 @@ module OverpassParser
       tree = OverpassParser.tree("node(around.a:100.0);")
       assert_equal(
         { type: :query_object, set: nil, object_type: "node", selectors: [],
-          filter: [
+          filters: [
             { type: :filter, bbox: nil, ids: nil, area_id: nil, around: { core: ".a", radius: "100.0" } }
           ] }, tree[0][:queries][0]
       )
@@ -67,12 +67,12 @@ module OverpassParser
         [
           { type: :query_object, set: nil, object_type: "relation", selectors: [
             Selector.new("name", value: "En aban !", operator: "=")
-          ], filter: [] },
+          ], filters: [] },
           { type: :query_recurse, recurse: ">" },
           { type: :query_object, set: "._", object_type: "nwr",
             selectors: [
               Selector.new("highway", value: "bus_stop", operator: "=")
-            ], filter: [] }
+            ], filters: [] }
         ], tree[0][:queries]
       )
     end

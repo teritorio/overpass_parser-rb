@@ -167,7 +167,7 @@ module OverpassParser
       @selectors = []
       visit_children(ctx)
       r = { type: :query_object, set: ctx.DOT_ID&.text, object_type: ctx.object_type.text,
-            selectors: Selectors.new(@selectors.compact), filter: @filters.compact.dup }
+            selectors: Selectors.new(@selectors.compact), filters: @filters.compact.dup }
       if @stack[-1].is_a?(Array)
         @stack[-1] << r
       else
