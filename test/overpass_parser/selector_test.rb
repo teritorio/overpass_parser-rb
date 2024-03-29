@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# typed: true
 
 require "test_helper"
 
@@ -6,11 +7,11 @@ module OverpassParser
   class TestSelector < Minitest::Test
     extend T::Sig
 
-    sig {
+    sig do
       params(
-        query: String,
-      ).returns(String)
-    }
+        query: String
+      ).returns(OverpassParser::Selectors)
+    end
     def parse(query)
       tree = OverpassParser.tree("node#{query};")
       tree[0][:queries][0][:selectors]
@@ -18,20 +19,26 @@ module OverpassParser
 
     sig { void }
     def test_match_value
-      assert(parse("[p]").match?({ "p" => "+48" }))
+      assert_equal(["p"], parse("[p]").matches({ "p" => "+48" }))
 
-      assert(parse("[p=\"+48\"]").match?({ "p" => "+48" }))
-      assert(!parse("[p=\"+48\"]").match?({ "p" => "+4" }))
+      assert_equal(["p"], parse("[p=\"+48\"]").matches({ "p" => "+48" }))
+      assert_nil(parse("[p=\"+48\"]").matches({ "p" => "+4" }))
 
-      assert(parse("[p~4]").match?({ "p" => "+48" }))
-      assert(!parse("[p~5]").match?({ "p" => "+48" }))
+      assert_equal(["p"], parse("[p~4]").matches({ "p" => "+48" }))
+      assert_nil(parse("[p~5]").matches({ "p" => "+48" }))
 
-      assert(!parse("[highway=footway][footway=traffic_island]").match?({ "highway" => "footway" }))
-      assert(parse("[highway=footway][footway=traffic_island]").match?({ "highway" => "footway",
-                                                                         "footway" => "traffic_island" }))
+      assert_nil(parse("[highway=footway][footway=traffic_island]").matches({ "highway" => "footway" }))
+      assert_equal(
+        %w[highway footway],
+        parse("[highway=footway][footway=traffic_island]").matches({ "highway" => "footway",
+                                                                     "footway" => "traffic_island" })
+      )
 
-      assert(parse("[highway=footway][!footway]").match?({ "highway" => "footway" }))
-      assert(!parse("[highway=footway][!footway]").match?({ "highway" => "footway", "footway" => "traffic_island" }))
+      assert_equal(["highway"], parse("[highway=footway][!footway]").matches({ "highway" => "footway" }))
+      assert_nil(
+        parse("[highway=footway][!footway]").matches({ "highway" => "footway",
+                                                       "footway" => "traffic_island" })
+      )
     end
 
     sig { void }

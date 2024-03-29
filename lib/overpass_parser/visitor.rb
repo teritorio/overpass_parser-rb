@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# typed: true
 
 require "overpass_parser"
 require "sorbet-runtime"
@@ -20,27 +21,30 @@ module OverpassParser
     sig do
       params(
         tags: T::Hash[String, String]
-      ).returns(T::Boolean)
+      ).returns(T.nilable(T.any(T::Array[String], TrueClass)))
     end
-    def match?(tags)
-      if @operator.nil?
-        if @not_
-          !tags.key?(@key)
+    def matches(tags)
+      m = (
+        if @operator.nil?
+          if @not_
+            return true unless tags.key?(@key)
+          else
+            tags.key?(@key)
+          end
         else
-          tags.key?(@key)
-        end
-      else
-        value = tags[@key]
-        return false if value.nil?
+          value = tags[@key]
+          return if value.nil?
 
-        case @operator
-        when "=" then value == @value
-        when "!=" then value != @value
-        when "~" then !!T.cast(@value, Regexp).match(value)
-        when "!~" then !T.cast(@value, Regexp).match(value)
-        else throw "Not implemented operator #{op}"
+          case @operator
+          when "=" then value == @value
+          when "!=" then value != @value
+          when "~" then !!T.cast(@value, Regexp).match(value)
+          when "!~" then !T.cast(@value, Regexp).match(value)
+          else throw "Not implemented operator #{@operator}"
+          end
         end
-      end
+      )
+      m ? [@key] : nil
     end
 
     sig { returns(String) }
@@ -110,10 +114,11 @@ module OverpassParser
     sig do
       params(
         object: T::Hash[String, String]
-      ).returns(T::Boolean)
+      ).returns(T.nilable(T::Array[String]))
     end
-    def match?(object)
-      all? { |selector| selector.match?(object) }
+    def matches(object)
+      r = collect { |selector| selector.matches(object) }.flatten.uniq
+      r.all? ? r.filter { |rr| rr != true } : nil
     end
 
     sig { returns(String) }
