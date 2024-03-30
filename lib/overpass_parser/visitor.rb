@@ -111,6 +111,11 @@ module OverpassParser
       super(*args)
     end
 
+    sig { returns(Selectors) }
+    def sort
+      Selectors.new(super)
+    end
+
     sig do
       params(
         object: T::Hash[String, String]

@@ -49,6 +49,8 @@ module OverpassParser
       assert_equal("[highway=footway][footway=traffic_island]",
                    parse("[highway=footway][footway=traffic_island]").to_overpass)
       assert_equal("[!amenity]", parse("[!amenity]").to_overpass)
+
+      assert_equal("[amenity]", parse("[amenity]").sort.to_overpass)
     end
 
     sig { void }
