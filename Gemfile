@@ -5,6 +5,8 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in overpass_parser-rb.gemspec
 gemspec
 
+gem "sorbet-struct-comparable"
+
 group :development do
   gem "antlr4-native", "~> 2.0"
   gem "pry-byebug"

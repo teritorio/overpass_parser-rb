@@ -2,15 +2,19 @@
 # typed: true
 
 require "sorbet-runtime"
+require "sorbet-struct-comparable"
 
 module OverpassParser::Nodes
-  class Selector
+  class Selector < T::Struct
+    include T::Struct::ActsAsComparable
     extend T::Sig
-    include Comparable
-    attr_reader :not_
-    attr_reader :key, :operator, :value
 
-    def initialize(key, not_: nil, operator: nil, value: nil)
+    const :not_, T::Boolean, default: false
+    const :key, String
+    const :operator, T.nilable(String)
+    const :value, T.nilable(String)
+
+    def initialize(key, not_: false, operator: nil, value: nil)
       @key = key
       @not_ = not_
       @operator = operator
@@ -80,10 +84,6 @@ module OverpassParser::Nodes
       end
     end
 
-    def <=>(other)
-      [@key, @not_, @operator, @value] <=> [other.key, other.not_, other.operator, other.value]
-    end
-
     private
 
     def quote(string)
@@ -105,10 +105,6 @@ module OverpassParser::Nodes
 
   class Selectors < Array
     extend T::Sig
-
-    def initialize(*args)
-      super(*args)
-    end
 
     sig { returns(Selectors) }
     def sort
