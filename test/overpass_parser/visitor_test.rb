@@ -47,7 +47,7 @@ module OverpassParser::Nodes
       assert_equal(
         { type: :query_object, set: nil, object_type: "node", selectors: [],
           filters: [
-            { type: :filter, bbox: nil, ids: nil, area_id: nil, around: { core: ".a", radius: "100.0" } }
+            Filter.new(around: FilterAround.new(core: ".a", radius: 100.0))
           ] }, tree[0][:queries][0]
       )
     end
@@ -69,10 +69,14 @@ module OverpassParser::Nodes
       assert_equal(
         [
           { type: :query_object, set: nil, object_type: "area", selectors: [],
-            filters: [{ type: :filter, bbox: nil, ids: [3_600_000_001], area_id: nil, around: { core: nil, radius: nil } }] },
+            filters: [
+              Filter.new(ids: [3_600_000_001])
+            ] },
           { type: :query_object, set: nil, object_type: "relation", selectors: [
             Selector.new("name", value: "En aban !", operator: "=")
-          ], filters: [{ type: :filter, bbox: nil, ids: nil, area_id: nil, around: { core: "._", radius: "500" } }] },
+          ], filters: [
+            Filter.new(around: FilterAround.new(core: "._", radius: 500.0))
+          ] },
           { type: :query_recurse, recurse: ">" },
           { type: :query_object, set: "._", object_type: "nwr",
             selectors: [
