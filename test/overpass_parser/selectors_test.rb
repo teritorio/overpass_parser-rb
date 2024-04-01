@@ -3,14 +3,14 @@
 
 require "test_helper"
 
-module OverpassParser
-  class TestSelector < Minitest::Test
+module OverpassParser::Nodes
+  class TestSelectors < Minitest::Test
     extend T::Sig
 
     sig do
       params(
         query: String
-      ).returns(OverpassParser::Selectors)
+      ).returns(OverpassParser::Nodes::Selectors)
     end
     def parse(query)
       tree = OverpassParser.tree("node#{query};")

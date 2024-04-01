@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-module OverpassParser
+module OverpassParser::Nodes
   class TestVisitor < Minitest::Test
     def test_quote
       tree = OverpassParser.tree("node['highway'=\"primary\"][operator=\"Commune d'Anglet\"];")
