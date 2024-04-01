@@ -22,11 +22,12 @@ public:
   };
 
   enum {
-    RuleNumber = 0, RuleToken = 1, RuleMetadata = 2, RuleSelector = 3, RuleFilter_bbox = 4, 
-    RuleFilter_osm_id = 5, RuleFilter_osm_ids = 6, RuleFilter_area = 7, 
-    RuleFilter_around = 8, RuleFilter = 9, RuleAsignation = 10, RuleObject_type = 11, 
-    RuleQuery_object = 12, RuleQuery_recurse = 13, RuleQuery = 14, RuleQuery_group = 15, 
-    RuleQuery_sequence = 16, RuleOuput = 17, RuleRequest = 18
+    RuleOsm_id = 0, RuleNumber = 1, RuleToken = 2, RuleMetadata = 3, RuleSelector = 4, 
+    RuleFilter_bbox = 5, RuleFilter_osm_id = 6, RuleFilter_osm_ids = 7, 
+    RuleFilter_area = 8, RuleFilter_around = 9, RuleFilter = 10, RuleAsignation = 11, 
+    RuleObject_type = 12, RuleQuery_object = 13, RuleQuery_recurse = 14, 
+    RuleQuery = 15, RuleQuery_group = 16, RuleQuery_sequence = 17, RuleOuput = 18, 
+    RuleRequest = 19
   };
 
   explicit OverpassParser(antlr4::TokenStream *input);
@@ -46,6 +47,7 @@ public:
   antlr4::atn::SerializedATNView getSerializedATN() const override;
 
 
+  class Osm_idContext;
   class NumberContext;
   class TokenContext;
   class MetadataContext;
@@ -65,6 +67,21 @@ public:
   class Query_sequenceContext;
   class OuputContext;
   class RequestContext; 
+
+  class  Osm_idContext : public antlr4::ParserRuleContext {
+  public:
+    Osm_idContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *INTEGER();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  Osm_idContext* osm_id();
 
   class  NumberContext : public antlr4::ParserRuleContext {
   public:
@@ -155,7 +172,7 @@ public:
   public:
     Filter_osm_idContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *INTEGER();
+    Osm_idContext *osm_id();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -170,8 +187,8 @@ public:
   public:
     Filter_osm_idsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    std::vector<antlr4::tree::TerminalNode *> INTEGER();
-    antlr4::tree::TerminalNode* INTEGER(size_t i);
+    std::vector<Osm_idContext *> osm_id();
+    Osm_idContext* osm_id(size_t i);
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;

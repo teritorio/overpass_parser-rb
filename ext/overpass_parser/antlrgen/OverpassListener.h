@@ -14,6 +14,9 @@
 class  OverpassListener : public antlr4::tree::ParseTreeListener {
 public:
 
+  virtual void enterOsm_id(OverpassParser::Osm_idContext *ctx) = 0;
+  virtual void exitOsm_id(OverpassParser::Osm_idContext *ctx) = 0;
+
   virtual void enterNumber(OverpassParser::NumberContext *ctx) = 0;
   virtual void exitNumber(OverpassParser::NumberContext *ctx) = 0;
 

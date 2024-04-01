@@ -16,6 +16,9 @@
 class  OverpassBaseListener : public OverpassListener {
 public:
 
+  virtual void enterOsm_id(OverpassParser::Osm_idContext * /*ctx*/) override { }
+  virtual void exitOsm_id(OverpassParser::Osm_idContext * /*ctx*/) override { }
+
   virtual void enterNumber(OverpassParser::NumberContext * /*ctx*/) override { }
   virtual void exitNumber(OverpassParser::NumberContext * /*ctx*/) override { }
 

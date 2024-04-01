@@ -60,11 +60,16 @@ module OverpassParser
     def test_full
       tree = OverpassParser.tree('
         [out:json][timeout:25];
-        relation[name="En aban !"];>;nwr._[highway=bus_stop];
+        area(id:3600000001)->.a;
+        relation[name="En aban !"];
+        >;
+        nwr._[highway=bus_stop];
         out center meta;
       ')
       assert_equal(
         [
+          { type: :query_object, set: nil, object_type: "area", selectors: [],
+            filters: [{ type: :filter, bbox: nil, ids: [3_600_000_001], area_id: nil, around: { core: nil, radius: nil } }] },
           { type: :query_object, set: nil, object_type: "relation", selectors: [
             Selector.new("name", value: "En aban !", operator: "=")
           ], filters: [] },

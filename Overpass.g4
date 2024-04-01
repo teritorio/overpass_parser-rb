@@ -18,6 +18,7 @@ DOT_ID: '.' ID;
 
 // Parser rules
 
+osm_id: INTEGER;
 number: INTEGER | FLOAT;
 
 token:
@@ -37,8 +38,8 @@ selector:
 
 filter_bbox:
 	number ',' number ',' number ',' number;
-filter_osm_id: INTEGER;
-filter_osm_ids: 'id:' INTEGER (',' INTEGER)*;
+filter_osm_id: osm_id;
+filter_osm_ids: 'id:' osm_id (',' osm_id)*;
 filter_area: 'area' DOT_ID;
 filter_around: 'around' DOT_ID ':' number;
 filter:
