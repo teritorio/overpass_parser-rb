@@ -61,7 +61,7 @@ module OverpassParser
       tree = OverpassParser.tree('
         [out:json][timeout:25];
         area(id:3600000001)->.a;
-        relation[name="En aban !"];
+        relation[name="En aban !"](around._:500);
         >;
         nwr._[highway=bus_stop];
         out center meta;
@@ -72,7 +72,7 @@ module OverpassParser
             filters: [{ type: :filter, bbox: nil, ids: [3_600_000_001], area_id: nil, around: { core: nil, radius: nil } }] },
           { type: :query_object, set: nil, object_type: "relation", selectors: [
             Selector.new("name", value: "En aban !", operator: "=")
-          ], filters: [] },
+          ], filters: [{ type: :filter, bbox: nil, ids: nil, area_id: nil, around: { core: "._", radius: "500" } }] },
           { type: :query_recurse, recurse: ">" },
           { type: :query_object, set: "._", object_type: "nwr",
             selectors: [
