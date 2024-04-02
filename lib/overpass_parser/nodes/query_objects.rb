@@ -13,13 +13,15 @@ module OverpassParser::Nodes
     const :object_type, String
     const :selectors, T.nilable(Selectors)
     const :filters, T.nilable(Filters)
-    const :set, String
+    const :set, T.nilable(String)
+    const :asignation, T.nilable(String)
 
-    def initialize(object_type, selectors: nil, filters: nil, set: nil)
+    def initialize(object_type, selectors: nil, filters: nil, set: nil, asignation: nil)
       @object_type = object_type
       @selectors = selectors
       @filters = filters
-      @set = set.nil? ? "_#{Digest::SHA1.hexdigest(inspect)}" : set
+      @set = set
+      @asignation = asignation.nil? ? "_#{Digest::SHA1.hexdigest(inspect)}" : "_#{asignation}"
     end
 
     sig do
@@ -28,18 +30,20 @@ module OverpassParser::Nodes
       ).returns(T.nilable(String))
     end
     def to_sql(escape_literal)
+      from = set.nil? ? object_type : "_#{set}"
       where = [
-        selectors&.to_sql(escape_literal) || [],
-        filters&.to_sql(escape_literal) || []
+        object_type == "nwr" ? "osm_type = ANY (ARRAY['node', 'way', 'relation'])" : "osm_type = '#{object_type}'",
+        selectors&.to_sql(escape_literal) || nil,
+        filters&.to_sql(escape_literal) || nil
       ].compact.join(" AND\n    ")
       return unless where
 
       """
-#{set} AS (
+#{asignation} AS (
   SELECT
     *
   FROM
-    #{object_type}
+    #{from}
   WHERE
     #{where}
 )

@@ -38,7 +38,8 @@ module OverpassParser
         ctx.object_type.text,
         selectors: (Nodes::Selectors.new(@selectors.compact) unless @selectors.empty?),
         filters: (Nodes::Filters.new(@filters.compact.dup) unless @filters.empty?),
-        set: ctx.DOT_ID&.text
+        set: ctx.DOT_ID&.text,
+        asignation: ctx&.asignation&.DOT_ID&.text
       )
       if @stack[-1].is_a?(Array)
         @stack[-1] << r

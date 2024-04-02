@@ -69,6 +69,7 @@ module OverpassParser::Nodes
       tree = OverpassParser.tree('
         [out:json][timeout:25];
         area(id:3600000001)->.a;
+        area(3600000002)->.b;
         relation[name="En aban !"](around._:500);
         >;
         nwr._[highway=bus_stop];
@@ -76,7 +77,8 @@ module OverpassParser::Nodes
       ')
       assert_equal(
         [
-          QueryObjects.new("area", filters: [Filter.new(ids: [3_600_000_001])]),
+          QueryObjects.new("area", filters: [Filter.new(ids: [3_600_000_001])], asignation: ".a"),
+          QueryObjects.new("area", filters: [Filter.new(ids: [3_600_000_002])], asignation: ".b"),
           QueryObjects.new(
             "relation",
             selectors: [Selector.new("name", value: "En aban !", operator: "=")],

@@ -22,17 +22,18 @@ module OverpassParser::Nodes
       q = ->(s) { "'#{s}'" }
       assert_equal(
         """
-_29ce396b12327b71ffd2503f771773aa25f1e855 AS (
+_.b AS (
   SELECT
     *
   FROM
-    node
+    _.a
   WHERE
+    osm_type = 'node' AND
     (tags?'a' AND tags->>'a' = 'b') AND
     ST_Envelope('LINESTRING(1.0 2.0, 3.0 4.0)'::geometry) && geom
 )
 """,
-        parse("node[a=b](1,2,3,4)").to_sql(q)
+        parse("node.a[a=b](1,2,3,4)->.b").to_sql(q)
       )
     end
   end
