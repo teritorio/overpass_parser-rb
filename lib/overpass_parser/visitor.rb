@@ -5,6 +5,7 @@ require "overpass_parser"
 require "sorbet-runtime"
 require_relative "nodes/selectors"
 require_relative "nodes/filters"
+require_relative "nodes/query_objects"
 
 module OverpassParser
   class Walker < OverpassParser::Visitor
@@ -33,9 +34,12 @@ module OverpassParser
       @filters = []
       @selectors = []
       visit_children(ctx)
-      r = { type: :query_object, set: ctx.DOT_ID&.text, object_type: ctx.object_type.text,
-            selectors: Nodes::Selectors.new(@selectors.compact),
-            filters: Nodes::Filters.new(@filters.compact.dup) }
+      r = Nodes::QueryObjects.new(
+        ctx.object_type.text,
+        selectors: (Nodes::Selectors.new(@selectors.compact) unless @selectors.empty?),
+        filters: (Nodes::Filters.new(@filters.compact.dup) unless @filters.empty?),
+        set: ctx.DOT_ID&.text
+      )
       if @stack[-1].is_a?(Array)
         @stack[-1] << r
       else

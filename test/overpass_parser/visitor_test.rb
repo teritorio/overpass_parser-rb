@@ -7,48 +7,56 @@ module OverpassParser::Nodes
     def test_quote
       tree = OverpassParser.tree("node['highway'=\"primary\"][operator=\"Commune d'Anglet\"];")
       assert_equal(
-        { type: :query_object, set: nil, object_type: "node", selectors: [
-          Selector.new("highway", value: "primary", operator: "="),
-          Selector.new("operator", value: "Commune d'Anglet", operator: "=")
-        ], filters: [] }, tree[0][:queries][0]
+        QueryObjects.new(
+          "node",
+          selectors: [
+            Selector.new("highway", value: "primary", operator: "="),
+            Selector.new("operator", value: "Commune d'Anglet", operator: "=")
+          ]
+        ),
+        tree[0][:queries][0]
       )
     end
 
     def test_selector_key
       tree = OverpassParser.tree("node[highway];")
       assert_equal(
-        { type: :query_object, set: nil, object_type: "node", selectors: [
-          Selector.new("highway", not_: false)
-        ], filters: [] }, tree[0][:queries][0]
+        QueryObjects.new("node", selectors: [Selector.new("highway", not_: false)]),
+        tree[0][:queries][0]
       )
     end
 
     def test_selector_key_value
       tree = OverpassParser.tree("node[highway=primary][ref=33];")
       assert_equal(
-        { type: :query_object, set: nil, object_type: "node", selectors: [
-          Selector.new("highway", value: "primary", operator: "="),
-          Selector.new("ref", value: "33", operator: "=")
-        ], filters: [] }, tree[0][:queries][0]
+        QueryObjects.new(
+          "node",
+          selectors: [
+            Selector.new("highway", value: "primary", operator: "="),
+            Selector.new("ref", value: "33", operator: "=")
+          ]
+        ),
+        tree[0][:queries][0]
       )
     end
 
     def test_selector_set
       tree = OverpassParser.tree("node._[highway=primary];")
       assert_equal(
-        { type: :query_object, set: "._", object_type: "node", selectors: [
-          Selector.new("highway", value: "primary", operator: "=")
-        ], filters: [] }, tree[0][:queries][0]
+        QueryObjects.new(
+          "node",
+          selectors: [Selector.new("highway", value: "primary", operator: "=")],
+          set: "._"
+        ),
+        tree[0][:queries][0]
       )
     end
 
     def test_filter_arround
       tree = OverpassParser.tree("node(around.a:100.0);")
       assert_equal(
-        { type: :query_object, set: nil, object_type: "node", selectors: [],
-          filters: [
-            Filter.new(around: FilterAround.new(core: ".a", radius: 100.0))
-          ] }, tree[0][:queries][0]
+        QueryObjects.new("node", filters: [Filter.new(around: FilterAround.new(core: ".a", radius: 100.0))]),
+        tree[0][:queries][0]
       )
     end
 
@@ -68,21 +76,20 @@ module OverpassParser::Nodes
       ')
       assert_equal(
         [
-          { type: :query_object, set: nil, object_type: "area", selectors: [],
-            filters: [
-              Filter.new(ids: [3_600_000_001])
-            ] },
-          { type: :query_object, set: nil, object_type: "relation", selectors: [
-            Selector.new("name", value: "En aban !", operator: "=")
-          ], filters: [
-            Filter.new(around: FilterAround.new(core: "._", radius: 500.0))
-          ] },
+          QueryObjects.new("area", filters: [Filter.new(ids: [3_600_000_001])]),
+          QueryObjects.new(
+            "relation",
+            selectors: [Selector.new("name", value: "En aban !", operator: "=")],
+            filters: [Filter.new(around: FilterAround.new(core: "._", radius: 500.0))]
+          ),
           { type: :query_recurse, recurse: ">" },
-          { type: :query_object, set: "._", object_type: "nwr",
-            selectors: [
-              Selector.new("highway", value: "bus_stop", operator: "=")
-            ], filters: [] }
-        ], tree[0][:queries]
+          QueryObjects.new(
+            "nwr",
+            selectors: [Selector.new("highway", value: "bus_stop", operator: "=")],
+            set: "._"
+          )
+        ],
+        tree[0][:queries]
       )
     end
   end
