@@ -22,11 +22,11 @@ module OverpassParser::Nodes
       q = ->(s) { "'#{s}'" }
       assert_equal(
         """
-_.b AS (
+_b AS (
   SELECT
     *
   FROM
-    _.a
+    _a
   WHERE
     osm_type = 'node' AND
     (tags?'a' AND tags->>'a' = 'b') AND

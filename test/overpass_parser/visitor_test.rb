@@ -46,7 +46,7 @@ module OverpassParser::Nodes
         QueryObjects.new(
           "node",
           selectors: [Selector.new("highway", value: "primary", operator: "=")],
-          set: "._"
+          set: "_"
         ),
         tree[0][:queries][0]
       )
@@ -55,7 +55,7 @@ module OverpassParser::Nodes
     def test_filter_arround
       tree = OverpassParser.tree("node(around.a:100.0);")
       assert_equal(
-        QueryObjects.new("node", filters: [Filter.new(around: FilterAround.new(core: ".a", radius: 100.0))]),
+        QueryObjects.new("node", filters: [Filter.new(around: FilterAround.new(core: "a", radius: 100.0))]),
         tree[0][:queries][0]
       )
     end
@@ -77,18 +77,18 @@ module OverpassParser::Nodes
       ')
       assert_equal(
         [
-          QueryObjects.new("area", filters: [Filter.new(ids: [3_600_000_001])], asignation: ".a"),
-          QueryObjects.new("area", filters: [Filter.new(ids: [3_600_000_002])], asignation: ".b"),
+          QueryObjects.new("area", filters: [Filter.new(ids: [3_600_000_001])], asignation: "a"),
+          QueryObjects.new("area", filters: [Filter.new(ids: [3_600_000_002])], asignation: "b"),
           QueryObjects.new(
             "relation",
             selectors: [Selector.new("name", value: "En aban !", operator: "=")],
-            filters: [Filter.new(around: FilterAround.new(core: "._", radius: 500.0))]
+            filters: [Filter.new(around: FilterAround.new(core: "_", radius: 500.0))]
           ),
           { type: :query_recurse, recurse: ">" },
           QueryObjects.new(
             "nwr",
             selectors: [Selector.new("highway", value: "bus_stop", operator: "=")],
-            set: "._"
+            set: "_"
           )
         ],
         tree[0][:queries]
