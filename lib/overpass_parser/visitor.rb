@@ -29,7 +29,10 @@ module OverpassParser
     def visit_query_union(ctx)
       @stack.push([])
       visit_children(ctx)
-      r = Nodes::QueryUnion.new(@stack.pop)
+      r = Nodes::QueryUnion.new(
+        queries: @stack.pop,
+        asignation: ctx&.asignation&.DOT_ID&.text&.[](1)
+      )
       @stack.push(r)
     end
 
@@ -53,7 +56,10 @@ module OverpassParser
 
     def visit_query_recurse(ctx)
       visit_children(ctx)
-      r = Nodes::QueryRecurse.new(recurse: ctx.text)
+      r = Nodes::QueryRecurse.new(
+        recurse: ctx.text,
+        asignation: ctx&.asignation&.DOT_ID&.text&.[](1)
+      )
       if @stack[-1].is_a?(Array)
         @stack[-1] << r
       else

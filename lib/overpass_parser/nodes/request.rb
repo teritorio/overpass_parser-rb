@@ -26,7 +26,7 @@ module OverpassParser
 SELECT
   *
 FROM (
-  #{asignations.join(" UNION ALL")}
+  #{asignations.join(" UNION ALL ")}
 ) AS t"
       end
     end

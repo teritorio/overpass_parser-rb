@@ -303,6 +303,7 @@ public:
   public:
     Query_recurseContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
+    AsignationContext *asignation();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -333,6 +334,7 @@ public:
   public:
     Query_unionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
+    AsignationContext *asignation();
     std::vector<Query_sequenceContext *> query_sequence();
     Query_sequenceContext* query_sequence(size_t i);
 

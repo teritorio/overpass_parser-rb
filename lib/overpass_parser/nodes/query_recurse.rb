@@ -12,6 +12,7 @@ module OverpassParser
       extend T::Sig
 
       const :recurse, String
+      const :asignation, T.nilable(String)
 
       sig do
         params(

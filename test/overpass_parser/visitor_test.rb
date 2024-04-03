@@ -68,14 +68,14 @@ module OverpassParser
 
       def test_full
         tree = OverpassParser.tree('
-        [out:json][timeout:25];
-        area(id:3600000001)->.a;
-        area(3600000002)->.b;
-        relation[name="En aban !"](around._:500);
-        >;
-        nwr._[highway=bus_stop];
-        out center meta;
-      ')
+          [out:json][timeout:25];
+          area(id:3600000001)->.a;
+          area(3600000002)->.b;
+          relation[name="En aban !"](around._:500);
+          >;
+          nwr._[highway=bus_stop];
+          out center meta;
+        ')
         assert_equal(
           Request.new(queries:
             [
@@ -95,6 +95,62 @@ module OverpassParser
             ]),
           tree[0]
         )
+      end
+
+      def test_to_sql
+        tree = OverpassParser.tree('
+          [out:json][timeout:25];
+          area(3600166718)->.a;
+          (
+            nwr[a="Ñ"](area.a)->.x;
+            nwr[c](area.a)->.z;
+          )->.k;
+          out center meta;
+        ')
+        q = ->(s) { "'#{s}'" }
+
+        assert_equal("WITH
+_a AS (
+  SELECT
+    *
+  FROM
+    area
+  WHERE
+    osm_type = 'area' AND
+    id = ANY (ARRAY[3600166718])
+),
+_k AS WITH
+_x AS (
+  SELECT
+    *
+  FROM
+    nwr
+  WHERE
+    osm_type = ANY (ARRAY['node', 'way', 'relation']) AND
+    (tags?'a' AND tags->>'a' = 'Ñ') AND
+    ST_Intersects(geom, (SELECT geom FROM a))
+),
+_z AS (
+  SELECT
+    *
+  FROM
+    nwr
+  WHERE
+    osm_type = ANY (ARRAY['node', 'way', 'relation']) AND
+    tags?'c' AND
+    ST_Intersects(geom, (SELECT geom FROM a))
+)
+SELECT
+  *
+FROM (
+  _x UNION ALL _z
+) AS t
+SELECT
+  *
+FROM (
+  _a UNION ALL _k
+) AS t",
+                     tree[0].to_sql(q))
       end
     end
   end

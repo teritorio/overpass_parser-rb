@@ -27,8 +27,7 @@ token:
 	| UNQUOTED_STRING
 	| number;
 
-metadata:
-	'[' 'out:json' ']' ('[' 'timeout:' number ']')?;
+metadata: '[' 'out:json' ']' ('[' 'timeout:' number ']')?;
 
 selector:
 	'[' (
@@ -36,8 +35,7 @@ selector:
 		| (key = token OPERATOR value = token)
 	) ']';
 
-filter_bbox:
-	number ',' number ',' number ',' number;
+filter_bbox: number ',' number ',' number ',' number;
 filter_osm_id: osm_id;
 filter_osm_ids: 'id:' osm_id (',' osm_id)*;
 filter_area: 'area' DOT_ID;
@@ -53,13 +51,13 @@ filter:
 asignation: '->' DOT_ID;
 
 object_type: 'node' | 'way' | 'relation' | 'area' | 'nwr';
-query_object: (object_type DOT_ID? selector* filter* asignation?);
+query_object: object_type DOT_ID? selector* filter* asignation?;
 
-query_recurse: '<' | '<<' | '>' | '>>';
+query_recurse: ('<' | '<<' | '>' | '>>') asignation?;
 
 query: query_object | query_recurse;
 
-query_union: ('(' (query_sequence ';')+ ')');
+query_union: ('(' (query_sequence ';')+ ')') asignation?;
 query_sequence: query | query_union;
 
 ouput: 'out' 'center' 'meta';

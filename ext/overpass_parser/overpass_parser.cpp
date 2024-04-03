@@ -266,7 +266,7 @@ public:
 class Query_recurseContextProxy : public ContextProxy {
 public:
   Query_recurseContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
-
+  Object asignation();
 
 };
 
@@ -281,6 +281,7 @@ public:
 class Query_unionContextProxy : public ContextProxy {
 public:
   Query_unionContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
+  Object asignation();
   Object query_sequence();
   Object query_sequenceAt(size_t i);
 
@@ -1283,6 +1284,26 @@ Object Query_objectContextProxy::DOT_ID() {
   return detail::To_Ruby<TerminalNodeProxy>().convert(proxy);
 }
 
+Object Query_recurseContextProxy::asignation() {
+  if (orig == nullptr) {
+    return Qnil;
+  }
+
+  auto ctx = ((OverpassParser::Query_recurseContext*)orig) -> asignation();
+
+  if (ctx == nullptr) {
+    return Qnil;
+  }
+
+  for (auto child : getChildren()) {
+    if (ctx == detail::From_Ruby<ContextProxy>().convert(child.value()).getOriginal()) {
+      return child;
+    }
+  }
+
+  return Nil;
+}
+
 Object QueryContextProxy::query_object() {
   if (orig == nullptr) {
     return Qnil;
@@ -1309,6 +1330,26 @@ Object QueryContextProxy::query_recurse() {
   }
 
   auto ctx = ((OverpassParser::QueryContext*)orig) -> query_recurse();
+
+  if (ctx == nullptr) {
+    return Qnil;
+  }
+
+  for (auto child : getChildren()) {
+    if (ctx == detail::From_Ruby<ContextProxy>().convert(child.value()).getOriginal()) {
+      return child;
+    }
+  }
+
+  return Nil;
+}
+
+Object Query_unionContextProxy::asignation() {
+  if (orig == nullptr) {
+    return Qnil;
+  }
+
+  auto ctx = ((OverpassParser::Query_unionContext*)orig) -> asignation();
 
   if (ctx == nullptr) {
     return Qnil;
@@ -1877,13 +1918,15 @@ void Init_overpass_parser() {
     .define_method("asignation", &Query_objectContextProxy::asignation)
     .define_method("DOT_ID", &Query_objectContextProxy::DOT_ID);
 
-  rb_cQuery_recurseContext = define_class_under<Query_recurseContextProxy, ContextProxy>(rb_mOverpassParser, "Query_recurseContext");
+  rb_cQuery_recurseContext = define_class_under<Query_recurseContextProxy, ContextProxy>(rb_mOverpassParser, "Query_recurseContext")
+    .define_method("asignation", &Query_recurseContextProxy::asignation);
 
   rb_cQueryContext = define_class_under<QueryContextProxy, ContextProxy>(rb_mOverpassParser, "QueryContext")
     .define_method("query_object", &QueryContextProxy::query_object)
     .define_method("query_recurse", &QueryContextProxy::query_recurse);
 
   rb_cQuery_unionContext = define_class_under<Query_unionContextProxy, ContextProxy>(rb_mOverpassParser, "Query_unionContext")
+    .define_method("asignation", &Query_unionContextProxy::asignation)
     .define_method("query_sequence", &Query_unionContextProxy::query_sequence)
     .define_method("query_sequence_at", &Query_unionContextProxy::query_sequenceAt);
 
