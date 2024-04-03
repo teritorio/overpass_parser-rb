@@ -79,7 +79,7 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual std::any visitQuery_group(OverpassParser::Query_groupContext *ctx) override {
+  virtual std::any visitQuery_union(OverpassParser::Query_unionContext *ctx) override {
     return visitChildren(ctx);
   }
 

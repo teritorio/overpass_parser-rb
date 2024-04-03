@@ -40,7 +40,7 @@ Class rb_cObject_typeContext;
 Class rb_cQuery_objectContext;
 Class rb_cQuery_recurseContext;
 Class rb_cQueryContext;
-Class rb_cQuery_groupContext;
+Class rb_cQuery_unionContext;
 Class rb_cQuery_sequenceContext;
 Class rb_cOuputContext;
 Class rb_cRequestContext;
@@ -278,9 +278,9 @@ public:
 
 };
 
-class Query_groupContextProxy : public ContextProxy {
+class Query_unionContextProxy : public ContextProxy {
 public:
-  Query_groupContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
+  Query_unionContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
   Object query_sequence();
   Object query_sequenceAt(size_t i);
 
@@ -290,7 +290,7 @@ class Query_sequenceContextProxy : public ContextProxy {
 public:
   Query_sequenceContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
   Object query();
-  Object query_group();
+  Object query_union();
 
 };
 
@@ -634,20 +634,20 @@ namespace Rice::detail {
 
 namespace Rice::detail {
   template <>
-  class To_Ruby<OverpassParser::Query_groupContext*> {
+  class To_Ruby<OverpassParser::Query_unionContext*> {
   public:
-    VALUE convert(OverpassParser::Query_groupContext* const &x) {
+    VALUE convert(OverpassParser::Query_unionContext* const &x) {
       if (!x) return Nil;
-      return Data_Object<OverpassParser::Query_groupContext>(x, false, rb_cQuery_groupContext);
+      return Data_Object<OverpassParser::Query_unionContext>(x, false, rb_cQuery_unionContext);
     }
   };
 
   template <>
-  class To_Ruby<Query_groupContextProxy*> {
+  class To_Ruby<Query_unionContextProxy*> {
   public:
-    VALUE convert(Query_groupContextProxy* const &x) {
+    VALUE convert(Query_unionContextProxy* const &x) {
       if (!x) return Nil;
-      return Data_Object<Query_groupContextProxy>(x, false, rb_cQuery_groupContext);
+      return Data_Object<Query_unionContextProxy>(x, false, rb_cQuery_unionContext);
     }
   };
 }
@@ -1323,11 +1323,11 @@ Object QueryContextProxy::query_recurse() {
   return Nil;
 }
 
-Object Query_groupContextProxy::query_sequence() {
+Object Query_unionContextProxy::query_sequence() {
   Array a;
 
   if (orig != nullptr) {
-    size_t count = ((OverpassParser::Query_groupContext*)orig) -> query_sequence().size();
+    size_t count = ((OverpassParser::Query_unionContext*)orig) -> query_sequence().size();
 
     for (size_t i = 0; i < count; i ++) {
       a.push(query_sequenceAt(i));
@@ -1337,12 +1337,12 @@ Object Query_groupContextProxy::query_sequence() {
   return std::move(a);
 }
 
-Object Query_groupContextProxy::query_sequenceAt(size_t i) {
+Object Query_unionContextProxy::query_sequenceAt(size_t i) {
   if (orig == nullptr) {
     return Qnil;
   }
 
-  auto ctx = ((OverpassParser::Query_groupContext*)orig) -> query_sequence(i);
+  auto ctx = ((OverpassParser::Query_unionContext*)orig) -> query_sequence(i);
 
   if (ctx == nullptr) {
     return Qnil;
@@ -1377,12 +1377,12 @@ Object Query_sequenceContextProxy::query() {
   return Nil;
 }
 
-Object Query_sequenceContextProxy::query_group() {
+Object Query_sequenceContextProxy::query_union() {
   if (orig == nullptr) {
     return Qnil;
   }
 
-  auto ctx = ((OverpassParser::Query_sequenceContext*)orig) -> query_group();
+  auto ctx = ((OverpassParser::Query_sequenceContext*)orig) -> query_union();
 
   if (ctx == nullptr) {
     return Qnil;
@@ -1574,9 +1574,9 @@ public:
     return getSelf().call("visit_query", &proxy);
   }
 
-  virtual antlrcpp::Any visitQuery_group(OverpassParser::Query_groupContext *ctx) override {
-    Query_groupContextProxy proxy(ctx);
-    return getSelf().call("visit_query_group", &proxy);
+  virtual antlrcpp::Any visitQuery_union(OverpassParser::Query_unionContext *ctx) override {
+    Query_unionContextProxy proxy(ctx);
+    return getSelf().call("visit_query_union", &proxy);
   }
 
   virtual antlrcpp::Any visitQuery_sequence(OverpassParser::Query_sequenceContext *ctx) override {
@@ -1737,9 +1737,9 @@ Object ContextProxy::wrapParseTree(tree::ParseTree* node) {
     QueryContextProxy proxy((OverpassParser::QueryContext*)node);
     return detail::To_Ruby<QueryContextProxy>().convert(proxy);
   }
-  else if (antlrcpp::is<OverpassParser::Query_groupContext*>(node)) {
-    Query_groupContextProxy proxy((OverpassParser::Query_groupContext*)node);
-    return detail::To_Ruby<Query_groupContextProxy>().convert(proxy);
+  else if (antlrcpp::is<OverpassParser::Query_unionContext*>(node)) {
+    Query_unionContextProxy proxy((OverpassParser::Query_unionContext*)node);
+    return detail::To_Ruby<Query_unionContextProxy>().convert(proxy);
   }
   else if (antlrcpp::is<OverpassParser::Query_sequenceContext*>(node)) {
     Query_sequenceContextProxy proxy((OverpassParser::Query_sequenceContext*)node);
@@ -1805,7 +1805,7 @@ void Init_overpass_parser() {
     .define_method("visit_query_object", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_query_recurse", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_query", &VisitorProxy::ruby_visitChildren)
-    .define_method("visit_query_group", &VisitorProxy::ruby_visitChildren)
+    .define_method("visit_query_union", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_query_sequence", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_ouput", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_request", &VisitorProxy::ruby_visitChildren);
@@ -1883,13 +1883,13 @@ void Init_overpass_parser() {
     .define_method("query_object", &QueryContextProxy::query_object)
     .define_method("query_recurse", &QueryContextProxy::query_recurse);
 
-  rb_cQuery_groupContext = define_class_under<Query_groupContextProxy, ContextProxy>(rb_mOverpassParser, "Query_groupContext")
-    .define_method("query_sequence", &Query_groupContextProxy::query_sequence)
-    .define_method("query_sequence_at", &Query_groupContextProxy::query_sequenceAt);
+  rb_cQuery_unionContext = define_class_under<Query_unionContextProxy, ContextProxy>(rb_mOverpassParser, "Query_unionContext")
+    .define_method("query_sequence", &Query_unionContextProxy::query_sequence)
+    .define_method("query_sequence_at", &Query_unionContextProxy::query_sequenceAt);
 
   rb_cQuery_sequenceContext = define_class_under<Query_sequenceContextProxy, ContextProxy>(rb_mOverpassParser, "Query_sequenceContext")
     .define_method("query", &Query_sequenceContextProxy::query)
-    .define_method("query_group", &Query_sequenceContextProxy::query_group);
+    .define_method("query_union", &Query_sequenceContextProxy::query_union);
 
   rb_cOuputContext = define_class_under<OuputContextProxy, ContextProxy>(rb_mOverpassParser, "OuputContext");
 

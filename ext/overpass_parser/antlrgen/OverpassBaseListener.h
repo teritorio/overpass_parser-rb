@@ -64,8 +64,8 @@ public:
   virtual void enterQuery(OverpassParser::QueryContext * /*ctx*/) override { }
   virtual void exitQuery(OverpassParser::QueryContext * /*ctx*/) override { }
 
-  virtual void enterQuery_group(OverpassParser::Query_groupContext * /*ctx*/) override { }
-  virtual void exitQuery_group(OverpassParser::Query_groupContext * /*ctx*/) override { }
+  virtual void enterQuery_union(OverpassParser::Query_unionContext * /*ctx*/) override { }
+  virtual void exitQuery_union(OverpassParser::Query_unionContext * /*ctx*/) override { }
 
   virtual void enterQuery_sequence(OverpassParser::Query_sequenceContext * /*ctx*/) override { }
   virtual void exitQuery_sequence(OverpassParser::Query_sequenceContext * /*ctx*/) override { }

@@ -59,8 +59,8 @@ query_recurse: '<' | '<<' | '>' | '>>';
 
 query: query_object | query_recurse;
 
-query_group: ('(' (query_sequence ';')+ ')');
-query_sequence: query | query_group;
+query_union: ('(' (query_sequence ';')+ ')');
+query_sequence: query | query_union;
 
 ouput: 'out' 'center' 'meta';
 

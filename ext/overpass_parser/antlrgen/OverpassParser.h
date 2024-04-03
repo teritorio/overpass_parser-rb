@@ -26,7 +26,7 @@ public:
     RuleFilter_bbox = 5, RuleFilter_osm_id = 6, RuleFilter_osm_ids = 7, 
     RuleFilter_area = 8, RuleFilter_around = 9, RuleFilter = 10, RuleAsignation = 11, 
     RuleObject_type = 12, RuleQuery_object = 13, RuleQuery_recurse = 14, 
-    RuleQuery = 15, RuleQuery_group = 16, RuleQuery_sequence = 17, RuleOuput = 18, 
+    RuleQuery = 15, RuleQuery_union = 16, RuleQuery_sequence = 17, RuleOuput = 18, 
     RuleRequest = 19
   };
 
@@ -63,7 +63,7 @@ public:
   class Query_objectContext;
   class Query_recurseContext;
   class QueryContext;
-  class Query_groupContext;
+  class Query_unionContext;
   class Query_sequenceContext;
   class OuputContext;
   class RequestContext; 
@@ -329,9 +329,9 @@ public:
 
   QueryContext* query();
 
-  class  Query_groupContext : public antlr4::ParserRuleContext {
+  class  Query_unionContext : public antlr4::ParserRuleContext {
   public:
-    Query_groupContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    Query_unionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     std::vector<Query_sequenceContext *> query_sequence();
     Query_sequenceContext* query_sequence(size_t i);
@@ -343,14 +343,14 @@ public:
    
   };
 
-  Query_groupContext* query_group();
+  Query_unionContext* query_union();
 
   class  Query_sequenceContext : public antlr4::ParserRuleContext {
   public:
     Query_sequenceContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     QueryContext *query();
-    Query_groupContext *query_group();
+    Query_unionContext *query_union();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;

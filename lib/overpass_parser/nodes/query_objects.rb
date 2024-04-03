@@ -38,16 +38,14 @@ module OverpassParser::Nodes
       ].compact.join(" AND\n    ")
       return unless where
 
-      """
-#{asignation} AS (
+      """#{asignation} AS (
   SELECT
     *
   FROM
     #{from}
   WHERE
     #{where}
-)
-"""
+)"""
     end
   end
 end

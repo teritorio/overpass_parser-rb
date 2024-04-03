@@ -76,21 +76,23 @@ module OverpassParser::Nodes
         out center meta;
       ')
       assert_equal(
-        [
-          QueryObjects.new("area", filters: [Filter.new(ids: [3_600_000_001])], asignation: "a"),
-          QueryObjects.new("area", filters: [Filter.new(ids: [3_600_000_002])], asignation: "b"),
-          QueryObjects.new(
-            "relation",
-            selectors: [Selector.new("name", value: "En aban !", operator: "=")],
-            filters: [Filter.new(around: FilterAround.new(core: "_", radius: 500.0))]
-          ),
-          { type: :query_recurse, recurse: ">" },
-          QueryObjects.new(
-            "nwr",
-            selectors: [Selector.new("highway", value: "bus_stop", operator: "=")],
-            set: "_"
-          )
-        ],
+        QueryUnion.new(
+          [
+            QueryObjects.new("area", filters: [Filter.new(ids: [3_600_000_001])], asignation: "a"),
+            QueryObjects.new("area", filters: [Filter.new(ids: [3_600_000_002])], asignation: "b"),
+            QueryObjects.new(
+              "relation",
+              selectors: [Selector.new("name", value: "En aban !", operator: "=")],
+              filters: [Filter.new(around: FilterAround.new(core: "_", radius: 500.0))]
+            ),
+            { type: :query_recurse, recurse: ">" },
+            QueryObjects.new(
+              "nwr",
+              selectors: [Selector.new("highway", value: "bus_stop", operator: "=")],
+              set: "_"
+            )
+          ]
+        ),
         tree[0][:queries]
       )
     end

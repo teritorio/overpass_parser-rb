@@ -6,6 +6,7 @@ require "sorbet-runtime"
 require_relative "nodes/selectors"
 require_relative "nodes/filters"
 require_relative "nodes/query_objects"
+require_relative "nodes/query_union"
 
 module OverpassParser
   class Walker < OverpassParser::Visitor
@@ -23,10 +24,10 @@ module OverpassParser
       @stack.push(r)
     end
 
-    def visit_query_group(ctx)
+    def visit_query_union(ctx)
       @stack.push([])
       visit_children(ctx)
-      r = { type: :query_group, queries: @stack.pop }
+      r = Nodes::QueryUnion.new(@stack.pop)
       @stack.push(r)
     end
 

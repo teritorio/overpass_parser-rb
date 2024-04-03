@@ -47,7 +47,7 @@ void overpassParserInitialize() {
       "osm_id", "number", "token", "metadata", "selector", "filter_bbox", 
       "filter_osm_id", "filter_osm_ids", "filter_area", "filter_around", 
       "filter", "asignation", "object_type", "query_object", "query_recurse", 
-      "query", "query_group", "query_sequence", "ouput", "request"
+      "query", "query_union", "query_sequence", "ouput", "request"
     },
     std::vector<std::string>{
       "", "'['", "'out:json'", "']'", "'timeout:'", "','", "'id:'", "'area'", 
@@ -1472,48 +1472,48 @@ OverpassParser::QueryContext* OverpassParser::query() {
   return _localctx;
 }
 
-//----------------- Query_groupContext ------------------------------------------------------------------
+//----------------- Query_unionContext ------------------------------------------------------------------
 
-OverpassParser::Query_groupContext::Query_groupContext(ParserRuleContext *parent, size_t invokingState)
+OverpassParser::Query_unionContext::Query_unionContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-std::vector<OverpassParser::Query_sequenceContext *> OverpassParser::Query_groupContext::query_sequence() {
+std::vector<OverpassParser::Query_sequenceContext *> OverpassParser::Query_unionContext::query_sequence() {
   return getRuleContexts<OverpassParser::Query_sequenceContext>();
 }
 
-OverpassParser::Query_sequenceContext* OverpassParser::Query_groupContext::query_sequence(size_t i) {
+OverpassParser::Query_sequenceContext* OverpassParser::Query_unionContext::query_sequence(size_t i) {
   return getRuleContext<OverpassParser::Query_sequenceContext>(i);
 }
 
 
-size_t OverpassParser::Query_groupContext::getRuleIndex() const {
-  return OverpassParser::RuleQuery_group;
+size_t OverpassParser::Query_unionContext::getRuleIndex() const {
+  return OverpassParser::RuleQuery_union;
 }
 
-void OverpassParser::Query_groupContext::enterRule(tree::ParseTreeListener *listener) {
+void OverpassParser::Query_unionContext::enterRule(tree::ParseTreeListener *listener) {
   auto parserListener = dynamic_cast<OverpassListener *>(listener);
   if (parserListener != nullptr)
-    parserListener->enterQuery_group(this);
+    parserListener->enterQuery_union(this);
 }
 
-void OverpassParser::Query_groupContext::exitRule(tree::ParseTreeListener *listener) {
+void OverpassParser::Query_unionContext::exitRule(tree::ParseTreeListener *listener) {
   auto parserListener = dynamic_cast<OverpassListener *>(listener);
   if (parserListener != nullptr)
-    parserListener->exitQuery_group(this);
+    parserListener->exitQuery_union(this);
 }
 
 
-std::any OverpassParser::Query_groupContext::accept(tree::ParseTreeVisitor *visitor) {
+std::any OverpassParser::Query_unionContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<OverpassVisitor*>(visitor))
-    return parserVisitor->visitQuery_group(this);
+    return parserVisitor->visitQuery_union(this);
   else
     return visitor->visitChildren(this);
 }
 
-OverpassParser::Query_groupContext* OverpassParser::query_group() {
-  Query_groupContext *_localctx = _tracker.createInstance<Query_groupContext>(_ctx, getState());
-  enterRule(_localctx, 32, OverpassParser::RuleQuery_group);
+OverpassParser::Query_unionContext* OverpassParser::query_union() {
+  Query_unionContext *_localctx = _tracker.createInstance<Query_unionContext>(_ctx, getState());
+  enterRule(_localctx, 32, OverpassParser::RuleQuery_union);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1572,8 +1572,8 @@ OverpassParser::QueryContext* OverpassParser::Query_sequenceContext::query() {
   return getRuleContext<OverpassParser::QueryContext>(0);
 }
 
-OverpassParser::Query_groupContext* OverpassParser::Query_sequenceContext::query_group() {
-  return getRuleContext<OverpassParser::Query_groupContext>(0);
+OverpassParser::Query_unionContext* OverpassParser::Query_sequenceContext::query_union() {
+  return getRuleContext<OverpassParser::Query_unionContext>(0);
 }
 
 
@@ -1634,7 +1634,7 @@ OverpassParser::Query_sequenceContext* OverpassParser::query_sequence() {
       case OverpassParser::T__9: {
         enterOuterAlt(_localctx, 2);
         setState(151);
-        query_group();
+        query_union();
         break;
       }
 

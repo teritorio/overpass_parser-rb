@@ -27,13 +27,13 @@ public class OverpassParser extends Parser {
 		RULE_filter_bbox = 5, RULE_filter_osm_id = 6, RULE_filter_osm_ids = 7, 
 		RULE_filter_area = 8, RULE_filter_around = 9, RULE_filter = 10, RULE_asignation = 11, 
 		RULE_object_type = 12, RULE_query_object = 13, RULE_query_recurse = 14, 
-		RULE_query = 15, RULE_query_group = 16, RULE_query_sequence = 17, RULE_ouput = 18, 
+		RULE_query = 15, RULE_query_union = 16, RULE_query_sequence = 17, RULE_ouput = 18, 
 		RULE_request = 19;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"osm_id", "number", "token", "metadata", "selector", "filter_bbox", "filter_osm_id", 
 			"filter_osm_ids", "filter_area", "filter_around", "filter", "asignation", 
-			"object_type", "query_object", "query_recurse", "query", "query_group", 
+			"object_type", "query_object", "query_recurse", "query", "query_union", 
 			"query_sequence", "ouput", "request"
 		};
 	}
@@ -904,22 +904,22 @@ public class OverpassParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Query_groupContext extends ParserRuleContext {
+	public static class Query_unionContext extends ParserRuleContext {
 		public List<Query_sequenceContext> query_sequence() {
 			return getRuleContexts(Query_sequenceContext.class);
 		}
 		public Query_sequenceContext query_sequence(int i) {
 			return getRuleContext(Query_sequenceContext.class,i);
 		}
-		public Query_groupContext(ParserRuleContext parent, int invokingState) {
+		public Query_unionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_query_group; }
+		@Override public int getRuleIndex() { return RULE_query_union; }
 	}
 
-	public final Query_groupContext query_group() throws RecognitionException {
-		Query_groupContext _localctx = new Query_groupContext(_ctx, getState());
-		enterRule(_localctx, 32, RULE_query_group);
+	public final Query_unionContext query_union() throws RecognitionException {
+		Query_unionContext _localctx = new Query_unionContext(_ctx, getState());
+		enterRule(_localctx, 32, RULE_query_union);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
@@ -963,8 +963,8 @@ public class OverpassParser extends Parser {
 		public QueryContext query() {
 			return getRuleContext(QueryContext.class,0);
 		}
-		public Query_groupContext query_group() {
-			return getRuleContext(Query_groupContext.class,0);
+		public Query_unionContext query_union() {
+			return getRuleContext(Query_unionContext.class,0);
 		}
 		public Query_sequenceContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -998,7 +998,7 @@ public class OverpassParser extends Parser {
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(151);
-				query_group();
+				query_union();
 				}
 				break;
 			default:

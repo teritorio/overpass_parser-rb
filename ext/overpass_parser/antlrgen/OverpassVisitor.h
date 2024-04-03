@@ -51,7 +51,7 @@ public:
 
     virtual std::any visitQuery(OverpassParser::QueryContext *context) = 0;
 
-    virtual std::any visitQuery_group(OverpassParser::Query_groupContext *context) = 0;
+    virtual std::any visitQuery_union(OverpassParser::Query_unionContext *context) = 0;
 
     virtual std::any visitQuery_sequence(OverpassParser::Query_sequenceContext *context) = 0;
 
