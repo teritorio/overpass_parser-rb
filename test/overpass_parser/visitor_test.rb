@@ -63,7 +63,7 @@ module OverpassParser
 
       def test_recurse
         tree = OverpassParser.tree(">;")
-        assert_equal({ type: :query_recurse, recurse: ">" }, tree[0].queries[0])
+        assert_equal(QueryRecurse.new(recurse: ">"), tree[0].queries[0])
       end
 
       def test_full
@@ -77,7 +77,7 @@ module OverpassParser
         out center meta;
       ')
         assert_equal(
-          QueryUnion.new(
+          Request.new(queries:
             [
               QueryObjects.new("area", filters: [Filter.new(ids: [3_600_000_001])], asignation: "a"),
               QueryObjects.new("area", filters: [Filter.new(ids: [3_600_000_002])], asignation: "b"),

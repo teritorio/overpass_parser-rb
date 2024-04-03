@@ -7,6 +7,7 @@ require_relative "nodes/selectors"
 require_relative "nodes/filters"
 require_relative "nodes/query_objects"
 require_relative "nodes/query_union"
+require_relative "nodes/query_recurse"
 require_relative "nodes/request"
 
 module OverpassParser
@@ -52,7 +53,7 @@ module OverpassParser
 
     def visit_query_recurse(ctx)
       visit_children(ctx)
-      r = { type: :query_recurse, recurse: ctx.text }
+      r = Nodes::QueryRecurse.new(recurse: ctx.text)
       if @stack[-1].is_a?(Array)
         @stack[-1] << r
       else

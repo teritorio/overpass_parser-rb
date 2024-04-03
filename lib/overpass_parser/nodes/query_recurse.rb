@@ -7,11 +7,11 @@ require "digest/sha1"
 
 module OverpassParser
   module Nodes
-    class Request < T::Struct
+    class QueryRecurse < T::Struct
       include T::Struct::ActsAsComparable
       extend T::Sig
 
-      const :queries, T::Array[T.any(QueryObjects, QueryUnion, QueryRecurse)]
+      const :recurse, String
 
       sig do
         params(
@@ -19,15 +19,7 @@ module OverpassParser
         ).returns(T.nilable(String))
       end
       def to_sql(escape_literal)
-        asignations = queries.collect(&:asignation)
-        with = queries.collect { |q| q.to_sql(escape_literal) }.join(",\n")
-        "WITH
-#{with}
-SELECT
-  *
-FROM (
-  #{asignations.join(" UNION ALL")}
-) AS t"
+        # TODO
       end
     end
   end
