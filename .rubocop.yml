@@ -1,7 +1,9 @@
 AllCops:
+  NewCops: enable
   TargetRubyVersion: 3.0
   Exclude:
   - 'ext/**/*'
+  - '*.gemspec'
 
 Style/StringLiterals:
   Enabled: true
@@ -13,3 +15,18 @@ Style/StringLiteralsInInterpolation:
 
 Layout/LineLength:
   Max: 120
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 40
+
+Metrics/CyclomaticComplexity:
+  Max: 20
+
+Metrics/MethodLength:
+  Max: 30
+
+Metrics/PerceivedComplexity:
+  Max: 20

@@ -74,12 +74,14 @@ module OverpassParser
       visit_children(ctx)
       r = Nodes::Filter.new(
         bbox: ctx.filter_bbox&.number&.collect(&:text)&.collect(&:to_f),
-        ids: (!ctx.filter_osm_id.nil? ? [ctx.filter_osm_id] : ctx.filter_osm_ids&.osm_id)&.collect(&:text)&.collect(&:to_i),
+        ids: (
+          ctx.filter_osm_id.nil? ? ctx.filter_osm_ids&.osm_id : [ctx.filter_osm_id])
+            &.collect(&:text)&.collect(&:to_i),
         area_id: ctx.filter_area&.DOT_ID&.text&.[](1),
-        around: ctx.filter_around && Nodes::FilterAround.new(
+        around: (ctx.filter_around && Nodes::FilterAround.new(
           core: ctx.filter_around.DOT_ID.text&.[](1),
           radius: ctx.filter_around.number.text.to_f
-        ) || nil
+        )) || nil
       )
       @filters << r
     end
