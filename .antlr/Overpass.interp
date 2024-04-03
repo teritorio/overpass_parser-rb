@@ -93,7 +93,7 @@ object_type
 query_object
 query_recurse
 query
-query_group
+query_union
 query_sequence
 ouput
 request
