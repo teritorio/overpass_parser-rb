@@ -31,9 +31,8 @@ SELECT
   nodes,
   members,
   ST_PointOnSurface(geom) AS geom
-FROM (
-  (SELECT * FROM _a)
-) AS t",
+FROM
+  _a",
           OverpassParser.tree("[out:json][timeout:25];node(1)->.a;out center meta;")[0].to_sql(q)
         )
       end

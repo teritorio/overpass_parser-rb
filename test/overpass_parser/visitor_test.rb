@@ -159,10 +159,8 @@ SELECT
   nodes,
   members,
   ST_PointOnSurface(geom) AS geom
-FROM (
-  (SELECT * FROM _a) UNION ALL
-  (SELECT * FROM _k)
-) AS t",
+FROM
+  _k",
                      tree[0].to_sql(q))
       end
     end

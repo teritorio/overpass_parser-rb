@@ -32,9 +32,8 @@ module OverpassParser
         "WITH
 #{with}
 #{select}
-FROM (
-  #{asignations.join(" UNION ALL\n  ")}
-) AS t"
+FROM
+  #{queries[-1].asignation}"
       end
     end
   end
