@@ -86,15 +86,14 @@ module OverpassParser
                 selectors: [Selector.new("name", value: "En aban !", operator: "=")],
                 filters: [Filter.new(around: FilterAround.new(core: "_", radius: 500.0))]
               ),
-              { type: :query_recurse, recurse: ">" },
+              QueryRecurse.new(recurse: ">"),
               QueryObjects.new(
                 "nwr",
                 selectors: [Selector.new("highway", value: "bus_stop", operator: "=")],
                 set: "_"
               )
-            ]
-          ),
-          tree[0].queries
+            ]),
+          tree[0]
         )
       end
     end

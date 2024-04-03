@@ -2,7 +2,6 @@
 # typed: true
 
 require "sorbet-runtime"
-require "sorbet-struct-comparable"
 require "digest/sha1"
 
 module OverpassParser
