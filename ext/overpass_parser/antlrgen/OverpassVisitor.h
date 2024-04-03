@@ -55,7 +55,11 @@ public:
 
     virtual std::any visitQuery_sequence(OverpassParser::Query_sequenceContext *context) = 0;
 
-    virtual std::any visitOuput(OverpassParser::OuputContext *context) = 0;
+    virtual std::any visitOut_geom(OverpassParser::Out_geomContext *context) = 0;
+
+    virtual std::any visitOut_level_of_details(OverpassParser::Out_level_of_detailsContext *context) = 0;
+
+    virtual std::any visitOut(OverpassParser::OutContext *context) = 0;
 
     virtual std::any visitRequest(OverpassParser::RequestContext *context) = 0;
 

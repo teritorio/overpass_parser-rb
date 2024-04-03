@@ -42,7 +42,9 @@ Class rb_cQuery_recurseContext;
 Class rb_cQueryContext;
 Class rb_cQuery_unionContext;
 Class rb_cQuery_sequenceContext;
-Class rb_cOuputContext;
+Class rb_cOut_geomContext;
+Class rb_cOut_level_of_detailsContext;
+Class rb_cOutContext;
 Class rb_cRequestContext;
 Class rb_cToken;
 Class rb_cParser;
@@ -295,10 +297,25 @@ public:
 
 };
 
-class OuputContextProxy : public ContextProxy {
+class Out_geomContextProxy : public ContextProxy {
 public:
-  OuputContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
+  Out_geomContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
 
+
+};
+
+class Out_level_of_detailsContextProxy : public ContextProxy {
+public:
+  Out_level_of_detailsContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
+
+
+};
+
+class OutContextProxy : public ContextProxy {
+public:
+  OutContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
+  Object out_geom();
+  Object out_level_of_details();
 
 };
 
@@ -308,7 +325,7 @@ public:
   Object metadata();
   Object query_sequence();
   Object query_sequenceAt(size_t i);
-  Object ouput();
+  Object out();
 
 };
 
@@ -675,20 +692,60 @@ namespace Rice::detail {
 
 namespace Rice::detail {
   template <>
-  class To_Ruby<OverpassParser::OuputContext*> {
+  class To_Ruby<OverpassParser::Out_geomContext*> {
   public:
-    VALUE convert(OverpassParser::OuputContext* const &x) {
+    VALUE convert(OverpassParser::Out_geomContext* const &x) {
       if (!x) return Nil;
-      return Data_Object<OverpassParser::OuputContext>(x, false, rb_cOuputContext);
+      return Data_Object<OverpassParser::Out_geomContext>(x, false, rb_cOut_geomContext);
     }
   };
 
   template <>
-  class To_Ruby<OuputContextProxy*> {
+  class To_Ruby<Out_geomContextProxy*> {
   public:
-    VALUE convert(OuputContextProxy* const &x) {
+    VALUE convert(Out_geomContextProxy* const &x) {
       if (!x) return Nil;
-      return Data_Object<OuputContextProxy>(x, false, rb_cOuputContext);
+      return Data_Object<Out_geomContextProxy>(x, false, rb_cOut_geomContext);
+    }
+  };
+}
+
+namespace Rice::detail {
+  template <>
+  class To_Ruby<OverpassParser::Out_level_of_detailsContext*> {
+  public:
+    VALUE convert(OverpassParser::Out_level_of_detailsContext* const &x) {
+      if (!x) return Nil;
+      return Data_Object<OverpassParser::Out_level_of_detailsContext>(x, false, rb_cOut_level_of_detailsContext);
+    }
+  };
+
+  template <>
+  class To_Ruby<Out_level_of_detailsContextProxy*> {
+  public:
+    VALUE convert(Out_level_of_detailsContextProxy* const &x) {
+      if (!x) return Nil;
+      return Data_Object<Out_level_of_detailsContextProxy>(x, false, rb_cOut_level_of_detailsContext);
+    }
+  };
+}
+
+namespace Rice::detail {
+  template <>
+  class To_Ruby<OverpassParser::OutContext*> {
+  public:
+    VALUE convert(OverpassParser::OutContext* const &x) {
+      if (!x) return Nil;
+      return Data_Object<OverpassParser::OutContext>(x, false, rb_cOutContext);
+    }
+  };
+
+  template <>
+  class To_Ruby<OutContextProxy*> {
+  public:
+    VALUE convert(OutContextProxy* const &x) {
+      if (!x) return Nil;
+      return Data_Object<OutContextProxy>(x, false, rb_cOutContext);
     }
   };
 }
@@ -1438,6 +1495,46 @@ Object Query_sequenceContextProxy::query_union() {
   return Nil;
 }
 
+Object OutContextProxy::out_geom() {
+  if (orig == nullptr) {
+    return Qnil;
+  }
+
+  auto ctx = ((OverpassParser::OutContext*)orig) -> out_geom();
+
+  if (ctx == nullptr) {
+    return Qnil;
+  }
+
+  for (auto child : getChildren()) {
+    if (ctx == detail::From_Ruby<ContextProxy>().convert(child.value()).getOriginal()) {
+      return child;
+    }
+  }
+
+  return Nil;
+}
+
+Object OutContextProxy::out_level_of_details() {
+  if (orig == nullptr) {
+    return Qnil;
+  }
+
+  auto ctx = ((OverpassParser::OutContext*)orig) -> out_level_of_details();
+
+  if (ctx == nullptr) {
+    return Qnil;
+  }
+
+  for (auto child : getChildren()) {
+    if (ctx == detail::From_Ruby<ContextProxy>().convert(child.value()).getOriginal()) {
+      return child;
+    }
+  }
+
+  return Nil;
+}
+
 Object RequestContextProxy::metadata() {
   if (orig == nullptr) {
     return Qnil;
@@ -1492,12 +1589,12 @@ Object RequestContextProxy::query_sequenceAt(size_t i) {
   return Nil;
 }
 
-Object RequestContextProxy::ouput() {
+Object RequestContextProxy::out() {
   if (orig == nullptr) {
     return Qnil;
   }
 
-  auto ctx = ((OverpassParser::RequestContext*)orig) -> ouput();
+  auto ctx = ((OverpassParser::RequestContext*)orig) -> out();
 
   if (ctx == nullptr) {
     return Qnil;
@@ -1625,9 +1722,19 @@ public:
     return getSelf().call("visit_query_sequence", &proxy);
   }
 
-  virtual antlrcpp::Any visitOuput(OverpassParser::OuputContext *ctx) override {
-    OuputContextProxy proxy(ctx);
-    return getSelf().call("visit_ouput", &proxy);
+  virtual antlrcpp::Any visitOut_geom(OverpassParser::Out_geomContext *ctx) override {
+    Out_geomContextProxy proxy(ctx);
+    return getSelf().call("visit_out_geom", &proxy);
+  }
+
+  virtual antlrcpp::Any visitOut_level_of_details(OverpassParser::Out_level_of_detailsContext *ctx) override {
+    Out_level_of_detailsContextProxy proxy(ctx);
+    return getSelf().call("visit_out_level_of_details", &proxy);
+  }
+
+  virtual antlrcpp::Any visitOut(OverpassParser::OutContext *ctx) override {
+    OutContextProxy proxy(ctx);
+    return getSelf().call("visit_out", &proxy);
   }
 
   virtual antlrcpp::Any visitRequest(OverpassParser::RequestContext *ctx) override {
@@ -1786,9 +1893,17 @@ Object ContextProxy::wrapParseTree(tree::ParseTree* node) {
     Query_sequenceContextProxy proxy((OverpassParser::Query_sequenceContext*)node);
     return detail::To_Ruby<Query_sequenceContextProxy>().convert(proxy);
   }
-  else if (antlrcpp::is<OverpassParser::OuputContext*>(node)) {
-    OuputContextProxy proxy((OverpassParser::OuputContext*)node);
-    return detail::To_Ruby<OuputContextProxy>().convert(proxy);
+  else if (antlrcpp::is<OverpassParser::Out_geomContext*>(node)) {
+    Out_geomContextProxy proxy((OverpassParser::Out_geomContext*)node);
+    return detail::To_Ruby<Out_geomContextProxy>().convert(proxy);
+  }
+  else if (antlrcpp::is<OverpassParser::Out_level_of_detailsContext*>(node)) {
+    Out_level_of_detailsContextProxy proxy((OverpassParser::Out_level_of_detailsContext*)node);
+    return detail::To_Ruby<Out_level_of_detailsContextProxy>().convert(proxy);
+  }
+  else if (antlrcpp::is<OverpassParser::OutContext*>(node)) {
+    OutContextProxy proxy((OverpassParser::OutContext*)node);
+    return detail::To_Ruby<OutContextProxy>().convert(proxy);
   }
   else if (antlrcpp::is<OverpassParser::RequestContext*>(node)) {
     RequestContextProxy proxy((OverpassParser::RequestContext*)node);
@@ -1848,7 +1963,9 @@ void Init_overpass_parser() {
     .define_method("visit_query", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_query_union", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_query_sequence", &VisitorProxy::ruby_visitChildren)
-    .define_method("visit_ouput", &VisitorProxy::ruby_visitChildren)
+    .define_method("visit_out_geom", &VisitorProxy::ruby_visitChildren)
+    .define_method("visit_out_level_of_details", &VisitorProxy::ruby_visitChildren)
+    .define_method("visit_out", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_request", &VisitorProxy::ruby_visitChildren);
 
   rb_cParser = define_class_under<ParserProxy>(rb_mOverpassParser, "Parser")
@@ -1934,12 +2051,18 @@ void Init_overpass_parser() {
     .define_method("query", &Query_sequenceContextProxy::query)
     .define_method("query_union", &Query_sequenceContextProxy::query_union);
 
-  rb_cOuputContext = define_class_under<OuputContextProxy, ContextProxy>(rb_mOverpassParser, "OuputContext");
+  rb_cOut_geomContext = define_class_under<Out_geomContextProxy, ContextProxy>(rb_mOverpassParser, "Out_geomContext");
+
+  rb_cOut_level_of_detailsContext = define_class_under<Out_level_of_detailsContextProxy, ContextProxy>(rb_mOverpassParser, "Out_level_of_detailsContext");
+
+  rb_cOutContext = define_class_under<OutContextProxy, ContextProxy>(rb_mOverpassParser, "OutContext")
+    .define_method("out_geom", &OutContextProxy::out_geom)
+    .define_method("out_level_of_details", &OutContextProxy::out_level_of_details);
 
   rb_cRequestContext = define_class_under<RequestContextProxy, ContextProxy>(rb_mOverpassParser, "RequestContext")
     .define_method("metadata", &RequestContextProxy::metadata)
     .define_method("query_sequence", &RequestContextProxy::query_sequence)
     .define_method("query_sequence_at", &RequestContextProxy::query_sequenceAt)
-    .define_method("ouput", &RequestContextProxy::ouput);
+    .define_method("out", &RequestContextProxy::out);
 }
 

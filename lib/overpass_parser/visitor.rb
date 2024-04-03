@@ -9,6 +9,7 @@ require_relative "nodes/query_objects"
 require_relative "nodes/query_union"
 require_relative "nodes/query_recurse"
 require_relative "nodes/request"
+require_relative "nodes/out"
 
 module OverpassParser
   class Walker < OverpassParser::Visitor
@@ -21,7 +22,13 @@ module OverpassParser
 
     def visit_request(ctx)
       visit_children(ctx)
-      r = Nodes::Request.new(queries: @stack)
+      r = Nodes::Request.new(
+        queries: @stack,
+        out: Nodes::Out.new(**{
+          geom: ctx.out&.out_geom&.text,
+          level_of_details: ctx.out&.out_level_of_details&.text
+        }.compact)
+      )
       @stack = []
       @stack.push(r)
     end

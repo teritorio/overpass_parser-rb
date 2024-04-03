@@ -70,8 +70,14 @@ public:
   virtual void enterQuery_sequence(OverpassParser::Query_sequenceContext * /*ctx*/) override { }
   virtual void exitQuery_sequence(OverpassParser::Query_sequenceContext * /*ctx*/) override { }
 
-  virtual void enterOuput(OverpassParser::OuputContext * /*ctx*/) override { }
-  virtual void exitOuput(OverpassParser::OuputContext * /*ctx*/) override { }
+  virtual void enterOut_geom(OverpassParser::Out_geomContext * /*ctx*/) override { }
+  virtual void exitOut_geom(OverpassParser::Out_geomContext * /*ctx*/) override { }
+
+  virtual void enterOut_level_of_details(OverpassParser::Out_level_of_detailsContext * /*ctx*/) override { }
+  virtual void exitOut_level_of_details(OverpassParser::Out_level_of_detailsContext * /*ctx*/) override { }
+
+  virtual void enterOut(OverpassParser::OutContext * /*ctx*/) override { }
+  virtual void exitOut(OverpassParser::OutContext * /*ctx*/) override { }
 
   virtual void enterRequest(OverpassParser::RequestContext * /*ctx*/) override { }
   virtual void exitRequest(OverpassParser::RequestContext * /*ctx*/) override { }

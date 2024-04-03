@@ -23,7 +23,14 @@ _a AS (
     id = ANY (ARRAY[1])
 )
 SELECT
-  *
+  osm_type,
+  id,
+  version,
+  created,
+  tags,
+  nodes,
+  members,
+  ST_PointOnSurface(geom) AS geom
 FROM (
   (SELECT * FROM _a)
 ) AS t",

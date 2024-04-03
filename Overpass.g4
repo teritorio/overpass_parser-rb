@@ -60,6 +60,13 @@ query: query_object | query_recurse;
 query_union: ('(' (query_sequence ';')+ ')') asignation?;
 query_sequence: query | query_union;
 
-ouput: 'out' 'center' 'meta';
+out_geom: 'geom' | 'center' | 'bb';
+out_level_of_details:
+	'ids'
+	| 'skel'
+	| 'body'
+	| 'tags'
+	| 'meta';
+out: 'out' out_geom? out_level_of_details?;
 
-request: (metadata ';')? (query_sequence ';')+ (ouput ';')?;
+request: (metadata ';')? (query_sequence ';')+ (out ';')?;

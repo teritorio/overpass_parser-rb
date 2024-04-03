@@ -15,10 +15,11 @@ public:
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
     T__7 = 8, T__8 = 9, T__9 = 10, T__10 = 11, T__11 = 12, T__12 = 13, T__13 = 14, 
     T__14 = 15, T__15 = 16, T__16 = 17, T__17 = 18, T__18 = 19, T__19 = 20, 
-    T__20 = 21, T__21 = 22, T__22 = 23, T__23 = 24, WS = 25, SL_COMMENT = 26, 
-    ML_COMMENT = 27, INTEGER = 28, FLOAT = 29, OPERATOR = 30, NOT = 31, 
-    UNQUOTED_STRING = 32, SIMPLE_QUOTED_STRING = 33, DOUBLE_QUOTED_STRING = 34, 
-    ID = 35, DOT_ID = 36
+    T__20 = 21, T__21 = 22, T__22 = 23, T__23 = 24, T__24 = 25, T__25 = 26, 
+    T__26 = 27, T__27 = 28, T__28 = 29, T__29 = 30, WS = 31, SL_COMMENT = 32, 
+    ML_COMMENT = 33, INTEGER = 34, FLOAT = 35, OPERATOR = 36, NOT = 37, 
+    UNQUOTED_STRING = 38, SIMPLE_QUOTED_STRING = 39, DOUBLE_QUOTED_STRING = 40, 
+    ID = 41, DOT_ID = 42
   };
 
   enum {
@@ -26,8 +27,8 @@ public:
     RuleFilter_bbox = 5, RuleFilter_osm_id = 6, RuleFilter_osm_ids = 7, 
     RuleFilter_area = 8, RuleFilter_around = 9, RuleFilter = 10, RuleAsignation = 11, 
     RuleObject_type = 12, RuleQuery_object = 13, RuleQuery_recurse = 14, 
-    RuleQuery = 15, RuleQuery_union = 16, RuleQuery_sequence = 17, RuleOuput = 18, 
-    RuleRequest = 19
+    RuleQuery = 15, RuleQuery_union = 16, RuleQuery_sequence = 17, RuleOut_geom = 18, 
+    RuleOut_level_of_details = 19, RuleOut = 20, RuleRequest = 21
   };
 
   explicit OverpassParser(antlr4::TokenStream *input);
@@ -65,7 +66,9 @@ public:
   class QueryContext;
   class Query_unionContext;
   class Query_sequenceContext;
-  class OuputContext;
+  class Out_geomContext;
+  class Out_level_of_detailsContext;
+  class OutContext;
   class RequestContext; 
 
   class  Osm_idContext : public antlr4::ParserRuleContext {
@@ -363,9 +366,9 @@ public:
 
   Query_sequenceContext* query_sequence();
 
-  class  OuputContext : public antlr4::ParserRuleContext {
+  class  Out_geomContext : public antlr4::ParserRuleContext {
   public:
-    OuputContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    Out_geomContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -375,7 +378,37 @@ public:
    
   };
 
-  OuputContext* ouput();
+  Out_geomContext* out_geom();
+
+  class  Out_level_of_detailsContext : public antlr4::ParserRuleContext {
+  public:
+    Out_level_of_detailsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  Out_level_of_detailsContext* out_level_of_details();
+
+  class  OutContext : public antlr4::ParserRuleContext {
+  public:
+    OutContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    Out_geomContext *out_geom();
+    Out_level_of_detailsContext *out_level_of_details();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  OutContext* out();
 
   class  RequestContext : public antlr4::ParserRuleContext {
   public:
@@ -384,7 +417,7 @@ public:
     MetadataContext *metadata();
     std::vector<Query_sequenceContext *> query_sequence();
     Query_sequenceContext* query_sequence(size_t i);
-    OuputContext *ouput();
+    OutContext *out();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;

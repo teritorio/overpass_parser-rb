@@ -77,8 +77,8 @@ module OverpassParser
           out center meta;
         ')
         assert_equal(
-          Request.new(queries:
-            [
+          Request.new(
+            queries: [
               QueryObjects.new("area", filters: [Filter.new(ids: [3_600_000_001])], asignation: "a"),
               QueryObjects.new("area", filters: [Filter.new(ids: [3_600_000_002])], asignation: "b"),
               QueryObjects.new(
@@ -92,7 +92,9 @@ module OverpassParser
                 selectors: [Selector.new("highway", value: "bus_stop", operator: "=")],
                 set: "_"
               )
-            ]),
+            ],
+            out: Out.new(geom: "center", level_of_details: "meta")
+          ),
           tree[0]
         )
       end
@@ -149,7 +151,14 @@ _k AS (
   ) AS t
 )
 SELECT
-  *
+  osm_type,
+  id,
+  version,
+  created,
+  tags,
+  nodes,
+  members,
+  ST_PointOnSurface(geom) AS geom
 FROM (
   (SELECT * FROM _a) UNION ALL
   (SELECT * FROM _k)

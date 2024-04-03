@@ -87,7 +87,15 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual std::any visitOuput(OverpassParser::OuputContext *ctx) override {
+  virtual std::any visitOut_geom(OverpassParser::Out_geomContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitOut_level_of_details(OverpassParser::Out_level_of_detailsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitOut(OverpassParser::OutContext *ctx) override {
     return visitChildren(ctx);
   }
 
