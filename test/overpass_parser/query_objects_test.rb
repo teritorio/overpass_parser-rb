@@ -22,16 +22,14 @@ module OverpassParser
       def test_matches_to_sql
         q = ->(s) { "'#{s}'" }
         assert_equal(
-          "_b AS (
-  SELECT
-    *
-  FROM
-    _a
-  WHERE
-    osm_type = 'node' AND
-    (tags?'a' AND tags->>'a' = 'b') AND
-    ST_Envelope('LINESTRING(1.0 2.0, 3.0 4.0)'::geometry) && geom
-)",
+          "SELECT
+  *
+FROM
+  _a
+WHERE
+  osm_type = 'node' AND
+  (tags?'a' AND tags->>'a' = 'b') AND
+  ST_Envelope('LINESTRING(1.0 2.0, 3.0 4.0)'::geometry) && geom",
           parse("node.a[a=b](1,2,3,4)->.b").to_sql(q)
         )
       end

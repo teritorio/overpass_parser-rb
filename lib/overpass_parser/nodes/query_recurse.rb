@@ -17,7 +17,7 @@ module OverpassParser
       sig do
         params(
           escape_literal: T.proc.params(s: String).returns(String)
-        ).returns(T.nilable(String))
+        ).returns(String)
       end
       def to_sql(escape_literal)
         # TODO

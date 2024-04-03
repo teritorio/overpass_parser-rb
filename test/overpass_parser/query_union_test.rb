@@ -12,7 +12,7 @@ module OverpassParser
       def test_matches_to_sql
         q = ->(s) { "'#{s}'" }
         assert_equal(
-          "_36276c15ab413f1bb6b4efed323dd73b373500f8 AS WITH
+          "WITH
 _62a85cc5638292f0ac99dd285b425a96dd482e81 AS (
   SELECT
     *

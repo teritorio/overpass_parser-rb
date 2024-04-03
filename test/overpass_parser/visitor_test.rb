@@ -119,32 +119,34 @@ _a AS (
     osm_type = 'area' AND
     id = ANY (ARRAY[3600166718])
 ),
-_k AS WITH
-_x AS (
+_k AS (
+  WITH
+  _x AS (
+    SELECT
+      *
+    FROM
+      nwr
+    WHERE
+      osm_type = ANY (ARRAY['node', 'way', 'relation']) AND
+      (tags?'a' AND tags->>'a' = 'Ñ') AND
+      ST_Intersects(geom, (SELECT geom FROM a))
+  ),
+  _z AS (
+    SELECT
+      *
+    FROM
+      nwr
+    WHERE
+      osm_type = ANY (ARRAY['node', 'way', 'relation']) AND
+      tags?'c' AND
+      ST_Intersects(geom, (SELECT geom FROM a))
+  )
   SELECT
     *
-  FROM
-    nwr
-  WHERE
-    osm_type = ANY (ARRAY['node', 'way', 'relation']) AND
-    (tags?'a' AND tags->>'a' = 'Ñ') AND
-    ST_Intersects(geom, (SELECT geom FROM a))
-),
-_z AS (
-  SELECT
-    *
-  FROM
-    nwr
-  WHERE
-    osm_type = ANY (ARRAY['node', 'way', 'relation']) AND
-    tags?'c' AND
-    ST_Intersects(geom, (SELECT geom FROM a))
+  FROM (
+    _x UNION ALL _z
+  ) AS t
 )
-SELECT
-  *
-FROM (
-  _x UNION ALL _z
-) AS t
 SELECT
   *
 FROM (
