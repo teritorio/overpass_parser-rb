@@ -1,0 +1,35 @@
+# frozen_string_literal: true
+# typed: true
+
+require "test_helper"
+
+module OverpassParser
+  module Nodes
+    class TestRequest < Minitest::Test
+      extend T::Sig
+
+      sig { void }
+      def test_matches_to_sql
+        q = ->(s) { "'#{s}'" }
+        assert_equal(
+          "WITH
+_a AS (
+  SELECT
+    *
+  FROM
+    node
+  WHERE
+    osm_type = 'node' AND
+    id = ANY (ARRAY[1])
+)
+SELECT
+  *
+FROM (
+  _a
+) AS t",
+          OverpassParser.tree("[out:json][timeout:25];node(1)->.a;out center meta;")[0].to_sql(q)
+        )
+      end
+    end
+  end
+end

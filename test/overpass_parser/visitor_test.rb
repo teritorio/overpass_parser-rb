@@ -15,7 +15,7 @@ module OverpassParser
               Selector.new("operator", value: "Commune d'Anglet", operator: "=")
             ]
           ),
-          tree[0][:queries][0]
+          tree[0].queries[0]
         )
       end
 
@@ -23,7 +23,7 @@ module OverpassParser
         tree = OverpassParser.tree("node[highway];")
         assert_equal(
           QueryObjects.new("node", selectors: [Selector.new("highway", not_: false)]),
-          tree[0][:queries][0]
+          tree[0].queries[0]
         )
       end
 
@@ -37,7 +37,7 @@ module OverpassParser
               Selector.new("ref", value: "33", operator: "=")
             ]
           ),
-          tree[0][:queries][0]
+          tree[0].queries[0]
         )
       end
 
@@ -49,7 +49,7 @@ module OverpassParser
             selectors: [Selector.new("highway", value: "primary", operator: "=")],
             set: "_"
           ),
-          tree[0][:queries][0]
+          tree[0].queries[0]
         )
       end
 
@@ -57,13 +57,13 @@ module OverpassParser
         tree = OverpassParser.tree("node(around.a:100.0);")
         assert_equal(
           QueryObjects.new("node", filters: [Filter.new(around: FilterAround.new(core: "a", radius: 100.0))]),
-          tree[0][:queries][0]
+          tree[0].queries[0]
         )
       end
 
       def test_recurse
         tree = OverpassParser.tree(">;")
-        assert_equal({ type: :query_recurse, recurse: ">" }, tree[0][:queries][0])
+        assert_equal({ type: :query_recurse, recurse: ">" }, tree[0].queries[0])
       end
 
       def test_full
@@ -94,7 +94,7 @@ module OverpassParser
               )
             ]
           ),
-          tree[0][:queries]
+          tree[0].queries
         )
       end
     end

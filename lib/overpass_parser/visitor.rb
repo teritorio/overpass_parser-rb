@@ -7,6 +7,7 @@ require_relative "nodes/selectors"
 require_relative "nodes/filters"
 require_relative "nodes/query_objects"
 require_relative "nodes/query_union"
+require_relative "nodes/request"
 
 module OverpassParser
   class Walker < OverpassParser::Visitor
@@ -19,7 +20,7 @@ module OverpassParser
 
     def visit_request(ctx)
       visit_children(ctx)
-      r = { type: :request, queries: @stack }
+      r = Nodes::Request.new(queries: @stack)
       @stack = []
       @stack.push(r)
     end
