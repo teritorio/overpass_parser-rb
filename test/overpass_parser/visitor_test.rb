@@ -116,7 +116,7 @@ _a AS (
   FROM
     area
   WHERE
-    osm_type = 'area' AND
+    osm_type = 'a' AND
     id = ANY (ARRAY[3600166718])
 ),
 _k AS (
@@ -127,7 +127,7 @@ _k AS (
     FROM
       nwr
     WHERE
-      osm_type = ANY (ARRAY['node', 'way', 'relation']) AND
+      osm_type = ANY (ARRAY['n', 'w', 'r']) AND
       (tags?'a' AND tags->>'a' = 'Ñ') AND
       ST_Intersects(geom, (SELECT geom FROM a))
   ),
@@ -137,20 +137,22 @@ _k AS (
     FROM
       nwr
     WHERE
-      osm_type = ANY (ARRAY['node', 'way', 'relation']) AND
+      osm_type = ANY (ARRAY['n', 'w', 'r']) AND
       tags?'c' AND
       ST_Intersects(geom, (SELECT geom FROM a))
   )
   SELECT
     *
   FROM (
-    _x UNION ALL _z
+    (SELECT * FROM _x) UNION ALL
+    (SELECT * FROM _z)
   ) AS t
 )
 SELECT
   *
 FROM (
-  _a UNION ALL _k
+  (SELECT * FROM _a) UNION ALL
+  (SELECT * FROM _k)
 ) AS t",
                      tree[0].to_sql(q))
       end

@@ -19,13 +19,13 @@ _a AS (
   FROM
     node
   WHERE
-    osm_type = 'node' AND
+    osm_type = 'n' AND
     id = ANY (ARRAY[1])
 )
 SELECT
   *
 FROM (
-  _a
+  (SELECT * FROM _a)
 ) AS t",
           OverpassParser.tree("[out:json][timeout:25];node(1)->.a;out center meta;")[0].to_sql(q)
         )

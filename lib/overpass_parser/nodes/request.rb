@@ -24,12 +24,15 @@ module OverpassParser
           sql = querie.to_sql(escape_literal).gsub(/^/, "  ")
           "#{querie.asignation} AS (\n#{sql}\n)"
         end.join(",\n")
+        asignations = queries.collect do |querie|
+          "(SELECT * FROM #{querie.asignation})"
+        end
         "WITH
 #{with}
 SELECT
   *
 FROM (
-  #{asignations.join(" UNION ALL ")}
+  #{asignations.join(" UNION ALL\n  ")}
 ) AS t"
       end
     end

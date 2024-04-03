@@ -27,7 +27,7 @@ module OverpassParser
 FROM
   _a
 WHERE
-  osm_type = 'node' AND
+  osm_type = 'n' AND
   (tags?'a' AND tags->>'a' = 'b') AND
   ST_Envelope('LINESTRING(1.0 2.0, 3.0 4.0)'::geometry) && geom",
           parse("node.a[a=b](1,2,3,4)->.b").to_sql(q)

@@ -33,7 +33,7 @@ module OverpassParser
       def to_sql(escape_literal)
         from = set.nil? ? object_type : "_#{set}"
         where = [
-          object_type == "nwr" ? "osm_type = ANY (ARRAY['node', 'way', 'relation'])" : "osm_type = '#{object_type}'",
+          object_type == "nwr" ? "osm_type = ANY (ARRAY['n', 'w', 'r'])" : "osm_type = '#{object_type[0]}'",
           selectors&.to_sql(escape_literal) || nil,
           filters&.to_sql(escape_literal) || nil
         ].compact.join(" AND\n  ")

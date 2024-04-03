@@ -19,7 +19,7 @@ _62a85cc5638292f0ac99dd285b425a96dd482e81 AS (
   FROM
     node
   WHERE
-    osm_type = 'node'
+    osm_type = 'n'
 ),
 _900a9b977c4cdee02c2fbc7761d773e0d7aad959 AS (
   SELECT
@@ -27,12 +27,13 @@ _900a9b977c4cdee02c2fbc7761d773e0d7aad959 AS (
   FROM
     way
   WHERE
-    osm_type = 'way'
+    osm_type = 'w'
 )
 SELECT
   *
 FROM (
-  _62a85cc5638292f0ac99dd285b425a96dd482e81 UNION ALL _900a9b977c4cdee02c2fbc7761d773e0d7aad959
+  (SELECT * FROM _62a85cc5638292f0ac99dd285b425a96dd482e81) UNION ALL
+  (SELECT * FROM _900a9b977c4cdee02c2fbc7761d773e0d7aad959)
 ) AS t",
           OverpassParser.tree("(node;way;);")[0].queries[0].to_sql(q)
         )

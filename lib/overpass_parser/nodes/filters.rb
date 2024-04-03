@@ -34,7 +34,7 @@ module OverpassParser
         end
         clauses << "id = ANY (ARRAY[#{ids.collect(&:to_s).join(", ")}])" unless ids.nil?
         clauses << "ST_Intersects(geom, (SELECT geom FROM #{area_id}))" unless area_id.nil?
-        clauses << "ST_Within(geom, (SELECT geom FROM #{around.core}, #{around.radius})" unless around.nil?
+        clauses << "ST_Within(geom, (SELECT geom FROM _#{around.core}), #{around.radius})" unless around.nil?
 
         return nil if clauses.empty?
 
