@@ -33,7 +33,7 @@ module OverpassParser
           clauses << "ST_Envelope('LINESTRING(#{bbox[0]} #{bbox[1]}, #{bbox[2]} #{bbox[3]})'::geometry) && geom"
         end
         clauses << "id = ANY (ARRAY[#{ids.collect(&:to_s).join(", ")}])" unless ids.nil?
-        clauses << "ST_Intersects(geom, (SELECT geom FROM #{area_id}))" unless area_id.nil?
+        clauses << "ST_Intersects(geom, (SELECT geom FROM _#{area_id}))" unless area_id.nil?
         clauses << "ST_Within(geom, (SELECT geom FROM _#{around.core}), #{around.radius})" unless around.nil?
 
         return nil if clauses.empty?
