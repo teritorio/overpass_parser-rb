@@ -36,8 +36,8 @@ module OverpassParser
           ids_ = ids.collect { |id| id > 3_600_000_000 ? id - 3_600_000_000 : id }
           clauses << "id = ANY (ARRAY[#{ids_.collect(&:to_s).join(", ")}])"
         end
-        clauses << "ST_Intersects(geom, (SELECT geom FROM _#{area_id}))" unless area_id.nil?
-        clauses << "ST_Within(geom, (SELECT geom FROM _#{around.core}), #{around.radius})" unless around.nil?
+        clauses << "ST_Intersects(geom, (SELECT ST_Union(geom) FROM _#{area_id}))" unless area_id.nil?
+        clauses << "ST_Within(geom, (SELECT ST_Union(geom) FROM _#{around.core}), #{around.radius})" unless around.nil?
 
         return nil if clauses.empty?
 

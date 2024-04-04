@@ -131,7 +131,7 @@ _k AS (
     WHERE
       osm_type = ANY (ARRAY['n', 'w', 'r']) AND
       (tags?'a' AND tags->>'a' = 'Ñ') AND
-      ST_Intersects(geom, (SELECT geom FROM _a))
+      ST_Intersects(geom, (SELECT ST_Union(geom) FROM _a))
   ),
   _z AS (
     SELECT
@@ -141,7 +141,7 @@ _k AS (
     WHERE
       osm_type = ANY (ARRAY['n', 'w', 'r']) AND
       tags?'c' AND
-      ST_Intersects(geom, (SELECT geom FROM _a))
+      ST_Intersects(geom, (SELECT ST_Union(geom) FROM _a))
   )
   SELECT
     *
