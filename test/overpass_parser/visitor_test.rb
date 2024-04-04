@@ -119,7 +119,7 @@ _a AS (
     area
   WHERE
     osm_type = 'a' AND
-    id = ANY (ARRAY[3600166718])
+    id = ANY (ARRAY[166718])
 ),
 _k AS (
   WITH
