@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 3.0"
 
   s.add_dependency "rice", "~> 4.0"
+  s.add_dependency "sorbet-struct-comparable", "~> 1.3.0"
 
   s.extensions = File.join(*%w[ext overpass_parser extconf.rb])
 
