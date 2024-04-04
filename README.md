@@ -29,6 +29,17 @@ CREATE TEMP VIEW nwr AS
 SELECT id, version, created, tags, nodes, members, geom, objtype AS osm_type FROM osm_base;
 ```
 
+### Cli
+
+```sh
+echo '
+[out:json][timeout:25];
+area(7009125)->.a;
+nwr.a["tourism"="information"];
+out center meta;
+' | bin/overpass2sql
+```
+
 ## Dev
 
 Rubocop

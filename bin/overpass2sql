@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+require "overpass_parser/visitor"
+
+query = STDIN.read
+q = ->(s) { "'#{s}'" }
+puts(OverpassParser.tree(query)[0].to_sql(q))
