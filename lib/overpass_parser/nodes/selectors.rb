@@ -42,7 +42,7 @@ module OverpassParser
             case @operator
             when "=" then value == @value
             when "!=" then value != @value
-            when "~" then !!T.cast(@value, Regexp).match(value)
+            when "~" then !T.cast(@value, Regexp).match(value).nil?
             when "!~" then !T.cast(@value, Regexp).match(value)
             else throw "Not implemented operator #{@operator}"
             end

@@ -26,14 +26,11 @@ module OverpassParser
           "#{querie.asignation} AS (\n#{sql}\n)"
         end.join(",\n")
         select = out.to_sql(escape_literal)
-        asignations = queries.collect do |querie|
-          "(SELECT * FROM #{querie.asignation})"
-        end
         "WITH
 #{with}
 #{select}
 FROM
-  #{queries[-1].asignation}"
+  #{T.must(queries[-1]).asignation}"
       end
     end
   end
