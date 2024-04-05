@@ -143,12 +143,14 @@ _k AS (
       tags?'c' AND
       ST_Intersects(geom, (SELECT ST_Union(geom) FROM _a))
   )
-  SELECT
+  SELECT DISTINCT ON(osm_type, id)
     *
   FROM (
-    (SELECT * FROM _x) UNION ALL
+    (SELECT * FROM _x) UNION
     (SELECT * FROM _z)
   ) AS t
+  ORDER BY
+    osm_type, id
 )
 SELECT
   osm_type,

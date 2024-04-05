@@ -29,12 +29,14 @@ _900a9b977c4cdee02c2fbc7761d773e0d7aad959 AS (
   WHERE
     osm_type = 'w'
 )
-SELECT
+SELECT DISTINCT ON(osm_type, id)
   *
 FROM (
-  (SELECT * FROM _62a85cc5638292f0ac99dd285b425a96dd482e81) UNION ALL
+  (SELECT * FROM _62a85cc5638292f0ac99dd285b425a96dd482e81) UNION
   (SELECT * FROM _900a9b977c4cdee02c2fbc7761d773e0d7aad959)
-) AS t",
+) AS t
+ORDER BY
+  osm_type, id",
           OverpassParser.tree("(node;way;);")[0].queries[0].to_sql(q)
         )
       end

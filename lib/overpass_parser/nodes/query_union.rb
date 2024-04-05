@@ -35,11 +35,13 @@ module OverpassParser
         end
         "WITH
 #{with}
-SELECT
+SELECT DISTINCT ON(osm_type, id)
   *
 FROM (
-  #{asignations.join(" UNION ALL\n  ")}
-) AS t"
+  #{asignations.join(" UNION\n  ")}
+) AS t
+ORDER BY
+  osm_type, id"
       end
     end
   end
