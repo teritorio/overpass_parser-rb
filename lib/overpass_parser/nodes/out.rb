@@ -26,21 +26,40 @@ module OverpassParser
         tags = %w[body tags meta].include?(@level_of_details)
         meta = ["meta"].include?(@level_of_details)
         "SELECT
-  osm_type,
-  id,
-#{meta ? "  version," : ""}
-#{meta ? "  created," : ""}
-#{tags ? "  tags," : ""}
-#{way_member_nodes ? "  nodes," : ""}
-#{relations_members ? "  members," : ""}
-  #{case @geom
-    when "center"
-      "ST_PointOnSurface(geom)"
-    when "bb"
-      "ST_Envelope(geom)"
-    else "geom"
-    end
-  } AS geom"
+  -- 'changeset'
+  -- 'user'
+  -- 'uid'
+  jsonb_strip_nulls(jsonb_build_object(
+    'type', CASE osm_type WHEN 'n' THEN 'node' WHEN 'w' THEN 'node' WHEN 'r' THEN 'relation' WHEN 'a' THEN 'area' END,
+    'id', id,
+    'lon', CASE osm_type WHEN 'n' THEN ST_X(geom) END,
+    'lat', CASE osm_type WHEN 'n' THEN ST_Y(geom) END\
+#{meta ? ",\n    'timestamp', created" : ""}\
+#{meta ? ",\n    'version', version" : ""}\
+#{if @geom == "center"
+    ",
+    'center', json_build_object(
+      'lon', ST_PointOnSurface(geom),
+      'at', ST_PointOnSurface(geom)
+    )"
+  else
+    ""
+  end}\
+#{if @geom == "bb"
+    ",
+    'bounds', json_build_object(
+      'minlon', ST_XMin(ST_Envelope(geom)),
+      'minlat', ST_YMin(ST_Envelope(geom)),
+      'maxlon', ST_XMax(ST_Envelope(geom)),
+      'maxnlat', ST_YMax(ST_Envelope(geom))
+    )"
+  else
+    ""
+  end}\
+#{way_member_nodes ? ",\n    'nodes', nodes" : ""}\
+#{relations_members ? ",\n    'members', members" : ""}\
+#{meta ? ",\n    'tags', tags" : ""}\
+))"
       end
     end
   end

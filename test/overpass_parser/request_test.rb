@@ -24,14 +24,23 @@ _a AS (
     id = ANY (ARRAY[1])
 )
 SELECT
-  osm_type,
-  id,
-  version,
-  created,
-  tags,
-  nodes,
-  members,
-  ST_PointOnSurface(geom) AS geom
+  -- 'changeset'
+  -- 'user'
+  -- 'uid'
+  jsonb_strip_nulls(jsonb_build_object(
+    'type', CASE osm_type WHEN 'n' THEN 'node' WHEN 'w' THEN 'node' WHEN 'r' THEN 'relation' WHEN 'a' THEN 'area' END,
+    'id', id,
+    'lon', CASE osm_type WHEN 'n' THEN ST_X(geom) END,
+    'lat', CASE osm_type WHEN 'n' THEN ST_Y(geom) END,
+    'timestamp', created,
+    'version', version,
+    'center', json_build_object(
+      'lon', ST_PointOnSurface(geom),
+      'at', ST_PointOnSurface(geom)
+    ),
+    'nodes', nodes,
+    'members', members,
+    'tags', tags))
 FROM
   _a",
           OverpassParser.tree("[out:json][timeout:25];node(1)->.a;out center meta;")[0].to_sql(q)
