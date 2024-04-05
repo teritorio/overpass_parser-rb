@@ -4,6 +4,6 @@
 require 'bundler/setup'
 require 'overpass_parser/visitor'
 
-query = STDIN.read
+query = $stdin.read
 q = ->(s) { "'#{s}'" }
 puts(OverpassParser.tree(query)[0].to_sql(q))

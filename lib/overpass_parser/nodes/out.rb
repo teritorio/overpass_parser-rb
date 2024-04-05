@@ -58,7 +58,7 @@ module OverpassParser
   end}\
 #{way_member_nodes ? ",\n    'nodes', nodes" : ''}\
 #{relations_members ? ",\n    'members', members" : ''}\
-#{meta ? ",\n    'tags', tags" : ''}\
+#{tags ? ",\n    'tags', tags" : ''}\
 ))"
       end
     end
