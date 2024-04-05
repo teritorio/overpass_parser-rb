@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 # typed: true
 
-require "sorbet-runtime"
-require "sorbet-struct-comparable"
-require "digest/sha1"
+require 'sorbet-runtime'
+require 'sorbet-struct-comparable'
+require 'digest/sha1'
 
 module OverpassParser
   module Nodes

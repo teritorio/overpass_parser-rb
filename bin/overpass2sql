@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require "bundler/setup"
-require "overpass_parser/visitor"
+require 'bundler/setup'
+require 'overpass_parser/visitor'
 
 query = STDIN.read
 q = ->(s) { "'#{s}'" }

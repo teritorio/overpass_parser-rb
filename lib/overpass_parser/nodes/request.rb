@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 # typed: true
 
-require "sorbet-runtime"
-require "sorbet-struct-comparable"
-require "digest/sha1"
-require_relative "out"
+require 'sorbet-runtime'
+require 'sorbet-struct-comparable'
+require 'digest/sha1'
+require_relative 'out'
 
 module OverpassParser
   module Nodes
@@ -24,7 +24,7 @@ module OverpassParser
       def to_sql(escape_literal)
         default_set = T.let(nil, T.nilable(String))
         with = queries.collect do |querie|
-          sql = querie.to_sql(escape_literal, default_set).gsub(/^/, "  ")
+          sql = querie.to_sql(escape_literal, default_set).gsub(/^/, '  ')
           default_set = querie.asignation
           "#{querie.asignation} AS (\n#{sql}\n)"
         end.join(",\n")

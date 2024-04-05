@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 # typed: true
 
-require "sorbet-runtime"
-require "sorbet-struct-comparable"
-require "digest/sha1"
+require 'sorbet-runtime'
+require 'sorbet-struct-comparable'
+require 'digest/sha1'
 
 module OverpassParser
   module Nodes
@@ -35,14 +35,14 @@ module OverpassParser
         from = (
           if set.nil?
             object_type
-          elsif set == "_"
+          elsif set == '_'
             default_set
           else
             "_#{set}"
           end
         )
         where = [
-          object_type == "nwr" ? "osm_type = ANY (ARRAY['n', 'w', 'r'])" : "osm_type = '#{object_type[0]}'",
+          object_type == 'nwr' ? "osm_type = ANY (ARRAY['n', 'w', 'r'])" : "osm_type = '#{object_type[0]}'",
           selectors&.to_sql(escape_literal) || nil,
           filters&.to_sql(escape_literal) || nil
         ].compact.join(" AND\n  ")

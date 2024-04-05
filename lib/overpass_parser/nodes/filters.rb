@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 # typed: true
 
-require "sorbet-runtime"
-require "sorbet-struct-comparable"
+require 'sorbet-runtime'
+require 'sorbet-struct-comparable'
 
 module OverpassParser
   module Nodes
@@ -34,14 +34,14 @@ module OverpassParser
         end
         unless ids.nil?
           ids_ = ids.collect { |id| id > 3_600_000_000 ? id - 3_600_000_000 : id }
-          clauses << "id = ANY (ARRAY[#{ids_.collect(&:to_s).join(", ")}])"
+          clauses << "id = ANY (ARRAY[#{ids_.collect(&:to_s).join(', ')}])"
         end
         clauses << "ST_Intersects(geom, (SELECT ST_Union(geom) FROM _#{area_id}))" unless area_id.nil?
         clauses << "ST_Within(geom, (SELECT ST_Union(geom) FROM _#{around.core}), #{around.radius})" unless around.nil?
 
         return nil if clauses.empty?
 
-        clauses.join(" AND ")
+        clauses.join(' AND ')
       end
     end
 
@@ -59,7 +59,7 @@ module OverpassParser
         elsif size == 1
           self[0].to_sql(escape_literal)
         else
-          collect { |s| s.to_sql(escape_literal) }.join(" AND ")
+          collect { |s| s.to_sql(escape_literal) }.join(' AND ')
         end
       end
     end

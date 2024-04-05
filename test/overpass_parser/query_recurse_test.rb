@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 # typed: true
 
-require "test_helper"
+require 'test_helper'
 
 module OverpassParser
   module Nodes
@@ -47,7 +47,7 @@ FROM
     way.id = members.ref
 WHERE
   relation.osm_type = 'r'",
-          OverpassParser.tree("way;>;")[0].queries[1].to_sql(q, '_')
+          OverpassParser.tree('way;>;')[0].queries[1].to_sql(q, '_')
         )
       end
     end

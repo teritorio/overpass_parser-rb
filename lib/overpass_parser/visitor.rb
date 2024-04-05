@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 # typed: true
 
-require "overpass_parser"
-require "sorbet-runtime"
-require_relative "nodes/selectors"
-require_relative "nodes/filters"
-require_relative "nodes/query_objects"
-require_relative "nodes/query_union"
-require_relative "nodes/query_recurse"
-require_relative "nodes/request"
-require_relative "nodes/out"
+require 'overpass_parser'
+require 'sorbet-runtime'
+require_relative 'nodes/selectors'
+require_relative 'nodes/filters'
+require_relative 'nodes/query_objects'
+require_relative 'nodes/query_union'
+require_relative 'nodes/query_recurse'
+require_relative 'nodes/request'
+require_relative 'nodes/out'
 
 module OverpassParser
   class Walker < OverpassParser::Visitor
@@ -78,7 +78,7 @@ module OverpassParser
     def visit_selector(ctx)
       visit_children(ctx)
       r = if ctx.token[1].nil?
-            Nodes::Selector.new(@stack.pop, not_: ctx.NOT&.text == "!")
+            Nodes::Selector.new(@stack.pop, not_: ctx.NOT&.text == '!')
           else
             value = @stack.pop
             Nodes::Selector.new(@stack.pop, operator: ctx.OPERATOR.text, value: value)

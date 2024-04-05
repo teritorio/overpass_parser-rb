@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 # typed: true
 
-require "sorbet-runtime"
-require "sorbet-struct-comparable"
+require 'sorbet-runtime'
+require 'sorbet-struct-comparable'
 
 module OverpassParser
   module Nodes
@@ -19,7 +19,7 @@ module OverpassParser
         @key = key
         @not_ = not_
         @operator = operator
-        @value = !operator.nil? && ["~", "!~"].include?(operator) ? Regexp.new(value) : value
+        @value = !operator.nil? && ['~', '!~'].include?(operator) ? Regexp.new(value) : value
       end
 
       sig do
@@ -40,10 +40,10 @@ module OverpassParser
             return if value.nil?
 
             case @operator
-            when "=" then value == @value
-            when "!=" then value != @value
-            when "~" then !T.cast(@value, Regexp).match(value).nil?
-            when "!~" then !T.cast(@value, Regexp).match(value)
+            when '=' then value == @value
+            when '!=' then value != @value
+            when '~' then !T.cast(@value, Regexp).match(value).nil?
+            when '!~' then !T.cast(@value, Regexp).match(value)
             else throw "Not implemented operator #{@operator}"
             end
           end
@@ -54,7 +54,7 @@ module OverpassParser
       sig { returns(String) }
       def to_overpass
         q = if operator.nil?
-              "#{not_ ? "!" : ""}#{quote(key)}"
+              "#{not_ ? '!' : ''}#{quote(key)}"
             else
               "#{quote(key)}#{operator}#{quote(value)}"
             end
@@ -71,16 +71,16 @@ module OverpassParser
 
         value = @value
         unless value.nil?
-          value = value.to_s.gsub(/^\(\?-mix:/, "(") if value.is_a?(Regexp)
+          value = value.to_s.gsub(/^\(\?-mix:/, '(') if value.is_a?(Regexp)
           value = escape_literal.call(value.to_s)
         end
 
         case @operator
-        when nil then "#{@not_ ? "NOT " : ""}tags?#{key}"
-        when "=" then value.nil? ? "(NOT tags?#{key})" : "(tags?#{key} AND tags->>#{key} = #{value})"
-        when "!=" then "(NOT tags?#{key} OR tags->>#{key} != #{value})"
-        when "~" then "(tags?#{key} AND tags->>#{key} ~ #{value})"
-        when "!~" then "(NOT tags?#{key} OR tags->>#{key} !~ #{value})"
+        when nil then "#{@not_ ? 'NOT ' : ''}tags?#{key}"
+        when '=' then value.nil? ? "(NOT tags?#{key})" : "(tags?#{key} AND tags->>#{key} = #{value})"
+        when '!=' then "(NOT tags?#{key} OR tags->>#{key} != #{value})"
+        when '~' then "(tags?#{key} AND tags->>#{key} ~ #{value})"
+        when '!~' then "(NOT tags?#{key} OR tags->>#{key} !~ #{value})"
         else throw "Not implemented operator #{op}"
         end
       end
@@ -136,7 +136,7 @@ module OverpassParser
         if size == 1
           self[0].to_sql(escape_literal)
         else
-          collect { |s| s.to_sql(escape_literal) }.join(" AND ")
+          collect { |s| s.to_sql(escape_literal) }.join(' AND ')
         end
       end
     end

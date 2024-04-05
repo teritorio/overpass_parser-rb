@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 # typed: true
 
-require "test_helper"
+require 'test_helper'
 
 module OverpassParser
   module Nodes
@@ -43,7 +43,7 @@ SELECT
     'tags', tags))
 FROM
   _a",
-          OverpassParser.tree("[out:json][timeout:25];node(1)->.a;out center meta;")[0].to_sql(q)
+          OverpassParser.tree('[out:json][timeout:25];node(1)->.a;out center meta;')[0].to_sql(q)
         )
       end
     end
