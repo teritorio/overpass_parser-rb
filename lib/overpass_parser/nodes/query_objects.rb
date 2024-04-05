@@ -27,11 +27,20 @@ module OverpassParser
 
       sig do
         params(
-          escape_literal: T.proc.params(s: String).returns(String)
+          escape_literal: T.proc.params(s: String).returns(String),
+          default_set: T.nilable(String)
         ).returns(String)
       end
-      def to_sql(escape_literal)
-        from = set.nil? ? object_type : "_#{set}"
+      def to_sql(escape_literal, default_set)
+        from = (
+          if set.nil?
+            object_type
+          elsif set == "_"
+            default_set
+          else
+            "_#{set}"
+          end
+        )
         where = [
           object_type == "nwr" ? "osm_type = ANY (ARRAY['n', 'w', 'r'])" : "osm_type = '#{object_type[0]}'",
           selectors&.to_sql(escape_literal) || nil,

@@ -14,13 +14,53 @@ module OverpassParser
       const :recurse, String
       const :asignation, T.nilable(String)
 
+      def initialize(recurse:, asignation: nil)
+        @recurse = recurse
+        @asignation = asignation.nil? ? "_#{Digest::SHA1.hexdigest(inspect)}" : "_#{asignation}"
+      end
+
       sig do
         params(
-          escape_literal: T.proc.params(s: String).returns(String)
+          _escape_literal: T.proc.params(s: String).returns(String),
+          default_set: T.nilable(String)
         ).returns(String)
       end
-      def to_sql(escape_literal)
-        # TODO
+      def to_sql(_escape_literal, default_set)
+        "SELECT
+  way.*
+FROM
+  #{default_set} AS way
+  JOIN node ON
+    node.id = ANY(way.nodes) AND
+    node.geom && way.geom
+WHERE
+  way.osm_type = 'w'
+UNION ALL
+SELECT
+  node.*
+FROM
+  #{default_set} AS relation
+  JOIN LATERAL (
+    SELECT * FROM jsonb_to_recordset(members) AS t(ref bigint, role text, type text) WHERE type = 'n'
+  ) AS members ON
+    type = 'w'
+  JOIN node ON
+    node.id = members.ref
+WHERE
+  relation.osm_type = 'r'
+UNION ALL
+SELECT
+  way.*
+FROM
+  #{default_set} AS relation
+  JOIN LATERAL (
+    SELECT * FROM jsonb_to_recordset(members) AS t(ref bigint, role text, type text) WHERE type = 'w'
+  ) AS members ON
+    true
+  JOIN way ON
+    way.id = members.ref
+WHERE
+  relation.osm_type = 'r'"
       end
     end
   end

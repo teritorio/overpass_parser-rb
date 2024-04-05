@@ -21,8 +21,10 @@ module OverpassParser
         ).returns(T.nilable(String))
       end
       def to_sql(escape_literal)
+        default_set = T.let(nil, T.nilable(String))
         with = queries.collect do |querie|
-          sql = querie.to_sql(escape_literal).gsub(/^/, "  ")
+          sql = querie.to_sql(escape_literal, default_set).gsub(/^/, "  ")
+          default_set = querie.asignation
           "#{querie.asignation} AS (\n#{sql}\n)"
         end.join(",\n")
         select = out.to_sql(escape_literal)
