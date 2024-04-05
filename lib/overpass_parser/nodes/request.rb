@@ -29,7 +29,7 @@ module OverpassParser
           "#{querie.asignation} AS (\n#{sql}\n)"
         end.join(",\n")
         select = out.to_sql(escape_literal)
-        "SET statement_timeout = #{[timeout, 500].min};
+        "SET statement_timeout = #{[timeout, 500].min * 1000};
 WITH
 #{with}
 #{select}
