@@ -23,6 +23,7 @@ module OverpassParser
     def visit_request(ctx)
       visit_children(ctx)
       r = Nodes::Request.new(
+        timeout: ctx.metadata&.number&.text&.to_i,
         queries: @stack,
         out: Nodes::Out.new(**{
           geom: ctx.out&.out_geom&.text,

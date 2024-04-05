@@ -12,6 +12,7 @@ module OverpassParser
       include T::Struct::ActsAsComparable
       extend T::Sig
 
+      const :timeout, T.nilable(Integer), default: 180
       const :queries, T::Array[T.any(QueryObjects, QueryUnion, QueryRecurse)]
       const :out, Nodes::Out, default: Nodes::Out.new
 
@@ -28,7 +29,8 @@ module OverpassParser
           "#{querie.asignation} AS (\n#{sql}\n)"
         end.join(",\n")
         select = out.to_sql(escape_literal)
-        "WITH
+        "SET statement_timeout = #{[timeout, 500].min};
+WITH
 #{with}
 #{select}
 FROM

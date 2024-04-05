@@ -12,7 +12,8 @@ module OverpassParser
       def test_matches_to_sql
         q = ->(s) { "'#{s}'" }
         assert_equal(
-          "WITH
+          "SET statement_timeout = 25;
+WITH
 _a AS (
   SELECT
     *

@@ -27,7 +27,10 @@ token:
 	| UNQUOTED_STRING
 	| number;
 
-metadata: '[' 'out:json' ']' ('[' 'timeout:' number ']')?;
+metadata:
+	'[' (out_json = 'out:json') ']' (
+		'[' 'timeout:' (timeout = number) ']'
+	)?;
 
 selector:
 	'[' (
@@ -61,12 +64,7 @@ query_union: ('(' (query_sequence ';')+ ')') asignation?;
 query_sequence: query | query_union;
 
 out_geom: 'geom' | 'center' | 'bb';
-out_level_of_details:
-	'ids'
-	| 'skel'
-	| 'body'
-	| 'tags'
-	| 'meta';
+out_level_of_details: 'ids' | 'skel' | 'body' | 'tags' | 'meta';
 out: 'out' out_geom? out_level_of_details?;
 
 request: (metadata ';')? (query_sequence ';')+ (out ';')?;

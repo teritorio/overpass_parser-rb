@@ -465,8 +465,9 @@ OverpassParser::MetadataContext* OverpassParser::metadata() {
     enterOuterAlt(_localctx, 1);
     setState(54);
     match(OverpassParser::T__0);
+
     setState(55);
-    match(OverpassParser::T__1);
+    antlrcpp::downCast<MetadataContext *>(_localctx)->out_json = match(OverpassParser::T__1);
     setState(56);
     match(OverpassParser::T__2);
     setState(62);
@@ -478,8 +479,9 @@ OverpassParser::MetadataContext* OverpassParser::metadata() {
       match(OverpassParser::T__0);
       setState(58);
       match(OverpassParser::T__3);
+
       setState(59);
-      number();
+      antlrcpp::downCast<MetadataContext *>(_localctx)->timeout = number();
       setState(60);
       match(OverpassParser::T__2);
     }

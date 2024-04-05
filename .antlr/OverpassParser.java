@@ -242,6 +242,8 @@ public class OverpassParser extends Parser {
 	}
 
 	public static class MetadataContext extends ParserRuleContext {
+		public Token out_json;
+		public NumberContext timeout;
 		public NumberContext number() {
 			return getRuleContext(NumberContext.class,0);
 		}
@@ -260,8 +262,10 @@ public class OverpassParser extends Parser {
 			{
 			setState(54);
 			match(T__0);
+			{
 			setState(55);
-			match(T__1);
+			((MetadataContext)_localctx).out_json = match(T__1);
+			}
 			setState(56);
 			match(T__2);
 			setState(62);
@@ -273,8 +277,10 @@ public class OverpassParser extends Parser {
 				match(T__0);
 				setState(58);
 				match(T__3);
+				{
 				setState(59);
-				number();
+				((MetadataContext)_localctx).timeout = number();
+				}
 				setState(60);
 				match(T__2);
 				}

@@ -122,6 +122,8 @@ public:
 
   class  MetadataContext : public antlr4::ParserRuleContext {
   public:
+    antlr4::Token *out_json = nullptr;
+    OverpassParser::NumberContext *timeout = nullptr;
     MetadataContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     NumberContext *number();

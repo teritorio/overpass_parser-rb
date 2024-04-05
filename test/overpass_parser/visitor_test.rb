@@ -78,6 +78,7 @@ module OverpassParser
         ')
         assert_equal(
           Request.new(
+            timeout: 25,
             queries: [
               QueryObjects.new("area", filters: [Filter.new(ids: [3_600_000_001])], asignation: "a"),
               QueryObjects.new("area", filters: [Filter.new(ids: [3_600_000_002])], asignation: "b"),
@@ -111,7 +112,8 @@ module OverpassParser
         ')
         q = ->(s) { "'#{s}'" }
 
-        assert_equal("WITH
+        assert_equal("SET statement_timeout = 25;
+WITH
 _a AS (
   SELECT
     *
