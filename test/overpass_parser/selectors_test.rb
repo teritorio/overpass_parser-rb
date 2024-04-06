@@ -43,6 +43,11 @@ module OverpassParser
       end
 
       sig { void }
+      def test_sort
+        parse('[highway=footway][!footway]')
+      end
+
+      sig { void }
       def test_matches_to_overpass
         assert_equal('[amenity]', parse('[amenity]').to_overpass)
         assert_equal('[shop=florist]', parse('[shop=florist]').to_overpass)

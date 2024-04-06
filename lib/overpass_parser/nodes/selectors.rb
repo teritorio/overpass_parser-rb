@@ -10,14 +10,23 @@ module OverpassParser
       include T::Struct::ActsAsComparable
       extend T::Sig
 
-      const :not_, T::Boolean, default: false
+      const :not_, Integer, default: 0
       const :key, String
       const :operator, T.nilable(String)
       const :value, T.nilable(String)
 
+      sig do
+        params(
+          key: String,
+          not_: T::Boolean,
+          operator: T.nilable(String),
+          value: T.nilable(String)
+        ).void
+      end
       def initialize(key, not_: false, operator: nil, value: nil)
         @key = key
-        @not_ = not_
+        # Does not use boolean, as not comparable
+        @not_ = not_ == true ? 1 : 0
         @operator = operator
         @value = !operator.nil? && ['~', '!~'].include?(operator) ? Regexp.new(value) : value
       end
@@ -30,7 +39,7 @@ module OverpassParser
       def matches(tags)
         m = (
           if @operator.nil?
-            if @not_
+            if @not_ == 1
               return true unless tags.key?(@key)
             else
               tags.key?(@key)
@@ -54,7 +63,7 @@ module OverpassParser
       sig { returns(String) }
       def to_overpass
         q = if operator.nil?
-              "#{not_ ? '!' : ''}#{quote(key)}"
+              "#{not_ == 1 ? '!' : ''}#{quote(key)}"
             else
               "#{quote(key)}#{operator}#{quote(value)}"
             end
@@ -76,7 +85,7 @@ module OverpassParser
         end
 
         case @operator
-        when nil then "#{@not_ ? 'NOT ' : ''}tags?#{key}"
+        when nil then "#{@not_ == 1 ? 'NOT ' : ''}tags?#{key}"
         when '=' then value.nil? ? "(NOT tags?#{key})" : "(tags?#{key} AND tags->>#{key} = #{value})"
         when '!=' then "(NOT tags?#{key} OR tags->>#{key} != #{value})"
         when '~' then "(tags?#{key} AND tags->>#{key} ~ #{value})"
