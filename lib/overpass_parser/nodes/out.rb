@@ -38,7 +38,7 @@ module OverpassParser
 #{meta ? ",\n    'version', version" : ''}\
 #{if @geom == 'center'
     ",
-    'center', json_build_object(
+    'center', jsonb_build_object(
       'lon', ST_X(ST_PointOnSurface(geom)),
       'lat', ST_Y(ST_PointOnSurface(geom))
     )"
@@ -47,7 +47,7 @@ module OverpassParser
   end}\
 #{if @geom == 'bb'
     ",
-    'bounds', json_build_object(
+    'bounds', jsonb_build_object(
       'minlon', ST_XMin(ST_Envelope(geom)),
       'minlat', ST_YMin(ST_Envelope(geom)),
       'maxlon', ST_XMax(ST_Envelope(geom)),
@@ -57,7 +57,7 @@ module OverpassParser
     ",
     'geometry', CASE osm_type
       WHEN 'w' THEN
-        (SELECT jsonb_agg(json_build_object('lon', ST_X(geom), 'lat', ST_Y(geom))) FROM ST_DumpPoints(geom))
+        (SELECT jsonb_agg(jsonb_build_object('lon', ST_X(geom), 'lat', ST_Y(geom))) FROM ST_DumpPoints(geom))
     END"
   end}\
 #{way_member_nodes ? ",\n    'nodes', nodes" : ''}\
