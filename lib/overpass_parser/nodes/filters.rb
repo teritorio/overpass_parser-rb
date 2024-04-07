@@ -24,20 +24,22 @@ module OverpassParser
 
       sig do
         params(
-          _escape_literal: T.proc.params(s: String).returns(String)
+          sql_dialect: SqlDialect::SqlDialect
         ).returns(T.nilable(String))
       end
-      def to_sql(_escape_literal)
+      def to_sql(sql_dialect)
         clauses = []
         unless bbox.nil?
-          clauses << "ST_Envelope('LINESTRING(#{bbox[0]} #{bbox[1]}, #{bbox[2]} #{bbox[3]})'::geometry) && geom"
+          clauses << "#{sql_dialect.st_intersects_extent}(ST_Envelope('LINESTRING(#{bbox[0]} #{bbox[1]}, #{bbox[2]} #{bbox[3]})'::geometry), geom)"
         end
         unless ids.nil?
           ids_ = ids.collect { |id| id > 3_600_000_000 ? id - 3_600_000_000 : id }
           clauses << "id = ANY (ARRAY[#{ids_.collect(&:to_s).join(', ')}])"
         end
-        clauses << "ST_Intersects(geom, (SELECT ST_Union(geom) FROM _#{area_id}))" unless area_id.nil?
-        clauses << "ST_Within(geom, (SELECT ST_Union(geom) FROM _#{around.core}), #{around.radius})" unless around.nil?
+        clauses << "ST_Intersects(geom, (SELECT #{sql_dialect.st_union}(geom) FROM _#{area_id}))" unless area_id.nil?
+        unless around.nil?
+          clauses << "ST_Within(geom, (SELECT #{sql_dialect.st_union}(geom) FROM _#{around.core}), #{around.radius})"
+        end
 
         return nil if clauses.empty?
 
@@ -50,16 +52,16 @@ module OverpassParser
 
       sig do
         params(
-          escape_literal: T.proc.params(s: String).returns(String)
+          sql_dialect: SqlDialect::SqlDialect
         ).returns(T.nilable(String))
       end
-      def to_sql(escape_literal)
+      def to_sql(sql_dialect)
         if empty?
           nil
         elsif size == 1
-          self[0].to_sql(escape_literal)
+          self[0].to_sql(sql_dialect)
         else
-          collect { |s| s.to_sql(escape_literal) }.join(' AND ')
+          collect { |s| s.to_sql(sql_dialect) }.join(' AND ')
         end
       end
     end

@@ -72,24 +72,22 @@ module OverpassParser
 
       sig do
         params(
-          escape_literal: T.proc.params(s: String).returns(String)
+          sql_dialect: SqlDialect::SqlDialect
         ).returns(String)
       end
-      def to_sql(escape_literal)
-        key = escape_literal.call(@key)
-
+      def to_sql(sql_dialect)
         value = @value
         unless value.nil?
           value = value.to_s.gsub(/^\(\?-mix:/, '(') if value.is_a?(Regexp)
-          value = escape_literal.call(value.to_s)
+          value = sql_dialect.escape_literal(value.to_s)
         end
 
         case @operator
-        when nil then "#{@not_ == 1 ? 'NOT ' : ''}tags?#{key}"
-        when '=' then value.nil? ? "(NOT tags?#{key})" : "(tags?#{key} AND tags->>#{key} = #{value})"
-        when '!=' then "(NOT tags?#{key} OR tags->>#{key} != #{value})"
-        when '~' then "(tags?#{key} AND tags->>#{key} ~ #{value})"
-        when '!~' then "(NOT tags?#{key} OR tags->>#{key} !~ #{value})"
+        when nil then "#{@not_ == 1 ? 'NOT ' : ''}#{sql_dialect.hash_exits(key)}"
+        when '=' then value.nil? ? "(NOT #{sql_dialect.hash_exits(key)})" : "(#{sql_dialect.hash_exits(key)} AND #{sql_dialect.hash_get(key)} = #{value})"
+        when '!=' then "(NOT #{sql_dialect.hash_exits(key)} OR #{sql_dialect.hash_get(key)} != #{value})"
+        when '~' then "(#{sql_dialect.hash_exits(key)} AND #{sql_dialect.hash_get(key)} ~ #{value})"
+        when '!~' then "(NOT #{sql_dialect.hash_exits(key)} OR #{sql_dialect.hash_get(key)} !~ #{value})"
         else throw "Not implemented operator #{op}"
         end
       end
@@ -138,14 +136,14 @@ module OverpassParser
 
       sig do
         params(
-          escape_literal: T.proc.params(s: String).returns(String)
+          sql_dialect: SqlDialect::SqlDialect
         ).returns(String)
       end
-      def to_sql(escape_literal)
+      def to_sql(sql_dialect)
         if size == 1
-          self[0].to_sql(escape_literal)
+          self[0].to_sql(sql_dialect)
         else
-          collect { |s| s.to_sql(escape_literal) }.join(' AND ')
+          collect { |s| s.to_sql(sql_dialect) }.join(' AND ')
         end
       end
     end

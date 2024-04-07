@@ -10,7 +10,7 @@ module OverpassParser
 
       sig { void }
       def test_matches_to_sql
-        q = ->(s) { "'#{s}'" }
+        d = OverpassParser::SqlDialect::Postgres.new
         assert_equal(
           "SELECT
   way.*
@@ -47,7 +47,7 @@ FROM
     way.id = members.ref
 WHERE
   relation.osm_type = 'r'",
-          OverpassParser.tree('way;>;')[0].queries[1].to_sql(q, '_')
+          OverpassParser.tree('way;>;')[0].queries[1].to_sql(d, '_')
         )
       end
     end

@@ -110,7 +110,7 @@ module OverpassParser
           )->.k;
           out center meta;
         ')
-        q = ->(s) { "'#{s}'" }
+        d = OverpassParser::SqlDialect::Postgres.new
 
         assert_equal("SET statement_timeout = 25000;
 WITH
@@ -170,15 +170,15 @@ SELECT
       'lat', ST_Y(ST_PointOnSurface(geom))
     ),
     'geometry', CASE osm_type
-      WHEN 'w' THEN
-        (SELECT jsonb_agg(jsonb_build_object('lon', ST_X(geom), 'lat', ST_Y(geom))) FROM ST_DumpPoints(geom))
+      WHEN 'w' THEN (SELECT jsonb_agg(jsonb_build_object('lon', ST_X(geom), 'lat', ST_Y(geom))) FROM ST_DumpPoints(geom))
     END,
     'nodes', nodes,
     'members', members,
-    'tags', tags))
+    'tags', tags)) AS j
 FROM
-  _k",
-                     tree[0].to_sql(q))
+  _k
+;",
+                     tree[0].to_sql(d))
       end
     end
   end

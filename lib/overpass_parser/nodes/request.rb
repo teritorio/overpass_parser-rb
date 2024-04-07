@@ -18,23 +18,24 @@ module OverpassParser
 
       sig do
         params(
-          escape_literal: T.proc.params(s: String).returns(String)
+          sql_dialect: SqlDialect::SqlDialect
         ).returns(T.nilable(String))
       end
-      def to_sql(escape_literal)
+      def to_sql(sql_dialect)
         default_set = T.let(nil, T.nilable(String))
         with = queries.collect do |querie|
-          sql = querie.to_sql(escape_literal, default_set).gsub(/^/, '  ')
+          sql = querie.to_sql(sql_dialect, default_set).gsub(/^/, '  ')
           default_set = querie.asignation
           "#{querie.asignation} AS (\n#{sql}\n)"
         end.join(",\n")
-        select = out.to_sql(escape_literal)
-        "SET statement_timeout = #{[timeout, 500].min * 1000};
+        select = out.to_sql(sql_dialect)
+        "#{sql_dialect.statement_timeout([timeout || 180, 500].min * 1000)}
 WITH
 #{with}
 #{select}
 FROM
-  #{T.must(queries[-1]).asignation}"
+  #{T.must(queries[-1]).asignation}
+;"
       end
     end
   end

@@ -3,7 +3,13 @@
 
 require 'bundler/setup'
 require 'overpass_parser/visitor'
+require 'overpass_parser/sql_dialect/postgres'
+require 'overpass_parser/sql_dialect/duckdb'
+
+dialect = ARGV[0] || 'Postgres'
+dialect_class = Object.const_get("OverpassParser::SqlDialect::#{dialect}")
+sql_dialect = dialect_class.new
 
 query = $stdin.read
-q = ->(s) { "'#{s}'" }
-puts(OverpassParser.tree(query)[0].to_sql(q))
+
+puts(OverpassParser.tree(query)[0].to_sql(sql_dialect))

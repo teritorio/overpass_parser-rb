@@ -21,11 +21,11 @@ module OverpassParser
 
       sig do
         params(
-          _escape_literal: T.proc.params(s: String).returns(String),
+          _sql_dialect: SqlDialect::SqlDialect,
           default_set: T.nilable(String)
         ).returns(String)
       end
-      def to_sql(_escape_literal, default_set)
+      def to_sql(_sql_dialect, default_set)
         "SELECT
   way.*
 FROM

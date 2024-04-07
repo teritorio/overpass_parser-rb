@@ -16,17 +16,40 @@ tree = OverpassParser.tree('[out:json]...')
 
 ## SQL
 
+Postgres/PostGIS, OPE Schema
 ```sql
-CREATE TEMP VIEW area AS
-SELECT id, version, created, tags, NULL::bigint[] AS nodes, NULL::jsonb AS members, geom, 'a' AS osm_type FROM osm_base_areas;
-CREATE TEMP VIEW node AS
+CREATE OR REPLACE TEMP VIEW node AS
 SELECT id, version, created, tags, NULL::bigint[] AS nodes, NULL::jsonb AS members, geom, objtype AS osm_type FROM osm_base WHERE objtype = 'n';
-CREATE TEMP VIEW way AS
+
+CREATE OR REPLACE TEMP VIEW way AS
 SELECT id, version, created, tags, nodes, NULL::jsonb AS members, geom, objtype AS osm_type FROM osm_base WHERE objtype = 'w';
-CREATE TEMP VIEW relation AS
+
+CREATE OR REPLACE TEMP VIEW relation AS
 SELECT id, version, created, tags, NULL::bigint[] AS nodes, members, geom, objtype AS osm_type FROM osm_base WHERE objtype = 'r';
-CREATE TEMP VIEW nwr AS
+
+CREATE OR REPLACE TEMP VIEW nwr AS
 SELECT id, version, created, tags, nodes, members, geom, objtype AS osm_type FROM osm_base;
+
+CREATE OR REPLACE TEMP VIEW area AS
+SELECT id, version, created, tags, NULL::bigint[] AS nodes, NULL::jsonb AS members, geom, 'a' AS osm_type FROM osm_base_areas;
+```
+
+DuckDB/Spatial, Quackosm schema
+```sql
+CREATE OR REPLACE TEMP VIEW node AS
+SELECT split_part(feature_id, '/', 2)::bigint AS id, NULL::int AS version, NULL::timestamp AS created, tags, NULL::bigint[] AS nodes, NULL::json AS members, ST_GeomFromWKB(geometry) AS geom, feature_id[1] AS osm_type FROM 'landes_nofilter_noclip_compact.parquet' WHERE feature_id < 'o';
+
+CREATE OR REPLACE TEMP VIEW way AS
+SELECT split_part(feature_id, '/', 2)::bigint AS id, NULL::int AS version, NULL::timestamp AS created, tags, NULL::bigint[] AS nodes, NULL::json AS members, ST_GeomFromWKB(geometry) AS geom, feature_id[1] AS osm_type FROM 'landes_nofilter_noclip_compact.parquet' WHERE feature_id > 'w';
+
+CREATE OR REPLACE TEMP VIEW relation AS
+SELECT split_part(feature_id, '/', 2)::bigint AS id, NULL::int AS version, NULL::timestamp AS created, tags, NULL::bigint[] AS nodes, NULL::json AS members, ST_GeomFromWKB(geometry) AS geom, feature_id[1] AS osm_type FROM 'landes_nofilter_noclip_compact.parquet' WHERE feature_id > 'o' AND feature_id < 's';
+
+CREATE OR REPLACE TEMP VIEW nwr AS
+SELECT split_part(feature_id, '/', 2)::bigint AS id, NULL::int AS version, NULL::timestamp AS created, tags, NULL::bigint[] AS nodes, NULL::json AS members, ST_GeomFromWKB(geometry) AS geom, feature_id[1] AS osm_type FROM 'landes_nofilter_noclip_compact.parquet';
+
+CREATE OR REPLACE TEMP VIEW area AS
+SELECT split_part(feature_id, '/', 2)::bigint AS id, NULL::int AS version, NULL::timestamp AS created, tags, NULL::bigint[] AS nodes, NULL::json AS members, ST_GeomFromWKB(geometry) AS geom, 'a' AS osm_type FROM 'landes_nofilter_noclip_compact.parquet' wHERE feature_id > 'm' AND list_contains(['POLYGON', 'MULTIPOLYGON'], ST_GeometryType(ST_GeomFromWKB(geometry)));
 ```
 
 ### Cli

@@ -27,11 +27,11 @@ module OverpassParser
 
       sig do
         params(
-          escape_literal: T.proc.params(s: String).returns(String),
+          sql_dialect: SqlDialect::SqlDialect,
           default_set: T.nilable(String)
         ).returns(String)
       end
-      def to_sql(escape_literal, default_set)
+      def to_sql(sql_dialect, default_set)
         from = (
           if set.nil?
             object_type
@@ -43,8 +43,8 @@ module OverpassParser
         )
         where = [
           object_type == 'nwr' ? "osm_type = ANY (ARRAY['n', 'w', 'r'])" : "osm_type = '#{object_type[0]}'",
-          selectors&.to_sql(escape_literal) || nil,
-          filters&.to_sql(escape_literal) || nil
+          selectors&.to_sql(sql_dialect) || nil,
+          filters&.to_sql(sql_dialect) || nil
         ].compact.join(" AND\n  ")
 
         sql = "SELECT

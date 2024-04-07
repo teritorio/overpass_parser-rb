@@ -61,16 +61,16 @@ module OverpassParser
 
       sig { void }
       def test_matches_to_sql
-        q = ->(s) { "'#{s}'" }
-        assert_equal("tags?'amenity'", parse('[amenity]').to_sql(q))
-        assert_equal("(tags?'shop' AND tags->>'shop' = 'florist')", parse('[shop=florist]').to_sql(q))
-        assert_equal("(tags?'shop' AND tags->>'shop' ~ '(pizza.*)')", parse('[shop~"pizza.*"]').to_sql(q))
+        d = OverpassParser::SqlDialect::Postgres.new
+        assert_equal("tags?'amenity'", parse('[amenity]').to_sql(d))
+        assert_equal("(tags?'shop' AND tags->>'shop' = 'florist')", parse('[shop=florist]').to_sql(d))
+        assert_equal("(tags?'shop' AND tags->>'shop' ~ '(pizza.*)')", parse('[shop~"pizza.*"]').to_sql(d))
         assert_equal(
           "(tags?'highway' AND tags->>'highway' = 'footway') AND " \
           "(tags?'footway' AND tags->>'footway' = 'traffic_island')",
-          parse('[highway=footway][footway=traffic_island]').to_sql(q)
+          parse('[highway=footway][footway=traffic_island]').to_sql(d)
         )
-        assert_equal("NOT tags?'amenity'", parse('[!amenity]').to_sql(q))
+        assert_equal("NOT tags?'amenity'", parse('[!amenity]').to_sql(d))
       end
     end
   end

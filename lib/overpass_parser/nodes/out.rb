@@ -16,10 +16,10 @@ module OverpassParser
 
       sig do
         params(
-          _escape_literal: T.proc.params(s: String).returns(String)
+          sql_dialect: SqlDialect::SqlDialect
         ).returns(T.nilable(String))
       end
-      def to_sql(_escape_literal)
+      def to_sql(sql_dialect)
         coordinates = %w[skel body meta].include?(@level_of_details)
         way_member_nodes =  %w[skel body meta].include?(@level_of_details)
         relations_members = %w[skel body meta].include?(@level_of_details)
@@ -29,7 +29,7 @@ module OverpassParser
   -- 'changeset'
   -- 'user'
   -- 'uid'
-  jsonb_strip_nulls(jsonb_build_object(
+  #{sql_dialect.json_strip_nulls}(#{sql_dialect.json_build_object}(
     'type', CASE osm_type WHEN 'n' THEN 'node' WHEN 'w' THEN 'way' WHEN 'r' THEN 'relation' WHEN 'a' THEN 'area' END,
     'id', id,
     'lon', CASE osm_type WHEN 'n' THEN ST_X(geom) END,
@@ -38,7 +38,7 @@ module OverpassParser
 #{meta ? ",\n    'version', version" : ''}\
 #{if @geom == 'center'
     ",
-    'center', jsonb_build_object(
+    'center', #{sql_dialect.json_build_object}(
       'lon', ST_X(ST_PointOnSurface(geom)),
       'lat', ST_Y(ST_PointOnSurface(geom))
     )"
@@ -47,7 +47,7 @@ module OverpassParser
   end}\
 #{if @geom == 'bb'
     ",
-    'bounds', jsonb_build_object(
+    'bounds', #{sql_dialect.json_build_object}(
       'minlon', ST_XMin(ST_Envelope(geom)),
       'minlat', ST_YMin(ST_Envelope(geom)),
       'maxlon', ST_XMax(ST_Envelope(geom)),
@@ -56,14 +56,24 @@ module OverpassParser
   else
     ",
     'geometry', CASE osm_type
-      WHEN 'w' THEN
-        (SELECT jsonb_agg(jsonb_build_object('lon', ST_X(geom), 'lat', ST_Y(geom))) FROM ST_DumpPoints(geom))
+      WHEN 'w' THEN " + (
+      if sql_dialect.st_dump_points
+        "(SELECT #{sql_dialect.jsonb_agg}(#{sql_dialect.json_build_object}('lon', ST_X(geom), 'lat', ST_Y(geom))) FROM #{sql_dialect.st_dump_points}(geom))"
+      else
+        "replace(replace(replace(replace(replace((
+          CASE ST_GeometryType(geom)
+          WHEN 'LINESTRING' THEN ST_AsGeoJson(geom)->'coordinates'
+          ELSE ST_AsGeoJson(geom)->'coordinates'->0
+          END
+        )::text, '[', '{\"lon\":'), ',', ',\"lat\":'), '{\"lon\":{\"lon\":', '[{\"lon\":'), '],\"lat\":{\"lon\":', '},{\"lon\":'), ']]', '}]')::json"
+      end
+    ) + "
     END"
   end}\
 #{way_member_nodes ? ",\n    'nodes', nodes" : ''}\
 #{relations_members ? ",\n    'members', members" : ''}\
 #{tags ? ",\n    'tags', tags" : ''}\
-))"
+)) AS j"
       end
     end
   end

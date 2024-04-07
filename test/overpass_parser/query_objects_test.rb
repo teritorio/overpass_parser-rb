@@ -20,7 +20,7 @@ module OverpassParser
 
       sig { void }
       def test_matches_to_sql
-        q = ->(s) { "'#{s}'" }
+        d = OverpassParser::SqlDialect::Postgres.new
         assert_equal(
           "SELECT
   *
@@ -29,8 +29,8 @@ FROM
 WHERE
   osm_type = 'n' AND
   (tags?'a' AND tags->>'a' = 'b') AND
-  ST_Envelope('LINESTRING(1.0 2.0, 3.0 4.0)'::geometry) && geom",
-          parse('node.a[a=b](1,2,3,4)->.b').to_sql(q, '_')
+  ST_Intersects(ST_Envelope('LINESTRING(1.0 2.0, 3.0 4.0)'::geometry), geom)",
+          parse('node.a[a=b](1,2,3,4)->.b').to_sql(d, '_')
         )
       end
     end
