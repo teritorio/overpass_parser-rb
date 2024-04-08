@@ -38,7 +38,7 @@ module OverpassParser
 #{meta ? ",\n    'version', version" : ''}\
 #{if @geom == 'center'
     ",
-    'center', CASE osm_type != 'n'
+    'center', CASE osm_type = 'w' OR osm_type = 'r'
       WHEN true THEN #{sql_dialect.json_build_object}(
         'lon', ST_X(ST_PointOnSurface(geom)),
         'lat', ST_Y(ST_PointOnSurface(geom))
@@ -49,7 +49,7 @@ module OverpassParser
   end}\
 #{if @geom == 'bb' || @geom == 'geom'
     ",
-    'bounds', CASE osm_type != 'n'
+    'bounds', CASE osm_type = 'w' OR osm_type = 'r'
       WHEN true THEN #{sql_dialect.json_build_object}(
         'minlon', ST_XMin(ST_Envelope(geom)),
         'minlat', ST_YMin(ST_Envelope(geom)),

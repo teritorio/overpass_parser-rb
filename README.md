@@ -31,7 +31,7 @@ CREATE OR REPLACE TEMP VIEW nwr AS
 SELECT id, version, created, tags, nodes, members, geom, objtype AS osm_type FROM osm_base;
 
 CREATE OR REPLACE TEMP VIEW area AS
-SELECT id, version, created, tags, NULL::bigint[] AS nodes, NULL::jsonb AS members, geom, 'a' AS osm_type FROM osm_base_areas;
+SELECT id + CASE objtype[1] WHEN 'r' THEN 3600000000 ELSE 0 END, version, created, tags, NULL::bigint[] AS nodes, NULL::jsonb AS members, geom, CASE objtype[1] WHEN 'w' THEN 'w' ELSE 'a' END AS osm_type FROM osm_base_areas;
 ```
 
 DuckDB/Spatial, Quackosm schema
@@ -49,7 +49,7 @@ CREATE OR REPLACE TEMP VIEW nwr AS
 SELECT split_part(feature_id, '/', 2)::bigint AS id, NULL::int AS version, NULL::timestamp AS created, tags, NULL::bigint[] AS nodes, NULL::json AS members, ST_GeomFromWKB(geometry) AS geom, feature_id[1] AS osm_type FROM 'landes_nofilter_noclip_compact.parquet';
 
 CREATE OR REPLACE TEMP VIEW area AS
-SELECT split_part(feature_id, '/', 2)::bigint AS id, NULL::int AS version, NULL::timestamp AS created, tags, NULL::bigint[] AS nodes, NULL::json AS members, ST_GeomFromWKB(geometry) AS geom, 'a' AS osm_type FROM 'landes_nofilter_noclip_compact.parquet' wHERE feature_id > 'm' AND list_contains(['POLYGON', 'MULTIPOLYGON'], ST_GeometryType(ST_GeomFromWKB(geometry)));
+SELECT split_part(feature_id, '/', 2)::bigint + CASE feature_id[1] WHEN 'r' THEN 3600000000 ELSE 0 END AS id, NULL::int AS version, NULL::timestamp AS created, tags, NULL::bigint[] AS nodes, NULL::json AS members, ST_GeomFromWKB(geometry) AS geom, CASE feature_id[1] WHEN 'w' THEN 'w' ELSE 'a' END AS osm_type FROM 'landes_nofilter_noclip_compact.parquet' wHERE feature_id > 'm' AND list_contains(['POLYGON', 'MULTIPOLYGON'], ST_GeometryType(ST_GeomFromWKB(geometry)));
 ```
 
 ### Cli

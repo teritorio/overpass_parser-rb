@@ -42,7 +42,13 @@ module OverpassParser
           end
         )
         where = [
-          object_type == 'nwr' ? "osm_type = ANY (ARRAY['n', 'w', 'r'])" : "osm_type = '#{object_type[0]}'",
+          if object_type == 'nwr'
+            "osm_type = ANY (ARRAY['n', 'w', 'r'])"
+          elsif object_type == 'area'
+            nil
+          else
+            "osm_type = '#{object_type[0]}'"
+          end,
           selectors&.to_sql(sql_dialect) || nil,
           filters&.to_sql(sql_dialect) || nil
         ].compact.join(" AND\n  ")

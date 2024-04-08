@@ -120,8 +120,7 @@ _a AS (
   FROM
     area
   WHERE
-    osm_type = 'a' AND
-    id = ANY (ARRAY[166718])
+    id = ANY (ARRAY[3600166718])
 ),
 _k AS (
   WITH
@@ -165,7 +164,7 @@ SELECT
     'lat', CASE osm_type WHEN 'n' THEN ST_Y(geom) END,
     'timestamp', created,
     'version', version,
-    'center', CASE osm_type != 'n'
+    'center', CASE osm_type = 'w' OR osm_type = 'r'
       WHEN true THEN jsonb_build_object(
         'lon', ST_X(ST_PointOnSurface(geom)),
         'lat', ST_Y(ST_PointOnSurface(geom))
