@@ -165,12 +165,11 @@ SELECT
     'lat', CASE osm_type WHEN 'n' THEN ST_Y(geom) END,
     'timestamp', created,
     'version', version,
-    'center', jsonb_build_object(
-      'lon', ST_X(ST_PointOnSurface(geom)),
-      'lat', ST_Y(ST_PointOnSurface(geom))
-    ),
-    'geometry', CASE osm_type
-      WHEN 'w' THEN (SELECT jsonb_agg(jsonb_build_object('lon', ST_X(geom), 'lat', ST_Y(geom))) FROM ST_DumpPoints(geom))
+    'center', CASE osm_type != 'n'
+      WHEN true THEN jsonb_build_object(
+        'lon', ST_X(ST_PointOnSurface(geom)),
+        'lat', ST_Y(ST_PointOnSurface(geom))
+      )
     END,
     'nodes', nodes,
     'members', members,

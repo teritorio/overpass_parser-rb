@@ -38,22 +38,27 @@ module OverpassParser
 #{meta ? ",\n    'version', version" : ''}\
 #{if @geom == 'center'
     ",
-    'center', #{sql_dialect.json_build_object}(
-      'lon', ST_X(ST_PointOnSurface(geom)),
-      'lat', ST_Y(ST_PointOnSurface(geom))
-    )"
+    'center', CASE osm_type != 'n'
+      WHEN true THEN #{sql_dialect.json_build_object}(
+        'lon', ST_X(ST_PointOnSurface(geom)),
+        'lat', ST_Y(ST_PointOnSurface(geom))
+      )
+    END"
   else
     ''
   end}\
-#{if @geom == 'bb'
+#{if @geom == 'bb' || @geom == 'geom'
     ",
-    'bounds', #{sql_dialect.json_build_object}(
-      'minlon', ST_XMin(ST_Envelope(geom)),
-      'minlat', ST_YMin(ST_Envelope(geom)),
-      'maxlon', ST_XMax(ST_Envelope(geom)),
-      'maxnlat', ST_YMax(ST_Envelope(geom))
-    )"
-  else
+    'bounds', CASE osm_type != 'n'
+      WHEN true THEN #{sql_dialect.json_build_object}(
+        'minlon', ST_XMin(ST_Envelope(geom)),
+        'minlat', ST_YMin(ST_Envelope(geom)),
+        'maxlon', ST_XMax(ST_Envelope(geom)),
+        'maxnlat', ST_YMax(ST_Envelope(geom))
+      )
+    END"
+  end}\
+#{if @geom == 'geom'
     ",
     'geometry', CASE osm_type
       WHEN 'w' THEN " + (
