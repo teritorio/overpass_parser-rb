@@ -54,7 +54,7 @@ module OverpassParser
         'minlon', ST_XMin(ST_Envelope(geom)),
         'minlat', ST_YMin(ST_Envelope(geom)),
         'maxlon', ST_XMax(ST_Envelope(geom)),
-        'maxnlat', ST_YMax(ST_Envelope(geom))
+        'maxlat', ST_YMax(ST_Envelope(geom))
       )
     END"
   end}\
