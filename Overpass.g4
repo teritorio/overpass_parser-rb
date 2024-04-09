@@ -7,7 +7,7 @@ SL_COMMENT: '//' .*? '\r'? '\n' -> channel(HIDDEN);
 ML_COMMENT: '/*' .*? '*/' -> channel(HIDDEN);
 
 INTEGER: [0-9]+;
-FLOAT: INTEGER '.' INTEGER;
+FLOAT: '-'? INTEGER '.' INTEGER;
 OPERATOR: '=' | '~=' | '=~' | '!=' | '!~' | '~';
 NOT: '!';
 UNQUOTED_STRING: [-_a-zA-Z0-9]+;
