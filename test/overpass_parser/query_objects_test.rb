@@ -29,7 +29,7 @@ FROM
 WHERE
   osm_type = 'n' AND
   (tags?'a' AND tags->>'a' = 'b') AND
-  ST_Intersects(ST_Envelope('LINESTRING(2.0 1.0, 4.0 3.0)'::geometry), geom)",
+  ST_Intersects(ST_Envelope('SRID=4326;LINESTRING(2.0 1.0, 4.0 3.0)'::geometry), geom)",
           parse('node.a[a=b](1,2,3,4)->.b').to_sql(d, '_')
         )
       end
