@@ -8,6 +8,18 @@ require_relative 'sql_dialect'
 module OverpassParser
   module SqlDialect
     class Postgres < SqlDialect
+      extend T::Sig
+
+      sig do
+        params(
+          postgres_escape_literal: T.nilable(T.proc.params(s: String).returns(String))
+        ).void
+      end
+      def initialize(postgres_escape_literal: nil)
+        super()
+        @postgres_escape_literal = postgres_escape_literal || ->(s) { escape_literal(s) }
+      end
+
       def hash_exits(key)
         key = escape_literal(key)
         "tags?#{key}"
