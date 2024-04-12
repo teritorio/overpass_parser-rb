@@ -72,5 +72,10 @@ Rubocop
 bundle exec rubocop -c .rubocop.yml --autocorrect
 ```
 
+Test
+```
+bundle exec rake test
+```
+
 ## License
 Licensed under the MIT license. See LICENSE.txt for details.

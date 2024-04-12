@@ -72,6 +72,15 @@ module OverpassParser
         )
         assert_equal("NOT tags?'amenity'", parse('[!amenity]').to_sql(d))
       end
+
+      sig { void }
+      def test_matches_to_sql_quote
+        d = OverpassParser::SqlDialect::Postgres.new
+        assert_equal("(tags?'name' AND tags->>'name' = 'l''l')", parse('[name="l\'l"]').to_sql(d))
+
+        d = OverpassParser::SqlDialect::Postgres.new(postgres_escape_literal: ->(s) { "_#{s}_" })
+        assert_equal("(tags?_name_ AND tags->>_name_ = _l'l_)", parse('[name="l\'l"]').to_sql(d))
+      end
     end
   end
 end

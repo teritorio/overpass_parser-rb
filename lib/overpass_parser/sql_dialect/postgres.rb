@@ -17,7 +17,11 @@ module OverpassParser
       end
       def initialize(postgres_escape_literal: nil)
         super()
-        @postgres_escape_literal = postgres_escape_literal || ->(s) { escape_literal(s) }
+        @postgres_escape_literal = postgres_escape_literal
+      end
+
+      def escape_literal(string)
+        @postgres_escape_literal ? @postgres_escape_literal.call(string) : super(string)
       end
 
       def hash_exits(key)
