@@ -9,7 +9,7 @@ module OverpassParser
     class SqlDialect
       # T.proc.params(s: String).returns(String)
       def escape_literal(string)
-        "'#{string}'"
+        "'#{string.gsub("'", "''")}'"
       end
 
       def statement_timeout(timeout); end
