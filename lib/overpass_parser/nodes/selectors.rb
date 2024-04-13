@@ -6,7 +6,7 @@ require 'sorbet-struct-comparable'
 
 module OverpassParser
   module Nodes
-    class Selector < T::Struct
+    class Selector < T::InexactStruct
       include T::Struct::ActsAsComparable
       extend T::Sig
 
@@ -23,12 +23,12 @@ module OverpassParser
           value: T.nilable(String)
         ).void
       end
-      def initialize(key, not_: false, operator: nil, value: nil)
+      def initialize(key:, not_: false, operator: nil, value: nil)
         @key = key
         # Does not use boolean, as not comparable
         @not_ = not_ == true ? 1 : 0
         @operator = operator
-        @value = !operator.nil? && ['~', '!~'].include?(operator) ? Regexp.new(value) : value
+        @value = !operator.nil? && ['~', '!~'].include?(operator) ? Regexp.new(T.must(value)) : value
       end
 
       sig do

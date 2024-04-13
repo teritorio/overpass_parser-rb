@@ -9,10 +9,10 @@ module OverpassParser
         tree = OverpassParser.tree("node['highway'=\"primary\"][operator=\"Commune d'Anglet\"];")
         assert_equal(
           QueryObjects.new(
-            'node',
+            object_type: 'node',
             selectors: [
-              Selector.new('highway', value: 'primary', operator: '='),
-              Selector.new('operator', value: "Commune d'Anglet", operator: '=')
+              Selector.new(key: 'highway', value: 'primary', operator: '='),
+              Selector.new(key: 'operator', value: "Commune d'Anglet", operator: '=')
             ]
           ),
           tree[0].queries[0]
@@ -22,7 +22,7 @@ module OverpassParser
       def test_selector_key
         tree = OverpassParser.tree('node[highway];')
         assert_equal(
-          QueryObjects.new('node', selectors: [Selector.new('highway', not_: false)]),
+          QueryObjects.new(object_type: 'node', selectors: [Selector.new(key: 'highway', not_: false)]),
           tree[0].queries[0]
         )
       end
@@ -31,10 +31,10 @@ module OverpassParser
         tree = OverpassParser.tree('node[highway=primary][ref=33];')
         assert_equal(
           QueryObjects.new(
-            'node',
+            object_type: 'node',
             selectors: [
-              Selector.new('highway', value: 'primary', operator: '='),
-              Selector.new('ref', value: '33', operator: '=')
+              Selector.new(key: 'highway', value: 'primary', operator: '='),
+              Selector.new(key: 'ref', value: '33', operator: '=')
             ]
           ),
           tree[0].queries[0]
@@ -45,8 +45,8 @@ module OverpassParser
         tree = OverpassParser.tree('node._[highway=primary];')
         assert_equal(
           QueryObjects.new(
-            'node',
-            selectors: [Selector.new('highway', value: 'primary', operator: '=')],
+            object_type: 'node',
+            selectors: [Selector.new(key: 'highway', value: 'primary', operator: '=')],
             set: '_'
           ),
           tree[0].queries[0]
@@ -56,7 +56,10 @@ module OverpassParser
       def test_filter_arround
         tree = OverpassParser.tree('node(around.a:100.0);')
         assert_equal(
-          QueryObjects.new('node', filters: [Filter.new(around: FilterAround.new(core: 'a', radius: 100.0))]),
+          QueryObjects.new(
+            object_type: 'node',
+            filters: [Filter.new(around: FilterAround.new(core: 'a', radius: 100.0))]
+          ),
           tree[0].queries[0]
         )
       end
@@ -80,17 +83,17 @@ module OverpassParser
           Request.new(
             timeout: 25,
             queries: [
-              QueryObjects.new('area', filters: [Filter.new(ids: [3_600_000_001])], asignation: 'a'),
-              QueryObjects.new('area', filters: [Filter.new(ids: [3_600_000_002])], asignation: 'b'),
+              QueryObjects.new(object_type: 'area', filters: [Filter.new(ids: [3_600_000_001])], asignation: 'a'),
+              QueryObjects.new(object_type: 'area', filters: [Filter.new(ids: [3_600_000_002])], asignation: 'b'),
               QueryObjects.new(
-                'relation',
-                selectors: [Selector.new('name', value: 'En aban !', operator: '=')],
+                object_type: 'relation',
+                selectors: [Selector.new(key: 'name', value: 'En aban !', operator: '=')],
                 filters: [Filter.new(around: FilterAround.new(core: '_', radius: 500.0))]
               ),
               QueryRecurse.new(recurse: '>'),
               QueryObjects.new(
-                'nwr',
-                selectors: [Selector.new('highway', value: 'bus_stop', operator: '=')],
+                object_type: 'nwr',
+                selectors: [Selector.new(key: 'highway', value: 'bus_stop', operator: '=')],
                 set: '_'
               )
             ],

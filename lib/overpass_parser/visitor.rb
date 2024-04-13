@@ -49,7 +49,7 @@ module OverpassParser
       @selectors = []
       visit_children(ctx)
       r = Nodes::QueryObjects.new(
-        ctx.object_type.text,
+        object_type: ctx.object_type.text,
         selectors: (Nodes::Selectors.new(@selectors.compact) unless @selectors.empty?),
         filters: (Nodes::Filters.new(@filters.compact.dup) unless @filters.empty?),
         set: ctx.DOT_ID&.text&.[](1),
@@ -78,10 +78,10 @@ module OverpassParser
     def visit_selector(ctx)
       visit_children(ctx)
       r = if ctx.token[1].nil?
-            Nodes::Selector.new(@stack.pop, not_: ctx.NOT&.text == '!')
+            Nodes::Selector.new(key: @stack.pop, not_: ctx.NOT&.text == '!')
           else
             value = @stack.pop
-            Nodes::Selector.new(@stack.pop, operator: ctx.OPERATOR.text, value: value)
+            Nodes::Selector.new(key: @stack.pop, operator: ctx.OPERATOR.text, value: value)
           end
       @selectors << r
     end

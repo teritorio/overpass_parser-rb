@@ -17,7 +17,7 @@ module OverpassParser
       const :set, T.nilable(String)
       const :asignation, T.nilable(String)
 
-      def initialize(object_type, selectors: nil, filters: nil, set: nil, asignation: nil)
+      def initialize(object_type:, selectors: nil, filters: nil, set: nil, asignation: nil)
         @object_type = object_type
         @selectors = selectors
         @filters = filters
