@@ -30,7 +30,11 @@ module OverpassParser
       def to_sql(sql_dialect)
         clauses = []
         unless bbox.nil?
-          clauses << "#{sql_dialect.st_intersects_extent}(ST_Envelope('SRID=4326;LINESTRING(#{T.must(bbox)[1]} #{T.must(bbox)[0]}, #{T.must(bbox)[3]} #{T.must(bbox)[2]})'::geometry), geom)"
+          clauses << "#{sql_dialect.st_intersects_extent}(" \
+                     "ST_Envelope('SRID=4326;LINESTRING(" \
+                     "#{T.must(bbox)[1]} #{T.must(bbox)[0]}, " \
+                     "#{T.must(bbox)[3]} #{T.must(bbox)[2]}" \
+                     ")'::geometry), geom)"
         end
         clauses << "id = ANY (ARRAY[#{ids&.collect(&:to_s)&.join(', ')}])" unless ids.nil?
         clauses << "ST_Intersects(geom, (SELECT #{sql_dialect.st_union}(geom) FROM _#{area_id}))" unless area_id.nil?

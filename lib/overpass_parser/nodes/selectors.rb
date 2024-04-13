@@ -84,7 +84,13 @@ module OverpassParser
 
         case @operator
         when nil then "#{@not_ == 1 ? 'NOT ' : ''}#{sql_dialect.hash_exits(key)}"
-        when '=' then value.nil? ? "(NOT #{sql_dialect.hash_exits(key)})" : "(#{sql_dialect.hash_exits(key)} AND #{sql_dialect.hash_get(key)} = #{value})"
+        when '=' then (
+          if value.nil?
+            "(NOT #{sql_dialect.hash_exits(key)})"
+          else
+            "(#{sql_dialect.hash_exits(key)} AND #{sql_dialect.hash_get(key)} = #{value})"
+          end
+        )
         when '!=' then "(NOT #{sql_dialect.hash_exits(key)} OR #{sql_dialect.hash_get(key)} != #{value})"
         when '~' then "(#{sql_dialect.hash_exits(key)} AND #{sql_dialect.hash_get(key)} ~ #{value})"
         when '!~' then "(NOT #{sql_dialect.hash_exits(key)} OR #{sql_dialect.hash_get(key)} !~ #{value})"

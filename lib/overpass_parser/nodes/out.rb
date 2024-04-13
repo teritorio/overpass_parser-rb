@@ -63,14 +63,20 @@ module OverpassParser
     'geometry', CASE osm_type
       WHEN 'w' THEN " + (
       if sql_dialect.st_dump_points
-        "(SELECT #{sql_dialect.jsonb_agg}(#{sql_dialect.json_build_object}('lon', ST_X(geom), 'lat', ST_Y(geom))) FROM #{sql_dialect.st_dump_points}(geom))"
+        "(SELECT \
+#{sql_dialect.jsonb_agg}(#{sql_dialect.json_build_object}('lon', ST_X(geom), 'lat', ST_Y(geom))) \
+FROM #{sql_dialect.st_dump_points}(geom))"
       else
         "replace(replace(replace(replace(replace((
           CASE ST_GeometryType(geom)
           WHEN 'LINESTRING' THEN ST_AsGeoJson(geom)->'coordinates'
           ELSE ST_AsGeoJson(geom)->'coordinates'->0
           END
-        )::text, '[', '{\"lon\":'), ',', ',\"lat\":'), '{\"lon\":{\"lon\":', '[{\"lon\":'), '],\"lat\":{\"lon\":', '},{\"lon\":'), ']]', '}]')::json"
+        )::text, '[', '{\"lon\":'), \
+',', ',\"lat\":'), \
+'{\"lon\":{\"lon\":', '[{\"lon\":'), \
+'],\"lat\":{\"lon\":', '},{\"lon\":'), \
+']]', '}]')::json"
       end
     ) + "
     END"
