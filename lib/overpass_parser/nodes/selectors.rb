@@ -13,7 +13,7 @@ module OverpassParser
       const :not_, Integer, default: 0
       const :key, String
       const :operator, T.nilable(String)
-      const :value, T.nilable(String)
+      const :value, T.nilable(T.any(String, Regexp))
 
       sig do
         params(
@@ -88,7 +88,7 @@ module OverpassParser
         when '!=' then "(NOT #{sql_dialect.hash_exits(key)} OR #{sql_dialect.hash_get(key)} != #{value})"
         when '~' then "(#{sql_dialect.hash_exits(key)} AND #{sql_dialect.hash_get(key)} ~ #{value})"
         when '!~' then "(NOT #{sql_dialect.hash_exits(key)} OR #{sql_dialect.hash_get(key)} !~ #{value})"
-        else throw "Not implemented operator #{op}"
+        else throw "Not implemented operator #{@operator}"
         end
       end
 

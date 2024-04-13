@@ -7,28 +7,59 @@ require 'sorbet-struct-comparable'
 module OverpassParser
   module SqlDialect
     class SqlDialect
-      # T.proc.params(s: String).returns(String)
+      extend T::Sig
+
+      sig do
+        params(string: String).returns(String)
+      end
       def escape_literal(string)
         "'#{string.gsub("'", "''")}'"
       end
 
-      def statement_timeout(timeout); end
+      sig do
+        params(_timeout: Integer).returns(String)
+      end
+      def statement_timeout(_timeout) = ''
 
-      def hash_exits(key); end
+      sig do
+        params(_key: String).returns(String)
+      end
+      def hash_exits(_key) = ''
 
-      def hash_get; end
+      sig do
+        params(_key: String).returns(String)
+      end
+      def hash_get(_key) = ''
 
-      def json_strip_nulls; end
+      sig do
+        returns(String)
+      end
+      def json_strip_nulls = ''
 
-      def json_build_object; end
+      sig do
+        returns(String)
+      end
+      def json_build_object = ''
 
-      def jsonb_agg; end
+      sig do
+        returns(String)
+      end
+      def jsonb_agg = ''
 
-      def st_union; end
+      sig do
+        returns(String)
+      end
+      def st_union = ''
 
-      def st_dump_points; end
+      sig do
+        returns(T.nilable(String))
+      end
+      def st_dump_points = ''
 
-      def st_intersects_extent; end
+      sig do
+        returns(String)
+      end
+      def st_intersects_extent = ''
     end
   end
 end

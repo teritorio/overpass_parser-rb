@@ -67,6 +67,12 @@ out center meta;
 
 ## Dev
 
+Typing
+```
+bundle exec tapioca init
+bundle exec srb typecheck
+```
+
 Rubocop
 ```
 bundle exec rubocop -c .rubocop.yml --autocorrect

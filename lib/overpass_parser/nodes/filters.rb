@@ -17,7 +17,7 @@ module OverpassParser
       include T::Struct::ActsAsComparable
       extend T::Sig
 
-      const :bbox, T.nilable(T::Array[Float])
+      const :bbox, T.nilable([Float, Float, Float, Float])
       const :ids, T.nilable(T::Array[Integer])
       const :area_id, T.nilable(String)
       const :around, T.nilable(FilterAround)
@@ -30,12 +30,12 @@ module OverpassParser
       def to_sql(sql_dialect)
         clauses = []
         unless bbox.nil?
-          clauses << "#{sql_dialect.st_intersects_extent}(ST_Envelope('SRID=4326;LINESTRING(#{bbox[1]} #{bbox[0]}, #{bbox[3]} #{bbox[2]})'::geometry), geom)"
+          clauses << "#{sql_dialect.st_intersects_extent}(ST_Envelope('SRID=4326;LINESTRING(#{T.must(bbox)[1]} #{T.must(bbox)[0]}, #{T.must(bbox)[3]} #{T.must(bbox)[2]})'::geometry), geom)"
         end
-        clauses << "id = ANY (ARRAY[#{ids.collect(&:to_s).join(', ')}])" unless ids.nil?
+        clauses << "id = ANY (ARRAY[#{ids&.collect(&:to_s)&.join(', ')}])" unless ids.nil?
         clauses << "ST_Intersects(geom, (SELECT #{sql_dialect.st_union}(geom) FROM _#{area_id}))" unless area_id.nil?
         unless around.nil?
-          clauses << "ST_Within(geom, (SELECT #{sql_dialect.st_union}(geom) FROM _#{around.core}), #{around.radius})"
+          clauses << "ST_Within(geom, (SELECT #{sql_dialect.st_union}(geom) FROM _#{around&.core}), #{around&.radius})"
         end
 
         return nil if clauses.empty?
