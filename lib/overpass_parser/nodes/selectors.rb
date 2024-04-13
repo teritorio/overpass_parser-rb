@@ -24,11 +24,13 @@ module OverpassParser
         ).void
       end
       def initialize(key:, not_: false, operator: nil, value: nil)
-        @key = key
-        # Does not use boolean, as not comparable
-        @not_ = not_ == true ? 1 : 0
-        @operator = operator
-        @value = !operator.nil? && ['~', '!~'].include?(operator) ? Regexp.new(T.must(value)) : value
+        super(
+          key: key,
+          # Does not use boolean, as not comparable
+          not_: not_ == true ? 1 : 0,
+          operator: operator,
+          value: !operator.nil? && ['~', '!~'].include?(operator) ? Regexp.new(T.must(value)) : value,
+        )
       end
 
       sig do

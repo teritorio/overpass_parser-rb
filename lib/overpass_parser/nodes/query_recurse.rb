@@ -15,7 +15,10 @@ module OverpassParser
       const :asignation, T.nilable(String)
 
       def initialize(recurse:, asignation: nil)
-        @recurse = recurse
+        super(
+          recurse: recurse,
+          asignation: asignation,
+        )
         @asignation = asignation.nil? ? "_#{Digest::SHA1.hexdigest(inspect)}" : "_#{asignation}"
       end
 

@@ -16,7 +16,10 @@ module OverpassParser
       const :asignation, T.nilable(String)
 
       def initialize(queries:, asignation: nil)
-        @queries = queries
+        super(
+          queries: queries,
+          asignation: asignation,
+        )
         @asignation = asignation.nil? ? "_#{Digest::SHA1.hexdigest(inspect)}" : "_#{asignation}"
       end
 

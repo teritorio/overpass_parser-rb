@@ -20,7 +20,6 @@ module OverpassParser
         ).returns(T.nilable(String))
       end
       def to_sql(sql_dialect)
-        coordinates = %w[skel body meta].include?(@level_of_details)
         way_member_nodes =  %w[skel body meta].include?(@level_of_details)
         relations_members = %w[skel body meta].include?(@level_of_details)
         tags = %w[body tags meta].include?(@level_of_details)

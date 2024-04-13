@@ -7,7 +7,7 @@ require 'digest/sha1'
 
 module OverpassParser
   module Nodes
-    class QueryObjects < T::Struct
+    class QueryObjects < T::InexactStruct
       include T::Struct::ActsAsComparable
       extend T::Sig
 
@@ -18,10 +18,13 @@ module OverpassParser
       const :asignation, T.nilable(String)
 
       def initialize(object_type:, selectors: nil, filters: nil, set: nil, asignation: nil)
-        @object_type = object_type
-        @selectors = selectors
-        @filters = filters
-        @set = set
+        super(
+          object_type: object_type,
+          selectors: selectors,
+          filters: filters,
+          set: set,
+          asignation: asignation,
+        )
         @asignation = asignation.nil? ? "_#{Digest::SHA1.hexdigest(inspect)}" : "_#{asignation}"
       end
 

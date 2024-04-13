@@ -10,10 +10,10 @@ module OverpassParser
         assert_equal(
           QueryObjects.new(
             object_type: 'node',
-            selectors: [
+            selectors: Selectors.new([
               Selector.new(key: 'highway', value: 'primary', operator: '='),
               Selector.new(key: 'operator', value: "Commune d'Anglet", operator: '=')
-            ]
+            ])
           ),
           tree[0].queries[0]
         )
@@ -22,7 +22,7 @@ module OverpassParser
       def test_selector_key
         tree = OverpassParser.tree('node[highway];')
         assert_equal(
-          QueryObjects.new(object_type: 'node', selectors: [Selector.new(key: 'highway', not_: false)]),
+          QueryObjects.new(object_type: 'node', selectors: Selectors.new([Selector.new(key: 'highway', not_: false)])),
           tree[0].queries[0]
         )
       end
@@ -32,10 +32,10 @@ module OverpassParser
         assert_equal(
           QueryObjects.new(
             object_type: 'node',
-            selectors: [
+            selectors: Selectors.new([
               Selector.new(key: 'highway', value: 'primary', operator: '='),
               Selector.new(key: 'ref', value: '33', operator: '=')
-            ]
+            ])
           ),
           tree[0].queries[0]
         )
@@ -46,7 +46,7 @@ module OverpassParser
         assert_equal(
           QueryObjects.new(
             object_type: 'node',
-            selectors: [Selector.new(key: 'highway', value: 'primary', operator: '=')],
+            selectors: Selectors.new([Selector.new(key: 'highway', value: 'primary', operator: '=')]),
             set: '_'
           ),
           tree[0].queries[0]
@@ -58,7 +58,7 @@ module OverpassParser
         assert_equal(
           QueryObjects.new(
             object_type: 'node',
-            filters: [Filter.new(around: FilterAround.new(core: 'a', radius: 100.0))]
+            filters: Filters.new([Filter.new(around: FilterAround.new(core: 'a', radius: 100.0))])
           ),
           tree[0].queries[0]
         )
@@ -83,17 +83,19 @@ module OverpassParser
           Request.new(
             timeout: 25,
             queries: [
-              QueryObjects.new(object_type: 'area', filters: [Filter.new(ids: [3_600_000_001])], asignation: 'a'),
-              QueryObjects.new(object_type: 'area', filters: [Filter.new(ids: [3_600_000_002])], asignation: 'b'),
+              QueryObjects.new(object_type: 'area', filters: Filters.new([Filter.new(ids: [3_600_000_001])]),
+                               asignation: 'a'),
+              QueryObjects.new(object_type: 'area', filters: Filters.new([Filter.new(ids: [3_600_000_002])]),
+                               asignation: 'b'),
               QueryObjects.new(
                 object_type: 'relation',
-                selectors: [Selector.new(key: 'name', value: 'En aban !', operator: '=')],
-                filters: [Filter.new(around: FilterAround.new(core: '_', radius: 500.0))]
+                selectors: Selectors.new([Selector.new(key: 'name', value: 'En aban !', operator: '=')]),
+                filters: Filters.new([Filter.new(around: FilterAround.new(core: '_', radius: 500.0))])
               ),
               QueryRecurse.new(recurse: '>'),
               QueryObjects.new(
                 object_type: 'nwr',
-                selectors: [Selector.new(key: 'highway', value: 'bus_stop', operator: '=')],
+                selectors: Selectors.new([Selector.new(key: 'highway', value: 'bus_stop', operator: '=')]),
                 set: '_'
               )
             ],
