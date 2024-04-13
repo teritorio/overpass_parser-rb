@@ -1,0 +1,35 @@
+name: Test Ruby
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
+
+      - name: Run rubocop
+        run: bundle exec rubocop --parallel
+
+      - name: Build native part
+        run: |
+          bundle exec rake generate && \
+          bundle exec rake compile
+
+      - name: Run typecheck
+        run: |
+          bundle exec tapioca init && \
+          bundle exec srb typecheck -q
+
+      - name: Run tests
+        run: bundle exec rake test

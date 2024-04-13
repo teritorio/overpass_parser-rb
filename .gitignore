@@ -1,4 +1,3 @@
-Gemfile.lock
 pkg/
 *.o
 *.o.tmp
@@ -14,3 +13,6 @@ ext/overpass_parser/mkmf.log
 /pkg/
 /spec/reports/
 /tmp/
+sorbet
+!sorbet/rbi/OverpassParser.rbi
+bin/tapioca
