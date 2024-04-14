@@ -15,7 +15,7 @@ module OverpassParser
               Selector.new(key: 'operator', value: "Commune d'Anglet", operator: '=')
             ])
           ),
-          tree[0].queries[0]
+          tree.queries[0]
         )
       end
 
@@ -23,7 +23,7 @@ module OverpassParser
         tree = OverpassParser.parse('node[highway];')
         assert_equal(
           QueryObjects.new(object_type: 'node', selectors: Selectors.new([Selector.new(key: 'highway', not_: false)])),
-          tree[0].queries[0]
+          tree.queries[0]
         )
       end
 
@@ -37,7 +37,7 @@ module OverpassParser
               Selector.new(key: 'ref', value: '33', operator: '=')
             ])
           ),
-          tree[0].queries[0]
+          tree.queries[0]
         )
       end
 
@@ -49,7 +49,7 @@ module OverpassParser
             selectors: Selectors.new([Selector.new(key: 'highway', value: 'primary', operator: '=')]),
             set: '_'
           ),
-          tree[0].queries[0]
+          tree.queries[0]
         )
       end
 
@@ -60,13 +60,13 @@ module OverpassParser
             object_type: 'node',
             filters: Filters.new([Filter.new(around: FilterAround.new(core: 'a', radius: 100.0))])
           ),
-          tree[0].queries[0]
+          tree.queries[0]
         )
       end
 
       def test_recurse
         tree = OverpassParser.parse('>;')
-        assert_equal(QueryRecurse.new(recurse: '>'), tree[0].queries[0])
+        assert_equal(QueryRecurse.new(recurse: '>'), tree.queries[0])
       end
 
       def test_parse_error
@@ -107,7 +107,7 @@ module OverpassParser
             ],
             out: Out.new(geom: 'center', level_of_details: 'meta')
           ),
-          tree[0]
+          tree
         )
       end
 
@@ -187,7 +187,7 @@ SELECT
 FROM
   _k
 ;",
-                     tree[0].to_sql(d))
+                     tree.to_sql(d))
       end
     end
   end

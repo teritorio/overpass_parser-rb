@@ -37,7 +37,7 @@ FROM (
 ) AS t
 ORDER BY
   osm_type, id",
-          OverpassParser.parse('(node;way;);')[0].queries[0].to_sql(d, '_')
+          OverpassParser.parse('(node;way;);').queries[0]&.to_sql(d, '_')
         )
       end
     end

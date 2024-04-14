@@ -15,7 +15,7 @@ module OverpassParser
       end
       def parse(query)
         tree = OverpassParser.parse("node#{query};")
-        tree[0].queries[0].selectors
+        tree.queries[0].selectors
       end
 
       sig { void }

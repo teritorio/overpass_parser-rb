@@ -50,8 +50,7 @@ module OverpassParser
           level_of_details: ctx.out&.out_level_of_details&.text
         }.compact)
       )
-      @stack = []
-      @stack.push(r)
+      @stack = r
     end
 
     def visit_query_union(ctx)
