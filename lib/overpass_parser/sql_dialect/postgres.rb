@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# typed: true
+# typed: strict
 
 require 'sorbet-runtime'
 require 'sorbet-struct-comparable'
@@ -7,6 +7,8 @@ require_relative 'sql_dialect'
 
 module OverpassParser
   module SqlDialect
+    extend T::Sig
+
     class Postgres < SqlDialect
       extend T::Sig
 
@@ -20,44 +22,74 @@ module OverpassParser
         @postgres_escape_literal = postgres_escape_literal
       end
 
+      sig do
+        params(string: String).returns(String)
+      end
       def escape_literal(string)
         @postgres_escape_literal ? @postgres_escape_literal.call(string) : super(string)
       end
 
+      sig do
+        params(key: String).returns(String)
+      end
       def hash_exits(key)
         key = escape_literal(key)
         "tags?#{key}"
       end
 
+      sig do
+        params(key: String).returns(String)
+      end
       def hash_get(key)
         key = escape_literal(key)
         "tags->>#{key}"
       end
 
+      sig do
+        params(timeout: Integer).returns(String)
+      end
       def statement_timeout(timeout)
         "SET statement_timeout = #{timeout};"
       end
 
+      sig do
+        returns(String)
+      end
       def json_strip_nulls
         'jsonb_strip_nulls'
       end
 
+      sig do
+        returns(String)
+      end
       def json_build_object
         'jsonb_build_object'
       end
 
+      sig do
+        returns(String)
+      end
       def jsonb_agg
         'jsonb_agg'
       end
 
+      sig do
+        returns(String)
+      end
       def st_union
         'ST_Union'
       end
 
+      sig do
+        returns(T.nilable(String))
+      end
       def st_dump_points
         'ST_DumpPoints'
       end
 
+      sig do
+        returns(String)
+      end
       def st_intersects_extent
         'ST_Intersects'
       end

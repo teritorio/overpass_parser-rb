@@ -1,11 +1,13 @@
 # frozen_string_literal: true
-# typed: true
+# typed: strict
 
 require 'sorbet-runtime'
 require 'sorbet-struct-comparable'
 
 module OverpassParser
   module SqlDialect
+    extend T::Sig
+
     class SqlDialect
       extend T::Sig
 
