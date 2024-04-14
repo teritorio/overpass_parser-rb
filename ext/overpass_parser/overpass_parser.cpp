@@ -1744,6 +1744,30 @@ public:
 
 };
 
+class BaseErrorListenerProxy : public BaseErrorListener, public Director {
+public:
+  BaseErrorListenerProxy(Object self) : Director(self) { }
+
+  void ruby(ContextProxy* proxy) {
+  }
+
+  virtual void syntaxError(Recognizer * recognizer, Token * offendingSymbol, size_t line, size_t charPositionInLine, const std::string &msg, std::exception_ptr e) override {
+    getSelf().call("syntax_error", line, charPositionInLine, msg);
+  }
+
+  // virtual void reportAmbiguity(Parser * recognizer, const dfa::DFA &dfa, size_t startIndex, size_t stopIndex, bool exact, const antlrcpp::BitSet &ambigAlts, atn::ATNConfigSet * configs) override {
+  //   getSelf().call("report_ambiguity");
+  // }
+
+  // virtual void reportAttemptingFullContext(Parser * recognizer, const dfa::DFA &dfa, size_t startIndex, size_t stopIndex, const antlrcpp::BitSet &conflictingAlts, atn::ATNConfigSet * configs) override {
+  //   getSelf().call("report_attempting_full_context");
+  // }
+
+  // virtual void reportContextSensitivity(Parser * recognizer, const dfa::DFA &dfa, size_t startIndex, size_t stopIndex, size_t prediction, atn::ATNConfigSet * configs) override {
+  //   getSelf().call("report_context_sensitivity");
+  // }
+};
+
 
 class ParserProxy {
 public:
@@ -1779,6 +1803,10 @@ public:
     this -> parser -> reset();
 
     return std::any_cast<Object>(result);
+  }
+
+  auto addErrorListener(BaseErrorListenerProxy* baseErrorListener) {
+    return this -> parser -> addErrorListener(baseErrorListener);
   }
 
   ~ParserProxy() {
@@ -1968,10 +1996,19 @@ void Init_overpass_parser() {
     .define_method("visit_out", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_request", &VisitorProxy::ruby_visitChildren);
 
+  define_class_under<BaseErrorListener>(rb_mOverpassParser, "BaseErrorListener")
+    .define_director<BaseErrorListenerProxy>()
+    .define_constructor(Constructor<BaseErrorListenerProxy, Object>())
+    .define_method("syntax_error", &BaseErrorListenerProxy::ruby);
+    // .define_method("report_ambiguity", &BaseErrorListenerProxy::ruby_visitChildren)
+    // .define_method("report_attempting_full_context", &BaseErrorListenerProxy::ruby_visitChildren)
+    // .define_method("report_context_sensitivity", &BaseErrorListenerProxy::ruby_visitChildren);
+
   rb_cParser = define_class_under<ParserProxy>(rb_mOverpassParser, "Parser")
     .define_singleton_function("parse", &ParserProxy::parse)
     .define_singleton_function("parse_file", &ParserProxy::parseFile)
     .define_method("request", &ParserProxy::request)
+    .define_method("add_error_listener", &ParserProxy::addErrorListener)
     .define_method("visit", &ParserProxy::visit);
 
   rb_cOsm_idContext = define_class_under<Osm_idContextProxy, ContextProxy>(rb_mOverpassParser, "Osm_idContext")

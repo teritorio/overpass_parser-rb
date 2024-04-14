@@ -69,6 +69,12 @@ module OverpassParser
         assert_equal(QueryRecurse.new(recurse: '>'), tree[0].queries[0])
       end
 
+      def test_parse_error
+        assert_raises ParsingError do
+          OverpassParser.tree(':')
+        end
+      end
+
       def test_full
         tree = OverpassParser.tree('
           [out:json][timeout:25];

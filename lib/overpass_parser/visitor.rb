@@ -12,6 +12,26 @@ require_relative 'nodes/request'
 require_relative 'nodes/out'
 
 module OverpassParser
+  class ParsingError < RuntimeError; end
+
+  class ErrorListener < OverpassParser::BaseErrorListener
+    def syntax_error(line, char_position_in_line, msg)
+      raise(ParsingError, "line #{line}:#{char_position_in_line} #{msg}")
+    end
+
+    # def reportAmbiguity
+    #   puts "reportAmbiguity"
+    # end
+
+    # def reportAttemptingFullContext
+    #   puts "reportAttemptingFullContext"
+    # end
+
+    # def reportContextSensitivity
+    #   puts "reportContextSensitivity"
+    # end
+  end
+
   class Walker < OverpassParser::Visitor
     attr_reader :stack
 
@@ -111,6 +131,7 @@ module OverpassParser
 
   def self.tree(overpass_script)
     parser = OverpassParser::Parser.parse(overpass_script)
+    parser.add_error_listener(ErrorListener.new)
     walker = OverpassParser::Walker.new
     parser.visit(walker)
     walker.stack
