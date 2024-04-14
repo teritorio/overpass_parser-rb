@@ -11,7 +11,7 @@ bundle exec rake compile
 ```ruby
 require 'overpass_parser/visitor'
 
-tree = OverpassParser.tree('[out:json]...')
+tree = OverpassParser.parse('[out:json]...')
 ```
 
 ## SQL

@@ -129,7 +129,7 @@ module OverpassParser
     end
   end
 
-  def self.tree(overpass_script)
+  def self.parse(overpass_script)
     parser = OverpassParser::Parser.parse(overpass_script)
     parser.add_error_listener(ErrorListener.new)
     walker = OverpassParser::Walker.new

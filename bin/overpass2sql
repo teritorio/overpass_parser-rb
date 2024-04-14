@@ -12,4 +12,4 @@ sql_dialect = dialect_class.new
 
 query = $stdin.read
 
-puts(OverpassParser.tree(query)[0].to_sql(sql_dialect))
+puts(OverpassParser.parse(query)[0].to_sql(sql_dialect))

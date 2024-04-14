@@ -46,7 +46,7 @@ SELECT
 FROM
   _a
 ;",
-          OverpassParser.tree('[out:json][timeout:25];node(1)->.a;out center meta;')[0].to_sql(d)
+          OverpassParser.parse('[out:json][timeout:25];node(1)->.a;out center meta;')[0].to_sql(d)
         )
       end
     end

@@ -14,7 +14,7 @@ module OverpassParser
         ).returns(OverpassParser::Nodes::Selectors)
       end
       def parse(query)
-        tree = OverpassParser.tree("node#{query};")
+        tree = OverpassParser.parse("node#{query};")
         tree[0].queries[0].selectors
       end
 

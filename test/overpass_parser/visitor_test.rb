@@ -6,7 +6,7 @@ module OverpassParser
   module Nodes
     class TestVisitor < Minitest::Test
       def test_quote
-        tree = OverpassParser.tree("node['highway'=\"primary\"][operator=\"Commune d'Anglet\"];")
+        tree = OverpassParser.parse("node['highway'=\"primary\"][operator=\"Commune d'Anglet\"];")
         assert_equal(
           QueryObjects.new(
             object_type: 'node',
@@ -20,7 +20,7 @@ module OverpassParser
       end
 
       def test_selector_key
-        tree = OverpassParser.tree('node[highway];')
+        tree = OverpassParser.parse('node[highway];')
         assert_equal(
           QueryObjects.new(object_type: 'node', selectors: Selectors.new([Selector.new(key: 'highway', not_: false)])),
           tree[0].queries[0]
@@ -28,7 +28,7 @@ module OverpassParser
       end
 
       def test_selector_key_value
-        tree = OverpassParser.tree('node[highway=primary][ref=33];')
+        tree = OverpassParser.parse('node[highway=primary][ref=33];')
         assert_equal(
           QueryObjects.new(
             object_type: 'node',
@@ -42,7 +42,7 @@ module OverpassParser
       end
 
       def test_selector_set
-        tree = OverpassParser.tree('node._[highway=primary];')
+        tree = OverpassParser.parse('node._[highway=primary];')
         assert_equal(
           QueryObjects.new(
             object_type: 'node',
@@ -54,7 +54,7 @@ module OverpassParser
       end
 
       def test_filter_arround
-        tree = OverpassParser.tree('node(around.a:100.0);')
+        tree = OverpassParser.parse('node(around.a:100.0);')
         assert_equal(
           QueryObjects.new(
             object_type: 'node',
@@ -65,18 +65,18 @@ module OverpassParser
       end
 
       def test_recurse
-        tree = OverpassParser.tree('>;')
+        tree = OverpassParser.parse('>;')
         assert_equal(QueryRecurse.new(recurse: '>'), tree[0].queries[0])
       end
 
       def test_parse_error
         assert_raises ParsingError do
-          OverpassParser.tree(':')
+          OverpassParser.parse(':')
         end
       end
 
       def test_full
-        tree = OverpassParser.tree('
+        tree = OverpassParser.parse('
           [out:json][timeout:25];
           area(id:3600000001)->.a;
           area(3600000002)->.b;
@@ -112,7 +112,7 @@ module OverpassParser
       end
 
       def test_to_sql
-        tree = OverpassParser.tree('
+        tree = OverpassParser.parse('
           [out:json][timeout:25];
           area(3600166718)->.a;
           (
