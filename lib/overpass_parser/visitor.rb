@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 # typed: true
 
-require 'overpass_parser'
 require 'sorbet-runtime'
 require_relative 'nodes/selectors'
 require_relative 'nodes/filters'
@@ -12,9 +11,20 @@ require_relative 'nodes/request'
 require_relative 'nodes/out'
 
 module OverpassParser
+  extend T::Sig
+
   class ParsingError < RuntimeError; end
 
   class ErrorListener < OverpassParser::BaseErrorListener
+    extend T::Sig
+
+    sig do
+      params(
+        line: Integer,
+        char_position_in_line: Integer,
+        msg: String
+      ).void
+    end
     def syntax_error(line, char_position_in_line, msg)
       raise(ParsingError, "line #{line}:#{char_position_in_line} #{msg}")
     end
@@ -126,13 +136,5 @@ module OverpassParser
       text = !ctx.UNQUOTED_STRING.nil? || !ctx.number.nil? ? (ctx.UNQUOTED_STRING || ctx.number).text : ctx.text[1..-2]
       @stack.push(text)
     end
-  end
-
-  def self.parse(overpass_script)
-    parser = OverpassParser::Parser.parse(overpass_script)
-    parser.add_error_listener(ErrorListener.new)
-    walker = OverpassParser::Walker.new
-    parser.visit(walker)
-    walker.stack
   end
 end
