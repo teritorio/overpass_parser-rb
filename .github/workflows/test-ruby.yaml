@@ -21,9 +21,13 @@ jobs:
       - name: Run rubocop
         run: bundle exec rubocop --parallel
 
+      # - name: Build native part
+      #   run: |
+      #     bundle exec rake generate && \
+      #     bundle exec rake compile
+
       - name: Build native part
         run: |
-          bundle exec rake generate && \
           bundle exec rake compile
 
       - name: Run typecheck
