@@ -133,7 +133,15 @@ module OverpassParser
 
     def visit_token(ctx)
       visit_children(ctx)
-      text = !ctx.UNQUOTED_STRING.nil? || !ctx.number.nil? ? (ctx.UNQUOTED_STRING || ctx.number).text : ctx.text[1..-2]
+      text = (
+        if !ctx.SIMPLE_QUOTED_STRING.nil?
+          ctx.text[1..-2].gsub("\\'", "'")
+        elsif !ctx.DOUBLE_QUOTED_STRING.nil?
+          ctx.text[1..-2].gsub('\\"', '"')
+        else
+          (ctx.UNQUOTED_STRING || ctx.number).text
+        end
+      )
       @stack.push(text)
     end
   end

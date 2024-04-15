@@ -116,7 +116,7 @@ module OverpassParser
           [out:json][timeout:25];
           area(3600166718)->.a;
           (
-            nwr[a="Ñ"](area.a)->.x;
+            nwr[a="Ñ\'\\""][b=\'"\'](area.a)->.x;
             nwr[c](area.a)->.z;
           )->.k;
           out center meta;
@@ -142,7 +142,7 @@ _k AS (
       nwr
     WHERE
       osm_type = ANY (ARRAY['n', 'w', 'r']) AND
-      (tags?'a' AND tags->>'a' = 'Ñ') AND
+      (tags?'a' AND tags->>'a' = 'Ñ''\"') AND (tags?'b' AND tags->>'b' = '\"') AND
       ST_Intersects(geom, (SELECT ST_Union(geom) FROM _a))
   ),
   _z AS (
