@@ -31,16 +31,16 @@ module OverpassParser
   #{sql_dialect.json_strip_nulls}(#{sql_dialect.json_build_object}(
     'type', CASE osm_type WHEN 'n' THEN 'node' WHEN 'w' THEN 'way' WHEN 'r' THEN 'relation' WHEN 'a' THEN 'area' END,
     'id', id,
-    'lon', CASE osm_type WHEN 'n' THEN ST_X(geom) END,
-    'lat', CASE osm_type WHEN 'n' THEN ST_Y(geom) END\
+    'lon', CASE osm_type WHEN 'n' THEN ST_X(geom)::numeric END,
+    'lat', CASE osm_type WHEN 'n' THEN ST_Y(geom)::numeric END\
 #{meta ? ",\n    'timestamp', created" : ''}\
 #{meta ? ",\n    'version', version" : ''}\
 #{if @geom == 'center'
     ",
     'center', CASE osm_type = 'w' OR osm_type = 'r'
       WHEN true THEN #{sql_dialect.json_build_object}(
-        'lon', ST_X(ST_PointOnSurface(geom)),
-        'lat', ST_Y(ST_PointOnSurface(geom))
+        'lon', ST_X(ST_PointOnSurface(geom))::numeric,
+        'lat', ST_Y(ST_PointOnSurface(geom))::numeric
       )
     END"
   else
@@ -50,10 +50,10 @@ module OverpassParser
     ",
     'bounds', CASE osm_type = 'w' OR osm_type = 'r'
       WHEN true THEN #{sql_dialect.json_build_object}(
-        'minlon', ST_XMin(ST_Envelope(geom)),
-        'minlat', ST_YMin(ST_Envelope(geom)),
-        'maxlon', ST_XMax(ST_Envelope(geom)),
-        'maxlat', ST_YMax(ST_Envelope(geom))
+        'minlon', ST_XMin(ST_Envelope(geom))::numeric,
+        'minlat', ST_YMin(ST_Envelope(geom))::numeric,
+        'maxlon', ST_XMax(ST_Envelope(geom))::numeric,
+        'maxlat', ST_YMax(ST_Envelope(geom))::numeric
       )
     END"
   end}\
@@ -63,13 +63,13 @@ module OverpassParser
       WHEN 'w' THEN " + (
       if sql_dialect.st_dump_points
         "(SELECT \
-#{sql_dialect.jsonb_agg}(#{sql_dialect.json_build_object}('lon', ST_X(geom), 'lat', ST_Y(geom))) \
+#{sql_dialect.jsonb_agg}(#{sql_dialect.json_build_object}('lon', ST_X(geom)::numeric, 'lat', ST_Y(geom)::numeric)) \
 FROM #{sql_dialect.st_dump_points}(geom))"
       else
         "replace(replace(replace(replace(replace((
           CASE ST_GeometryType(geom)
-          WHEN 'LINESTRING' THEN ST_AsGeoJson(geom)->'coordinates'
-          ELSE ST_AsGeoJson(geom)->'coordinates'->0
+          WHEN 'LINESTRING' THEN ST_AsGeoJson(geom, 7)->'coordinates'
+          ELSE ST_AsGeoJson(geom, 7)->'coordinates'->0
           END
         )::text, '[', '{\"lon\":'), \
 ',', ',\"lat\":'), \

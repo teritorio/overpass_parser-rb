@@ -171,14 +171,14 @@ SELECT
   jsonb_strip_nulls(jsonb_build_object(
     'type', CASE osm_type WHEN 'n' THEN 'node' WHEN 'w' THEN 'way' WHEN 'r' THEN 'relation' WHEN 'a' THEN 'area' END,
     'id', id,
-    'lon', CASE osm_type WHEN 'n' THEN ST_X(geom) END,
-    'lat', CASE osm_type WHEN 'n' THEN ST_Y(geom) END,
+    'lon', CASE osm_type WHEN 'n' THEN ST_X(geom)::numeric END,
+    'lat', CASE osm_type WHEN 'n' THEN ST_Y(geom)::numeric END,
     'timestamp', created,
     'version', version,
     'center', CASE osm_type = 'w' OR osm_type = 'r'
       WHEN true THEN jsonb_build_object(
-        'lon', ST_X(ST_PointOnSurface(geom)),
-        'lat', ST_Y(ST_PointOnSurface(geom))
+        'lon', ST_X(ST_PointOnSurface(geom))::numeric,
+        'lat', ST_Y(ST_PointOnSurface(geom))::numeric
       )
     END,
     'nodes', nodes,
