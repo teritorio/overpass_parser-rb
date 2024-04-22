@@ -35,7 +35,7 @@ SELECT
     'timestamp', created,
     'version', version,
     'changeset', changeset,
-    'user', user,
+    'user', \"user\",
     'uid', uid,
     'center', CASE osm_type = 'w' OR osm_type = 'r'
       WHEN true THEN jsonb_build_object(

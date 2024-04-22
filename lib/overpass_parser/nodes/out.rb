@@ -33,7 +33,7 @@ module OverpassParser
 #{meta ? ",\n    'timestamp', created" : ''}\
 #{meta ? ",\n    'version', version" : ''}\
 #{meta ? ",\n    'changeset', changeset" : ''}\
-#{meta ? ",\n    'user', user" : ''}\
+#{meta ? ",\n    'user', \"user\"" : ''}\
 #{meta ? ",\n    'uid', uid" : ''}\
 #{if @geom == 'center'
     ",
