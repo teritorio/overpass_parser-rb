@@ -22,11 +22,11 @@ _a AS (
   WHERE
     osm_type = 'n' AND
     id = ANY (ARRAY[1])
+),
+__finalizer AS (
+  SELECT * FROM _a
 )
 SELECT
-  -- 'changeset'
-  -- 'user'
-  -- 'uid'
   jsonb_strip_nulls(jsonb_build_object(
     'type', CASE osm_type WHEN 'n' THEN 'node' WHEN 'w' THEN 'way' WHEN 'r' THEN 'relation' WHEN 'a' THEN 'area' END,
     'id', id,
@@ -34,6 +34,9 @@ SELECT
     'lat', CASE osm_type WHEN 'n' THEN ST_Y(geom)::numeric END,
     'timestamp', created,
     'version', version,
+    'changeset', changeset,
+    'user', user,
+    'uid', uid,
     'center', CASE osm_type = 'w' OR osm_type = 'r'
       WHEN true THEN jsonb_build_object(
         'lon', ST_X(ST_PointOnSurface(geom))::numeric,
@@ -44,9 +47,12 @@ SELECT
     'members', members,
     'tags', tags)) AS j
 FROM
-  _a
+  __finalizer
 ;",
-          OverpassParser.parse('[out:json][timeout:25];node(1)->.a;out center meta;').to_sql(d)
+          OverpassParser.parse('[out:json][timeout:25];node(1)->.a;out center meta;').to_sql(
+            d,
+            'SELECT * FROM {{query}}'
+          )
         )
       end
     end

@@ -25,9 +25,6 @@ module OverpassParser
         tags = %w[body tags meta].include?(@level_of_details)
         meta = ['meta'].include?(@level_of_details)
         "SELECT
-  -- 'changeset'
-  -- 'user'
-  -- 'uid'
   #{sql_dialect.json_strip_nulls}(#{sql_dialect.json_build_object}(
     'type', CASE osm_type WHEN 'n' THEN 'node' WHEN 'w' THEN 'way' WHEN 'r' THEN 'relation' WHEN 'a' THEN 'area' END,
     'id', id,
@@ -35,6 +32,9 @@ module OverpassParser
     'lat', CASE osm_type WHEN 'n' THEN ST_Y(geom)::numeric END\
 #{meta ? ",\n    'timestamp', created" : ''}\
 #{meta ? ",\n    'version', version" : ''}\
+#{meta ? ",\n    'changeset', changeset" : ''}\
+#{meta ? ",\n    'user', user" : ''}\
+#{meta ? ",\n    'uid', uid" : ''}\
 #{if @geom == 'center'
     ",
     'center', CASE osm_type = 'w' OR osm_type = 'r'
