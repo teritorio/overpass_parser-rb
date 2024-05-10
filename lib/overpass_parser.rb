@@ -5,6 +5,9 @@
 require File.expand_path(File.join('..', 'ext', 'overpass_parser', 'overpass_parser'), __dir__)
 require 'sorbet-runtime'
 require_relative('overpass_parser/visitor')
+require_relative('overpass_parser/sql_dialect/duckdb')
+require_relative('overpass_parser/sql_dialect/postgres')
+require_relative('overpass_parser/sql_dialect/sql_dialect')
 
 module OverpassParser
   extend T::Sig

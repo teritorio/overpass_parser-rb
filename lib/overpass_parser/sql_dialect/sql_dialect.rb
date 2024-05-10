@@ -6,8 +6,6 @@ require 'sorbet-struct-comparable'
 
 module OverpassParser
   module SqlDialect
-    extend T::Sig
-
     class SqlDialect
       extend T::Sig
 

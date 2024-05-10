@@ -20,7 +20,7 @@ module OverpassParser
         params(
           sql_dialect: SqlDialect::SqlDialect,
           finalizer: T.nilable(String)
-        ).returns(T.nilable(String))
+        ).returns(String)
       end
       def to_sql(sql_dialect, finalizer = nil)
         default_set = T.let(nil, T.nilable(String))

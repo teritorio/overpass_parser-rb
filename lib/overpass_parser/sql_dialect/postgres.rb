@@ -7,8 +7,6 @@ require_relative 'sql_dialect'
 
 module OverpassParser
   module SqlDialect
-    extend T::Sig
-
     class Postgres < SqlDialect
       extend T::Sig
 

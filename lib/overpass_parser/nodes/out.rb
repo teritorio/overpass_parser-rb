@@ -17,7 +17,7 @@ module OverpassParser
       sig do
         params(
           sql_dialect: SqlDialect::SqlDialect
-        ).returns(T.nilable(String))
+        ).returns(String)
       end
       def to_sql(sql_dialect)
         way_member_nodes =  %w[skel body meta].include?(@level_of_details)

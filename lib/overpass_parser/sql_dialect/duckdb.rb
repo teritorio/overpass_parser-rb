@@ -7,8 +7,6 @@ require_relative 'sql_dialect'
 
 module OverpassParser
   module SqlDialect
-    extend T::Sig
-
     class Duckdb < SqlDialect
       extend T::Sig
 
