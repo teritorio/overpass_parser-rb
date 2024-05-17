@@ -119,12 +119,7 @@ module OverpassParser
       visit_children(ctx)
       r = Nodes::Filter.new(
         bbox: ctx.filter_bbox&.number&.collect(&:text)&.collect(&:to_f),
-        poly: (
-          if !ctx&.filter_poly&.SIMPLE_QUOTED_STRING.nil?
-            ctx.filter_poly.SIMPLE_QUOTED_STRING.text[1..-2].gsub("\\'", "'")
-          elsif !ctx&.filter_poly&.DOUBLE_QUOTED_STRING.nil?
-            ctx.filter_poly.DOUBLE_QUOTED_STRING.text[1..-2].gsub('\\"', '"')
-          end)&.split(/\s+/)&.collect(&:to_f)&.each_slice(2)&.to_a,
+        poly: split_poly_ccords(ctx.filter_poly),
         ids: (
           ctx.filter_osm_id.nil? ? ctx.filter_osm_ids&.osm_id : [ctx.filter_osm_id])
             &.collect(&:text)&.collect(&:to_i),
@@ -139,16 +134,23 @@ module OverpassParser
 
     def visit_token(ctx)
       visit_children(ctx)
-      text = (
-        if !ctx.SIMPLE_QUOTED_STRING.nil?
-          ctx.text[1..-2].gsub("\\'", "'")
-        elsif !ctx.DOUBLE_QUOTED_STRING.nil?
-          ctx.text[1..-2].gsub('\\"', '"')
-        else
-          (ctx.UNQUOTED_STRING || ctx.number).text
-        end
-      )
-      @stack.push(text)
+      @stack.push(unquote(ctx) || (ctx.UNQUOTED_STRING || ctx.number).text)
+    end
+
+    private
+
+    def unquote(ctx)
+      if !ctx.SIMPLE_QUOTED_STRING.nil?
+        ctx.SIMPLE_QUOTED_STRING.text[1..-2].gsub("\\'", "'")
+      elsif !ctx.DOUBLE_QUOTED_STRING.nil?
+        ctx.DOUBLE_QUOTED_STRING.text[1..-2].gsub('\\"', '"')
+      end
+    end
+
+    def split_poly_ccords(ctx)
+      return nil if ctx.nil?
+
+      unquote(ctx).split(/\s+/).collect(&:to_f).each_slice(2).to_a
     end
   end
 end
