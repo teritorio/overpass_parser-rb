@@ -11,8 +11,12 @@ FLOAT: '-'? INTEGER '.' INTEGER;
 OPERATOR: '=' | '~=' | '=~' | '!=' | '!~' | '~';
 NOT: '!';
 UNQUOTED_STRING: [-_a-zA-Z0-9]+;
-SIMPLE_QUOTED_STRING: ['] (~['] | '\\' ["])* ['];
-DOUBLE_QUOTED_STRING: '"' (~["] | '\\' ["])* '"';
+SIMPLE_QUOTE: '\'';
+DOUBLE_QUOTE: '"';
+SIMPLE_QUOTED_STRING:
+	SIMPLE_QUOTE (~['] | '\\' ['])* SIMPLE_QUOTE;
+DOUBLE_QUOTED_STRING:
+	DOUBLE_QUOTE (~["] | '\\' ["])* DOUBLE_QUOTE;
 ID: [a-zA-Z_] [-_a-zA-Z0-9]*;
 DOT_ID: '.' ID;
 
@@ -39,6 +43,8 @@ selector:
 	) ']';
 
 filter_bbox: number ',' number ',' number ',' number;
+filter_poly:
+	'poly:' (SIMPLE_QUOTED_STRING | DOUBLE_QUOTED_STRING);
 filter_osm_id: osm_id;
 filter_osm_ids: 'id:' osm_id (',' osm_id)*;
 filter_area: 'area' DOT_ID;
@@ -46,6 +52,7 @@ filter_around: 'around' DOT_ID ':' number;
 filter:
 	'(' (
 		filter_bbox
+		| filter_poly
 		| filter_osm_id
 		| filter_osm_ids
 		| filter_area

@@ -18,6 +18,7 @@ module OverpassParser
       extend T::Sig
 
       const :bbox, T.nilable([Float, Float, Float, Float])
+      const :poly, T.nilable(T::Array[[Float, Float]])
       const :ids, T.nilable(T::Array[Integer])
       const :area_id, T.nilable(String)
       const :around, T.nilable(FilterAround)
@@ -35,6 +36,12 @@ module OverpassParser
                      "#{T.must(bbox)[1]} #{T.must(bbox)[0]}, " \
                      "#{T.must(bbox)[3]} #{T.must(bbox)[2]}" \
                      ")'::geometry), geom)"
+        end
+        unless poly.nil?
+          coords = T.must(poly).collect do |lat, lon|
+            "#{lon} #{lat}"
+          end.join(', ')
+          clauses << "#{sql_dialect.st_intersects}('SRID=4326;POLYGON(#{coords})'::geometry, geom)"
         end
         clauses << "id = ANY (ARRAY[#{ids&.collect(&:to_s)&.join(', ')}])" unless ids.nil?
         clauses << "ST_Intersects(geom, (SELECT #{sql_dialect.st_union}(geom) FROM _#{area_id}))" unless area_id.nil?

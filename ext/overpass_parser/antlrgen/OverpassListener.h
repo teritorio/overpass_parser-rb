@@ -32,6 +32,9 @@ public:
   virtual void enterFilter_bbox(OverpassParser::Filter_bboxContext *ctx) = 0;
   virtual void exitFilter_bbox(OverpassParser::Filter_bboxContext *ctx) = 0;
 
+  virtual void enterFilter_poly(OverpassParser::Filter_polyContext *ctx) = 0;
+  virtual void exitFilter_poly(OverpassParser::Filter_polyContext *ctx) = 0;
+
   virtual void enterFilter_osm_id(OverpassParser::Filter_osm_idContext *ctx) = 0;
   virtual void exitFilter_osm_id(OverpassParser::Filter_osm_idContext *ctx) = 0;
 

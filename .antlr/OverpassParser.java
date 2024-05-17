@@ -1,4 +1,4 @@
-// Generated from /home/fred/teritorio/code/overpass_parser-rb/Overpass.g4 by ANTLR 4.9.2
+// Generated from /home/fred/teritorio/code/overpass_parser-rb/Overpass.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
 
-@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
+@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue"})
 public class OverpassParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.9.2", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.13.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -19,33 +19,35 @@ public class OverpassParser extends Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
-		T__24=25, T__25=26, T__26=27, T__27=28, T__28=29, T__29=30, WS=31, SL_COMMENT=32, 
-		ML_COMMENT=33, INTEGER=34, FLOAT=35, OPERATOR=36, NOT=37, UNQUOTED_STRING=38, 
-		SIMPLE_QUOTED_STRING=39, DOUBLE_QUOTED_STRING=40, ID=41, DOT_ID=42;
+		T__24=25, T__25=26, T__26=27, T__27=28, T__28=29, T__29=30, T__30=31, 
+		WS=32, SL_COMMENT=33, ML_COMMENT=34, INTEGER=35, FLOAT=36, OPERATOR=37, 
+		NOT=38, UNQUOTED_STRING=39, SIMPLE_QUOTE=40, DOUBLE_QUOTE=41, SIMPLE_QUOTED_STRING=42, 
+		DOUBLE_QUOTED_STRING=43, ID=44, DOT_ID=45;
 	public static final int
 		RULE_osm_id = 0, RULE_number = 1, RULE_token = 2, RULE_metadata = 3, RULE_selector = 4, 
-		RULE_filter_bbox = 5, RULE_filter_osm_id = 6, RULE_filter_osm_ids = 7, 
-		RULE_filter_area = 8, RULE_filter_around = 9, RULE_filter = 10, RULE_asignation = 11, 
-		RULE_object_type = 12, RULE_query_object = 13, RULE_query_recurse = 14, 
-		RULE_query = 15, RULE_query_union = 16, RULE_query_sequence = 17, RULE_out_geom = 18, 
-		RULE_out_level_of_details = 19, RULE_out = 20, RULE_request = 21;
+		RULE_filter_bbox = 5, RULE_filter_poly = 6, RULE_filter_osm_id = 7, RULE_filter_osm_ids = 8, 
+		RULE_filter_area = 9, RULE_filter_around = 10, RULE_filter = 11, RULE_asignation = 12, 
+		RULE_object_type = 13, RULE_query_object = 14, RULE_query_recurse = 15, 
+		RULE_query = 16, RULE_query_union = 17, RULE_query_sequence = 18, RULE_out_geom = 19, 
+		RULE_out_level_of_details = 20, RULE_out = 21, RULE_request = 22;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"osm_id", "number", "token", "metadata", "selector", "filter_bbox", "filter_osm_id", 
-			"filter_osm_ids", "filter_area", "filter_around", "filter", "asignation", 
-			"object_type", "query_object", "query_recurse", "query", "query_union", 
-			"query_sequence", "out_geom", "out_level_of_details", "out", "request"
+			"osm_id", "number", "token", "metadata", "selector", "filter_bbox", "filter_poly", 
+			"filter_osm_id", "filter_osm_ids", "filter_area", "filter_around", "filter", 
+			"asignation", "object_type", "query_object", "query_recurse", "query", 
+			"query_union", "query_sequence", "out_geom", "out_level_of_details", 
+			"out", "request"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'['", "'out:json'", "']'", "'timeout:'", "','", "'id:'", "'area'", 
-			"'around'", "':'", "'('", "')'", "'->'", "'node'", "'way'", "'relation'", 
-			"'nwr'", "'<'", "'<<'", "'>'", "'>>'", "';'", "'geom'", "'center'", "'bb'", 
-			"'ids'", "'skel'", "'body'", "'tags'", "'meta'", "'out'", null, null, 
-			null, null, null, null, "'!'"
+			null, "'['", "'out:json'", "']'", "'timeout:'", "','", "'poly:'", "'id:'", 
+			"'area'", "'around'", "':'", "'('", "')'", "'->'", "'node'", "'way'", 
+			"'relation'", "'nwr'", "'<'", "'<<'", "'>'", "'>>'", "';'", "'geom'", 
+			"'center'", "'bb'", "'ids'", "'skel'", "'body'", "'tags'", "'meta'", 
+			"'out'", null, null, null, null, null, null, "'!'", null, "'''", "'\"'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -53,9 +55,10 @@ public class OverpassParser extends Parser {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, "WS", "SL_COMMENT", "ML_COMMENT", 
-			"INTEGER", "FLOAT", "OPERATOR", "NOT", "UNQUOTED_STRING", "SIMPLE_QUOTED_STRING", 
-			"DOUBLE_QUOTED_STRING", "ID", "DOT_ID"
+			null, null, null, null, null, null, null, null, "WS", "SL_COMMENT", "ML_COMMENT", 
+			"INTEGER", "FLOAT", "OPERATOR", "NOT", "UNQUOTED_STRING", "SIMPLE_QUOTE", 
+			"DOUBLE_QUOTE", "SIMPLE_QUOTED_STRING", "DOUBLE_QUOTED_STRING", "ID", 
+			"DOT_ID"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -109,6 +112,7 @@ public class OverpassParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class Osm_idContext extends ParserRuleContext {
 		public TerminalNode INTEGER() { return getToken(OverpassParser.INTEGER, 0); }
 		public Osm_idContext(ParserRuleContext parent, int invokingState) {
@@ -123,7 +127,7 @@ public class OverpassParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(44);
+			setState(46);
 			match(INTEGER);
 			}
 		}
@@ -138,6 +142,7 @@ public class OverpassParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class NumberContext extends ParserRuleContext {
 		public TerminalNode INTEGER() { return getToken(OverpassParser.INTEGER, 0); }
 		public TerminalNode FLOAT() { return getToken(OverpassParser.FLOAT, 0); }
@@ -154,7 +159,7 @@ public class OverpassParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(46);
+			setState(48);
 			_la = _input.LA(1);
 			if ( !(_la==INTEGER || _la==FLOAT) ) {
 			_errHandler.recoverInline(this);
@@ -177,6 +182,7 @@ public class OverpassParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class TokenContext extends ParserRuleContext {
 		public TerminalNode SIMPLE_QUOTED_STRING() { return getToken(OverpassParser.SIMPLE_QUOTED_STRING, 0); }
 		public TerminalNode DOUBLE_QUOTED_STRING() { return getToken(OverpassParser.DOUBLE_QUOTED_STRING, 0); }
@@ -194,27 +200,27 @@ public class OverpassParser extends Parser {
 		TokenContext _localctx = new TokenContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_token);
 		try {
-			setState(52);
+			setState(54);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case SIMPLE_QUOTED_STRING:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(48);
+				setState(50);
 				match(SIMPLE_QUOTED_STRING);
 				}
 				break;
 			case DOUBLE_QUOTED_STRING:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(49);
+				setState(51);
 				match(DOUBLE_QUOTED_STRING);
 				}
 				break;
 			case UNQUOTED_STRING:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(50);
+				setState(52);
 				match(UNQUOTED_STRING);
 				}
 				break;
@@ -222,7 +228,7 @@ public class OverpassParser extends Parser {
 			case FLOAT:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(51);
+				setState(53);
 				number();
 				}
 				break;
@@ -241,6 +247,7 @@ public class OverpassParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class MetadataContext extends ParserRuleContext {
 		public Token out_json;
 		public NumberContext timeout;
@@ -260,28 +267,28 @@ public class OverpassParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(54);
+			setState(56);
 			match(T__0);
 			{
-			setState(55);
+			setState(57);
 			((MetadataContext)_localctx).out_json = match(T__1);
 			}
-			setState(56);
+			setState(58);
 			match(T__2);
-			setState(62);
+			setState(64);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==T__0) {
 				{
-				setState(57);
+				setState(59);
 				match(T__0);
-				setState(58);
+				setState(60);
 				match(T__3);
 				{
-				setState(59);
+				setState(61);
 				((MetadataContext)_localctx).timeout = number();
 				}
-				setState(60);
+				setState(62);
 				match(T__2);
 				}
 			}
@@ -299,6 +306,7 @@ public class OverpassParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class SelectorContext extends ParserRuleContext {
 		public TokenContext key;
 		public TokenContext value;
@@ -323,25 +331,25 @@ public class OverpassParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(64);
+			setState(66);
 			match(T__0);
-			setState(73);
+			setState(75);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 			case 1:
 				{
 				{
-				setState(66);
+				setState(68);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==NOT) {
 					{
-					setState(65);
+					setState(67);
 					match(NOT);
 					}
 				}
 
-				setState(68);
+				setState(70);
 				((SelectorContext)_localctx).key = token();
 				}
 				}
@@ -349,17 +357,17 @@ public class OverpassParser extends Parser {
 			case 2:
 				{
 				{
-				setState(69);
-				((SelectorContext)_localctx).key = token();
-				setState(70);
-				match(OPERATOR);
 				setState(71);
+				((SelectorContext)_localctx).key = token();
+				setState(72);
+				match(OPERATOR);
+				setState(73);
 				((SelectorContext)_localctx).value = token();
 				}
 				}
 				break;
 			}
-			setState(75);
+			setState(77);
 			match(T__2);
 			}
 		}
@@ -374,6 +382,7 @@ public class OverpassParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class Filter_bboxContext extends ParserRuleContext {
 		public List<NumberContext> number() {
 			return getRuleContexts(NumberContext.class);
@@ -393,10 +402,6 @@ public class OverpassParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(77);
-			number();
-			setState(78);
-			match(T__4);
 			setState(79);
 			number();
 			setState(80);
@@ -406,6 +411,10 @@ public class OverpassParser extends Parser {
 			setState(82);
 			match(T__4);
 			setState(83);
+			number();
+			setState(84);
+			match(T__4);
+			setState(85);
 			number();
 			}
 		}
@@ -420,6 +429,49 @@ public class OverpassParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
+	public static class Filter_polyContext extends ParserRuleContext {
+		public TerminalNode SIMPLE_QUOTED_STRING() { return getToken(OverpassParser.SIMPLE_QUOTED_STRING, 0); }
+		public TerminalNode DOUBLE_QUOTED_STRING() { return getToken(OverpassParser.DOUBLE_QUOTED_STRING, 0); }
+		public Filter_polyContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_filter_poly; }
+	}
+
+	public final Filter_polyContext filter_poly() throws RecognitionException {
+		Filter_polyContext _localctx = new Filter_polyContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_filter_poly);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(87);
+			match(T__5);
+			setState(88);
+			_la = _input.LA(1);
+			if ( !(_la==SIMPLE_QUOTED_STRING || _la==DOUBLE_QUOTED_STRING) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
 	public static class Filter_osm_idContext extends ParserRuleContext {
 		public Osm_idContext osm_id() {
 			return getRuleContext(Osm_idContext.class,0);
@@ -432,11 +484,11 @@ public class OverpassParser extends Parser {
 
 	public final Filter_osm_idContext filter_osm_id() throws RecognitionException {
 		Filter_osm_idContext _localctx = new Filter_osm_idContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_filter_osm_id);
+		enterRule(_localctx, 14, RULE_filter_osm_id);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(85);
+			setState(90);
 			osm_id();
 			}
 		}
@@ -451,6 +503,7 @@ public class OverpassParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class Filter_osm_idsContext extends ParserRuleContext {
 		public List<Osm_idContext> osm_id() {
 			return getRuleContexts(Osm_idContext.class);
@@ -466,28 +519,28 @@ public class OverpassParser extends Parser {
 
 	public final Filter_osm_idsContext filter_osm_ids() throws RecognitionException {
 		Filter_osm_idsContext _localctx = new Filter_osm_idsContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_filter_osm_ids);
+		enterRule(_localctx, 16, RULE_filter_osm_ids);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(87);
-			match(T__5);
-			setState(88);
-			osm_id();
+			setState(92);
+			match(T__6);
 			setState(93);
+			osm_id();
+			setState(98);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__4) {
 				{
 				{
-				setState(89);
+				setState(94);
 				match(T__4);
-				setState(90);
+				setState(95);
 				osm_id();
 				}
 				}
-				setState(95);
+				setState(100);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -504,6 +557,7 @@ public class OverpassParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class Filter_areaContext extends ParserRuleContext {
 		public TerminalNode DOT_ID() { return getToken(OverpassParser.DOT_ID, 0); }
 		public Filter_areaContext(ParserRuleContext parent, int invokingState) {
@@ -514,13 +568,13 @@ public class OverpassParser extends Parser {
 
 	public final Filter_areaContext filter_area() throws RecognitionException {
 		Filter_areaContext _localctx = new Filter_areaContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_filter_area);
+		enterRule(_localctx, 18, RULE_filter_area);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(96);
-			match(T__6);
-			setState(97);
+			setState(101);
+			match(T__7);
+			setState(102);
 			match(DOT_ID);
 			}
 		}
@@ -535,6 +589,7 @@ public class OverpassParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class Filter_aroundContext extends ParserRuleContext {
 		public TerminalNode DOT_ID() { return getToken(OverpassParser.DOT_ID, 0); }
 		public NumberContext number() {
@@ -548,17 +603,17 @@ public class OverpassParser extends Parser {
 
 	public final Filter_aroundContext filter_around() throws RecognitionException {
 		Filter_aroundContext _localctx = new Filter_aroundContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_filter_around);
+		enterRule(_localctx, 20, RULE_filter_around);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(99);
-			match(T__7);
-			setState(100);
-			match(DOT_ID);
-			setState(101);
+			setState(104);
 			match(T__8);
-			setState(102);
+			setState(105);
+			match(DOT_ID);
+			setState(106);
+			match(T__9);
+			setState(107);
 			number();
 			}
 		}
@@ -573,9 +628,13 @@ public class OverpassParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class FilterContext extends ParserRuleContext {
 		public Filter_bboxContext filter_bbox() {
 			return getRuleContext(Filter_bboxContext.class,0);
+		}
+		public Filter_polyContext filter_poly() {
+			return getRuleContext(Filter_polyContext.class,0);
 		}
 		public Filter_osm_idContext filter_osm_id() {
 			return getRuleContext(Filter_osm_idContext.class,0);
@@ -597,48 +656,54 @@ public class OverpassParser extends Parser {
 
 	public final FilterContext filter() throws RecognitionException {
 		FilterContext _localctx = new FilterContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_filter);
+		enterRule(_localctx, 22, RULE_filter);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(104);
-			match(T__9);
-			setState(110);
+			setState(109);
+			match(T__10);
+			setState(116);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
 			case 1:
 				{
-				setState(105);
+				setState(110);
 				filter_bbox();
 				}
 				break;
 			case 2:
 				{
-				setState(106);
-				filter_osm_id();
+				setState(111);
+				filter_poly();
 				}
 				break;
 			case 3:
 				{
-				setState(107);
-				filter_osm_ids();
+				setState(112);
+				filter_osm_id();
 				}
 				break;
 			case 4:
 				{
-				setState(108);
-				filter_area();
+				setState(113);
+				filter_osm_ids();
 				}
 				break;
 			case 5:
 				{
-				setState(109);
+				setState(114);
+				filter_area();
+				}
+				break;
+			case 6:
+				{
+				setState(115);
 				filter_around();
 				}
 				break;
 			}
-			setState(112);
-			match(T__10);
+			setState(118);
+			match(T__11);
 			}
 		}
 		catch (RecognitionException re) {
@@ -652,6 +717,7 @@ public class OverpassParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class AsignationContext extends ParserRuleContext {
 		public TerminalNode DOT_ID() { return getToken(OverpassParser.DOT_ID, 0); }
 		public AsignationContext(ParserRuleContext parent, int invokingState) {
@@ -662,13 +728,13 @@ public class OverpassParser extends Parser {
 
 	public final AsignationContext asignation() throws RecognitionException {
 		AsignationContext _localctx = new AsignationContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_asignation);
+		enterRule(_localctx, 24, RULE_asignation);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(114);
-			match(T__11);
-			setState(115);
+			setState(120);
+			match(T__12);
+			setState(121);
 			match(DOT_ID);
 			}
 		}
@@ -683,6 +749,7 @@ public class OverpassParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class Object_typeContext extends ParserRuleContext {
 		public Object_typeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -692,14 +759,14 @@ public class OverpassParser extends Parser {
 
 	public final Object_typeContext object_type() throws RecognitionException {
 		Object_typeContext _localctx = new Object_typeContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_object_type);
+		enterRule(_localctx, 26, RULE_object_type);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(117);
+			setState(123);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__6) | (1L << T__12) | (1L << T__13) | (1L << T__14) | (1L << T__15))) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 246016L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -720,6 +787,7 @@ public class OverpassParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class Query_objectContext extends ParserRuleContext {
 		public Object_typeContext object_type() {
 			return getRuleContext(Object_typeContext.class,0);
@@ -748,57 +816,57 @@ public class OverpassParser extends Parser {
 
 	public final Query_objectContext query_object() throws RecognitionException {
 		Query_objectContext _localctx = new Query_objectContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_query_object);
+		enterRule(_localctx, 28, RULE_query_object);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(119);
+			setState(125);
 			object_type();
-			setState(121);
+			setState(127);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==DOT_ID) {
 				{
-				setState(120);
+				setState(126);
 				match(DOT_ID);
 				}
 			}
 
-			setState(126);
+			setState(132);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__0) {
 				{
 				{
-				setState(123);
-				selector();
-				}
-				}
-				setState(128);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			setState(132);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==T__9) {
-				{
-				{
 				setState(129);
-				filter();
+				selector();
 				}
 				}
 				setState(134);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(136);
+			setState(138);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==T__11) {
+			while (_la==T__10) {
+				{
 				{
 				setState(135);
+				filter();
+				}
+				}
+				setState(140);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(142);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==T__12) {
+				{
+				setState(141);
 				asignation();
 				}
 			}
@@ -816,6 +884,7 @@ public class OverpassParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class Query_recurseContext extends ParserRuleContext {
 		public AsignationContext asignation() {
 			return getRuleContext(AsignationContext.class,0);
@@ -828,14 +897,14 @@ public class OverpassParser extends Parser {
 
 	public final Query_recurseContext query_recurse() throws RecognitionException {
 		Query_recurseContext _localctx = new Query_recurseContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_query_recurse);
+		enterRule(_localctx, 30, RULE_query_recurse);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(138);
+			setState(144);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__16) | (1L << T__17) | (1L << T__18) | (1L << T__19))) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 3932160L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -843,12 +912,12 @@ public class OverpassParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(140);
+			setState(146);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==T__11) {
+			if (_la==T__12) {
 				{
-				setState(139);
+				setState(145);
 				asignation();
 				}
 			}
@@ -866,6 +935,7 @@ public class OverpassParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class QueryContext extends ParserRuleContext {
 		public Query_objectContext query_object() {
 			return getRuleContext(Query_objectContext.class,0);
@@ -881,29 +951,29 @@ public class OverpassParser extends Parser {
 
 	public final QueryContext query() throws RecognitionException {
 		QueryContext _localctx = new QueryContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_query);
+		enterRule(_localctx, 32, RULE_query);
 		try {
-			setState(144);
+			setState(150);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__6:
-			case T__12:
+			case T__7:
 			case T__13:
 			case T__14:
 			case T__15:
+			case T__16:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(142);
+				setState(148);
 				query_object();
 				}
 				break;
-			case T__16:
 			case T__17:
 			case T__18:
 			case T__19:
+			case T__20:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(143);
+				setState(149);
 				query_recurse();
 				}
 				break;
@@ -922,6 +992,7 @@ public class OverpassParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class Query_unionContext extends ParserRuleContext {
 		public AsignationContext asignation() {
 			return getRuleContext(AsignationContext.class,0);
@@ -940,39 +1011,39 @@ public class OverpassParser extends Parser {
 
 	public final Query_unionContext query_union() throws RecognitionException {
 		Query_unionContext _localctx = new Query_unionContext(_ctx, getState());
-		enterRule(_localctx, 32, RULE_query_union);
+		enterRule(_localctx, 34, RULE_query_union);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			setState(146);
-			match(T__9);
-			setState(150); 
+			setState(152);
+			match(T__10);
+			setState(156); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(147);
+				setState(153);
 				query_sequence();
-				setState(148);
-				match(T__20);
+				setState(154);
+				match(T__21);
 				}
 				}
-				setState(152); 
+				setState(158); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__6) | (1L << T__9) | (1L << T__12) | (1L << T__13) | (1L << T__14) | (1L << T__15) | (1L << T__16) | (1L << T__17) | (1L << T__18) | (1L << T__19))) != 0) );
-			setState(154);
-			match(T__10);
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & 4180224L) != 0) );
+			setState(160);
+			match(T__11);
 			}
-			setState(157);
+			setState(163);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==T__11) {
+			if (_la==T__12) {
 				{
-				setState(156);
+				setState(162);
 				asignation();
 				}
 			}
@@ -990,6 +1061,7 @@ public class OverpassParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class Query_sequenceContext extends ParserRuleContext {
 		public QueryContext query() {
 			return getRuleContext(QueryContext.class,0);
@@ -1005,13 +1077,12 @@ public class OverpassParser extends Parser {
 
 	public final Query_sequenceContext query_sequence() throws RecognitionException {
 		Query_sequenceContext _localctx = new Query_sequenceContext(_ctx, getState());
-		enterRule(_localctx, 34, RULE_query_sequence);
+		enterRule(_localctx, 36, RULE_query_sequence);
 		try {
-			setState(161);
+			setState(167);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__6:
-			case T__12:
+			case T__7:
 			case T__13:
 			case T__14:
 			case T__15:
@@ -1019,16 +1090,17 @@ public class OverpassParser extends Parser {
 			case T__17:
 			case T__18:
 			case T__19:
+			case T__20:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(159);
+				setState(165);
 				query();
 				}
 				break;
-			case T__9:
+			case T__10:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(160);
+				setState(166);
 				query_union();
 				}
 				break;
@@ -1047,6 +1119,7 @@ public class OverpassParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class Out_geomContext extends ParserRuleContext {
 		public Out_geomContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1056,14 +1129,14 @@ public class OverpassParser extends Parser {
 
 	public final Out_geomContext out_geom() throws RecognitionException {
 		Out_geomContext _localctx = new Out_geomContext(_ctx, getState());
-		enterRule(_localctx, 36, RULE_out_geom);
+		enterRule(_localctx, 38, RULE_out_geom);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(163);
+			setState(169);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__21) | (1L << T__22) | (1L << T__23))) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 58720256L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -1084,6 +1157,7 @@ public class OverpassParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class Out_level_of_detailsContext extends ParserRuleContext {
 		public Out_level_of_detailsContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1093,14 +1167,14 @@ public class OverpassParser extends Parser {
 
 	public final Out_level_of_detailsContext out_level_of_details() throws RecognitionException {
 		Out_level_of_detailsContext _localctx = new Out_level_of_detailsContext(_ctx, getState());
-		enterRule(_localctx, 38, RULE_out_level_of_details);
+		enterRule(_localctx, 40, RULE_out_level_of_details);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(165);
+			setState(171);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__24) | (1L << T__25) | (1L << T__26) | (1L << T__27) | (1L << T__28))) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 2080374784L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -1121,6 +1195,7 @@ public class OverpassParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class OutContext extends ParserRuleContext {
 		public Out_geomContext out_geom() {
 			return getRuleContext(Out_geomContext.class,0);
@@ -1136,29 +1211,29 @@ public class OverpassParser extends Parser {
 
 	public final OutContext out() throws RecognitionException {
 		OutContext _localctx = new OutContext(_ctx, getState());
-		enterRule(_localctx, 40, RULE_out);
+		enterRule(_localctx, 42, RULE_out);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(167);
-			match(T__29);
-			setState(169);
+			setState(173);
+			match(T__30);
+			setState(175);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__21) | (1L << T__22) | (1L << T__23))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 58720256L) != 0)) {
 				{
-				setState(168);
+				setState(174);
 				out_geom();
 				}
 			}
 
-			setState(172);
+			setState(178);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__24) | (1L << T__25) | (1L << T__26) | (1L << T__27) | (1L << T__28))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 2080374784L) != 0)) {
 				{
-				setState(171);
+				setState(177);
 				out_level_of_details();
 				}
 			}
@@ -1176,6 +1251,7 @@ public class OverpassParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class RequestContext extends ParserRuleContext {
 		public MetadataContext metadata() {
 			return getRuleContext(MetadataContext.class,0);
@@ -1197,48 +1273,48 @@ public class OverpassParser extends Parser {
 
 	public final RequestContext request() throws RecognitionException {
 		RequestContext _localctx = new RequestContext(_ctx, getState());
-		enterRule(_localctx, 42, RULE_request);
+		enterRule(_localctx, 44, RULE_request);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(177);
+			setState(183);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==T__0) {
 				{
-				setState(174);
+				setState(180);
 				metadata();
-				setState(175);
-				match(T__20);
+				setState(181);
+				match(T__21);
 				}
 			}
 
-			setState(182); 
+			setState(188); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(179);
+				setState(185);
 				query_sequence();
-				setState(180);
-				match(T__20);
+				setState(186);
+				match(T__21);
 				}
 				}
-				setState(184); 
+				setState(190); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__6) | (1L << T__9) | (1L << T__12) | (1L << T__13) | (1L << T__14) | (1L << T__15) | (1L << T__16) | (1L << T__17) | (1L << T__18) | (1L << T__19))) != 0) );
-			setState(189);
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & 4180224L) != 0) );
+			setState(195);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==T__29) {
+			if (_la==T__30) {
 				{
-				setState(186);
+				setState(192);
 				out();
-				setState(187);
-				match(T__20);
+				setState(193);
+				match(T__21);
 				}
 			}
 
@@ -1256,65 +1332,127 @@ public class OverpassParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3,\u00c2\4\2\t\2\4"+
-		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
-		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
-		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\3\2\3\2\3\3\3\3\3\4"+
-		"\3\4\3\4\3\4\5\4\67\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5A\n\5\3\6\3"+
-		"\6\5\6E\n\6\3\6\3\6\3\6\3\6\3\6\5\6L\n\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3"+
-		"\7\3\7\3\7\3\b\3\b\3\t\3\t\3\t\3\t\7\t^\n\t\f\t\16\ta\13\t\3\n\3\n\3\n"+
-		"\3\13\3\13\3\13\3\13\3\13\3\f\3\f\3\f\3\f\3\f\3\f\5\fq\n\f\3\f\3\f\3\r"+
-		"\3\r\3\r\3\16\3\16\3\17\3\17\5\17|\n\17\3\17\7\17\177\n\17\f\17\16\17"+
-		"\u0082\13\17\3\17\7\17\u0085\n\17\f\17\16\17\u0088\13\17\3\17\5\17\u008b"+
-		"\n\17\3\20\3\20\5\20\u008f\n\20\3\21\3\21\5\21\u0093\n\21\3\22\3\22\3"+
-		"\22\3\22\6\22\u0099\n\22\r\22\16\22\u009a\3\22\3\22\3\22\5\22\u00a0\n"+
-		"\22\3\23\3\23\5\23\u00a4\n\23\3\24\3\24\3\25\3\25\3\26\3\26\5\26\u00ac"+
-		"\n\26\3\26\5\26\u00af\n\26\3\27\3\27\3\27\5\27\u00b4\n\27\3\27\3\27\3"+
-		"\27\6\27\u00b9\n\27\r\27\16\27\u00ba\3\27\3\27\3\27\5\27\u00c0\n\27\3"+
-		"\27\2\2\30\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,\2\7\3\2$%\4"+
-		"\2\t\t\17\22\3\2\23\26\3\2\30\32\3\2\33\37\2\u00c4\2.\3\2\2\2\4\60\3\2"+
-		"\2\2\6\66\3\2\2\2\b8\3\2\2\2\nB\3\2\2\2\fO\3\2\2\2\16W\3\2\2\2\20Y\3\2"+
-		"\2\2\22b\3\2\2\2\24e\3\2\2\2\26j\3\2\2\2\30t\3\2\2\2\32w\3\2\2\2\34y\3"+
-		"\2\2\2\36\u008c\3\2\2\2 \u0092\3\2\2\2\"\u0094\3\2\2\2$\u00a3\3\2\2\2"+
-		"&\u00a5\3\2\2\2(\u00a7\3\2\2\2*\u00a9\3\2\2\2,\u00b3\3\2\2\2./\7$\2\2"+
-		"/\3\3\2\2\2\60\61\t\2\2\2\61\5\3\2\2\2\62\67\7)\2\2\63\67\7*\2\2\64\67"+
-		"\7(\2\2\65\67\5\4\3\2\66\62\3\2\2\2\66\63\3\2\2\2\66\64\3\2\2\2\66\65"+
-		"\3\2\2\2\67\7\3\2\2\289\7\3\2\29:\7\4\2\2:@\7\5\2\2;<\7\3\2\2<=\7\6\2"+
-		"\2=>\5\4\3\2>?\7\5\2\2?A\3\2\2\2@;\3\2\2\2@A\3\2\2\2A\t\3\2\2\2BK\7\3"+
-		"\2\2CE\7\'\2\2DC\3\2\2\2DE\3\2\2\2EF\3\2\2\2FL\5\6\4\2GH\5\6\4\2HI\7&"+
-		"\2\2IJ\5\6\4\2JL\3\2\2\2KD\3\2\2\2KG\3\2\2\2LM\3\2\2\2MN\7\5\2\2N\13\3"+
-		"\2\2\2OP\5\4\3\2PQ\7\7\2\2QR\5\4\3\2RS\7\7\2\2ST\5\4\3\2TU\7\7\2\2UV\5"+
-		"\4\3\2V\r\3\2\2\2WX\5\2\2\2X\17\3\2\2\2YZ\7\b\2\2Z_\5\2\2\2[\\\7\7\2\2"+
-		"\\^\5\2\2\2][\3\2\2\2^a\3\2\2\2_]\3\2\2\2_`\3\2\2\2`\21\3\2\2\2a_\3\2"+
-		"\2\2bc\7\t\2\2cd\7,\2\2d\23\3\2\2\2ef\7\n\2\2fg\7,\2\2gh\7\13\2\2hi\5"+
-		"\4\3\2i\25\3\2\2\2jp\7\f\2\2kq\5\f\7\2lq\5\16\b\2mq\5\20\t\2nq\5\22\n"+
-		"\2oq\5\24\13\2pk\3\2\2\2pl\3\2\2\2pm\3\2\2\2pn\3\2\2\2po\3\2\2\2qr\3\2"+
-		"\2\2rs\7\r\2\2s\27\3\2\2\2tu\7\16\2\2uv\7,\2\2v\31\3\2\2\2wx\t\3\2\2x"+
-		"\33\3\2\2\2y{\5\32\16\2z|\7,\2\2{z\3\2\2\2{|\3\2\2\2|\u0080\3\2\2\2}\177"+
-		"\5\n\6\2~}\3\2\2\2\177\u0082\3\2\2\2\u0080~\3\2\2\2\u0080\u0081\3\2\2"+
-		"\2\u0081\u0086\3\2\2\2\u0082\u0080\3\2\2\2\u0083\u0085\5\26\f\2\u0084"+
-		"\u0083\3\2\2\2\u0085\u0088\3\2\2\2\u0086\u0084\3\2\2\2\u0086\u0087\3\2"+
-		"\2\2\u0087\u008a\3\2\2\2\u0088\u0086\3\2\2\2\u0089\u008b\5\30\r\2\u008a"+
-		"\u0089\3\2\2\2\u008a\u008b\3\2\2\2\u008b\35\3\2\2\2\u008c\u008e\t\4\2"+
-		"\2\u008d\u008f\5\30\r\2\u008e\u008d\3\2\2\2\u008e\u008f\3\2\2\2\u008f"+
-		"\37\3\2\2\2\u0090\u0093\5\34\17\2\u0091\u0093\5\36\20\2\u0092\u0090\3"+
-		"\2\2\2\u0092\u0091\3\2\2\2\u0093!\3\2\2\2\u0094\u0098\7\f\2\2\u0095\u0096"+
-		"\5$\23\2\u0096\u0097\7\27\2\2\u0097\u0099\3\2\2\2\u0098\u0095\3\2\2\2"+
-		"\u0099\u009a\3\2\2\2\u009a\u0098\3\2\2\2\u009a\u009b\3\2\2\2\u009b\u009c"+
-		"\3\2\2\2\u009c\u009d\7\r\2\2\u009d\u009f\3\2\2\2\u009e\u00a0\5\30\r\2"+
-		"\u009f\u009e\3\2\2\2\u009f\u00a0\3\2\2\2\u00a0#\3\2\2\2\u00a1\u00a4\5"+
-		" \21\2\u00a2\u00a4\5\"\22\2\u00a3\u00a1\3\2\2\2\u00a3\u00a2\3\2\2\2\u00a4"+
-		"%\3\2\2\2\u00a5\u00a6\t\5\2\2\u00a6\'\3\2\2\2\u00a7\u00a8\t\6\2\2\u00a8"+
-		")\3\2\2\2\u00a9\u00ab\7 \2\2\u00aa\u00ac\5&\24\2\u00ab\u00aa\3\2\2\2\u00ab"+
-		"\u00ac\3\2\2\2\u00ac\u00ae\3\2\2\2\u00ad\u00af\5(\25\2\u00ae\u00ad\3\2"+
-		"\2\2\u00ae\u00af\3\2\2\2\u00af+\3\2\2\2\u00b0\u00b1\5\b\5\2\u00b1\u00b2"+
-		"\7\27\2\2\u00b2\u00b4\3\2\2\2\u00b3\u00b0\3\2\2\2\u00b3\u00b4\3\2\2\2"+
-		"\u00b4\u00b8\3\2\2\2\u00b5\u00b6\5$\23\2\u00b6\u00b7\7\27\2\2\u00b7\u00b9"+
-		"\3\2\2\2\u00b8\u00b5\3\2\2\2\u00b9\u00ba\3\2\2\2\u00ba\u00b8\3\2\2\2\u00ba"+
-		"\u00bb\3\2\2\2\u00bb\u00bf\3\2\2\2\u00bc\u00bd\5*\26\2\u00bd\u00be\7\27"+
-		"\2\2\u00be\u00c0\3\2\2\2\u00bf\u00bc\3\2\2\2\u00bf\u00c0\3\2\2\2\u00c0"+
-		"-\3\2\2\2\26\66@DK_p{\u0080\u0086\u008a\u008e\u0092\u009a\u009f\u00a3"+
-		"\u00ab\u00ae\u00b3\u00ba\u00bf";
+		"\u0004\u0001-\u00c6\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
+		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
+		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b\u0002"+
+		"\f\u0007\f\u0002\r\u0007\r\u0002\u000e\u0007\u000e\u0002\u000f\u0007\u000f"+
+		"\u0002\u0010\u0007\u0010\u0002\u0011\u0007\u0011\u0002\u0012\u0007\u0012"+
+		"\u0002\u0013\u0007\u0013\u0002\u0014\u0007\u0014\u0002\u0015\u0007\u0015"+
+		"\u0002\u0016\u0007\u0016\u0001\u0000\u0001\u0000\u0001\u0001\u0001\u0001"+
+		"\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0003\u00027\b\u0002"+
+		"\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003"+
+		"\u0001\u0003\u0001\u0003\u0003\u0003A\b\u0003\u0001\u0004\u0001\u0004"+
+		"\u0003\u0004E\b\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004"+
+		"\u0001\u0004\u0003\u0004L\b\u0004\u0001\u0004\u0001\u0004\u0001\u0005"+
+		"\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005"+
+		"\u0001\u0005\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0007\u0001\u0007"+
+		"\u0001\b\u0001\b\u0001\b\u0001\b\u0005\ba\b\b\n\b\f\bd\t\b\u0001\t\u0001"+
+		"\t\u0001\t\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\u000b\u0001\u000b"+
+		"\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0003\u000b"+
+		"u\b\u000b\u0001\u000b\u0001\u000b\u0001\f\u0001\f\u0001\f\u0001\r\u0001"+
+		"\r\u0001\u000e\u0001\u000e\u0003\u000e\u0080\b\u000e\u0001\u000e\u0005"+
+		"\u000e\u0083\b\u000e\n\u000e\f\u000e\u0086\t\u000e\u0001\u000e\u0005\u000e"+
+		"\u0089\b\u000e\n\u000e\f\u000e\u008c\t\u000e\u0001\u000e\u0003\u000e\u008f"+
+		"\b\u000e\u0001\u000f\u0001\u000f\u0003\u000f\u0093\b\u000f\u0001\u0010"+
+		"\u0001\u0010\u0003\u0010\u0097\b\u0010\u0001\u0011\u0001\u0011\u0001\u0011"+
+		"\u0001\u0011\u0004\u0011\u009d\b\u0011\u000b\u0011\f\u0011\u009e\u0001"+
+		"\u0011\u0001\u0011\u0001\u0011\u0003\u0011\u00a4\b\u0011\u0001\u0012\u0001"+
+		"\u0012\u0003\u0012\u00a8\b\u0012\u0001\u0013\u0001\u0013\u0001\u0014\u0001"+
+		"\u0014\u0001\u0015\u0001\u0015\u0003\u0015\u00b0\b\u0015\u0001\u0015\u0003"+
+		"\u0015\u00b3\b\u0015\u0001\u0016\u0001\u0016\u0001\u0016\u0003\u0016\u00b8"+
+		"\b\u0016\u0001\u0016\u0001\u0016\u0001\u0016\u0004\u0016\u00bd\b\u0016"+
+		"\u000b\u0016\f\u0016\u00be\u0001\u0016\u0001\u0016\u0001\u0016\u0003\u0016"+
+		"\u00c4\b\u0016\u0001\u0016\u0000\u0000\u0017\u0000\u0002\u0004\u0006\b"+
+		"\n\f\u000e\u0010\u0012\u0014\u0016\u0018\u001a\u001c\u001e \"$&(*,\u0000"+
+		"\u0006\u0001\u0000#$\u0001\u0000*+\u0002\u0000\b\b\u000e\u0011\u0001\u0000"+
+		"\u0012\u0015\u0001\u0000\u0017\u0019\u0001\u0000\u001a\u001e\u00c8\u0000"+
+		".\u0001\u0000\u0000\u0000\u00020\u0001\u0000\u0000\u0000\u00046\u0001"+
+		"\u0000\u0000\u0000\u00068\u0001\u0000\u0000\u0000\bB\u0001\u0000\u0000"+
+		"\u0000\nO\u0001\u0000\u0000\u0000\fW\u0001\u0000\u0000\u0000\u000eZ\u0001"+
+		"\u0000\u0000\u0000\u0010\\\u0001\u0000\u0000\u0000\u0012e\u0001\u0000"+
+		"\u0000\u0000\u0014h\u0001\u0000\u0000\u0000\u0016m\u0001\u0000\u0000\u0000"+
+		"\u0018x\u0001\u0000\u0000\u0000\u001a{\u0001\u0000\u0000\u0000\u001c}"+
+		"\u0001\u0000\u0000\u0000\u001e\u0090\u0001\u0000\u0000\u0000 \u0096\u0001"+
+		"\u0000\u0000\u0000\"\u0098\u0001\u0000\u0000\u0000$\u00a7\u0001\u0000"+
+		"\u0000\u0000&\u00a9\u0001\u0000\u0000\u0000(\u00ab\u0001\u0000\u0000\u0000"+
+		"*\u00ad\u0001\u0000\u0000\u0000,\u00b7\u0001\u0000\u0000\u0000./\u0005"+
+		"#\u0000\u0000/\u0001\u0001\u0000\u0000\u000001\u0007\u0000\u0000\u0000"+
+		"1\u0003\u0001\u0000\u0000\u000027\u0005*\u0000\u000037\u0005+\u0000\u0000"+
+		"47\u0005\'\u0000\u000057\u0003\u0002\u0001\u000062\u0001\u0000\u0000\u0000"+
+		"63\u0001\u0000\u0000\u000064\u0001\u0000\u0000\u000065\u0001\u0000\u0000"+
+		"\u00007\u0005\u0001\u0000\u0000\u000089\u0005\u0001\u0000\u00009:\u0005"+
+		"\u0002\u0000\u0000:@\u0005\u0003\u0000\u0000;<\u0005\u0001\u0000\u0000"+
+		"<=\u0005\u0004\u0000\u0000=>\u0003\u0002\u0001\u0000>?\u0005\u0003\u0000"+
+		"\u0000?A\u0001\u0000\u0000\u0000@;\u0001\u0000\u0000\u0000@A\u0001\u0000"+
+		"\u0000\u0000A\u0007\u0001\u0000\u0000\u0000BK\u0005\u0001\u0000\u0000"+
+		"CE\u0005&\u0000\u0000DC\u0001\u0000\u0000\u0000DE\u0001\u0000\u0000\u0000"+
+		"EF\u0001\u0000\u0000\u0000FL\u0003\u0004\u0002\u0000GH\u0003\u0004\u0002"+
+		"\u0000HI\u0005%\u0000\u0000IJ\u0003\u0004\u0002\u0000JL\u0001\u0000\u0000"+
+		"\u0000KD\u0001\u0000\u0000\u0000KG\u0001\u0000\u0000\u0000LM\u0001\u0000"+
+		"\u0000\u0000MN\u0005\u0003\u0000\u0000N\t\u0001\u0000\u0000\u0000OP\u0003"+
+		"\u0002\u0001\u0000PQ\u0005\u0005\u0000\u0000QR\u0003\u0002\u0001\u0000"+
+		"RS\u0005\u0005\u0000\u0000ST\u0003\u0002\u0001\u0000TU\u0005\u0005\u0000"+
+		"\u0000UV\u0003\u0002\u0001\u0000V\u000b\u0001\u0000\u0000\u0000WX\u0005"+
+		"\u0006\u0000\u0000XY\u0007\u0001\u0000\u0000Y\r\u0001\u0000\u0000\u0000"+
+		"Z[\u0003\u0000\u0000\u0000[\u000f\u0001\u0000\u0000\u0000\\]\u0005\u0007"+
+		"\u0000\u0000]b\u0003\u0000\u0000\u0000^_\u0005\u0005\u0000\u0000_a\u0003"+
+		"\u0000\u0000\u0000`^\u0001\u0000\u0000\u0000ad\u0001\u0000\u0000\u0000"+
+		"b`\u0001\u0000\u0000\u0000bc\u0001\u0000\u0000\u0000c\u0011\u0001\u0000"+
+		"\u0000\u0000db\u0001\u0000\u0000\u0000ef\u0005\b\u0000\u0000fg\u0005-"+
+		"\u0000\u0000g\u0013\u0001\u0000\u0000\u0000hi\u0005\t\u0000\u0000ij\u0005"+
+		"-\u0000\u0000jk\u0005\n\u0000\u0000kl\u0003\u0002\u0001\u0000l\u0015\u0001"+
+		"\u0000\u0000\u0000mt\u0005\u000b\u0000\u0000nu\u0003\n\u0005\u0000ou\u0003"+
+		"\f\u0006\u0000pu\u0003\u000e\u0007\u0000qu\u0003\u0010\b\u0000ru\u0003"+
+		"\u0012\t\u0000su\u0003\u0014\n\u0000tn\u0001\u0000\u0000\u0000to\u0001"+
+		"\u0000\u0000\u0000tp\u0001\u0000\u0000\u0000tq\u0001\u0000\u0000\u0000"+
+		"tr\u0001\u0000\u0000\u0000ts\u0001\u0000\u0000\u0000uv\u0001\u0000\u0000"+
+		"\u0000vw\u0005\f\u0000\u0000w\u0017\u0001\u0000\u0000\u0000xy\u0005\r"+
+		"\u0000\u0000yz\u0005-\u0000\u0000z\u0019\u0001\u0000\u0000\u0000{|\u0007"+
+		"\u0002\u0000\u0000|\u001b\u0001\u0000\u0000\u0000}\u007f\u0003\u001a\r"+
+		"\u0000~\u0080\u0005-\u0000\u0000\u007f~\u0001\u0000\u0000\u0000\u007f"+
+		"\u0080\u0001\u0000\u0000\u0000\u0080\u0084\u0001\u0000\u0000\u0000\u0081"+
+		"\u0083\u0003\b\u0004\u0000\u0082\u0081\u0001\u0000\u0000\u0000\u0083\u0086"+
+		"\u0001\u0000\u0000\u0000\u0084\u0082\u0001\u0000\u0000\u0000\u0084\u0085"+
+		"\u0001\u0000\u0000\u0000\u0085\u008a\u0001\u0000\u0000\u0000\u0086\u0084"+
+		"\u0001\u0000\u0000\u0000\u0087\u0089\u0003\u0016\u000b\u0000\u0088\u0087"+
+		"\u0001\u0000\u0000\u0000\u0089\u008c\u0001\u0000\u0000\u0000\u008a\u0088"+
+		"\u0001\u0000\u0000\u0000\u008a\u008b\u0001\u0000\u0000\u0000\u008b\u008e"+
+		"\u0001\u0000\u0000\u0000\u008c\u008a\u0001\u0000\u0000\u0000\u008d\u008f"+
+		"\u0003\u0018\f\u0000\u008e\u008d\u0001\u0000\u0000\u0000\u008e\u008f\u0001"+
+		"\u0000\u0000\u0000\u008f\u001d\u0001\u0000\u0000\u0000\u0090\u0092\u0007"+
+		"\u0003\u0000\u0000\u0091\u0093\u0003\u0018\f\u0000\u0092\u0091\u0001\u0000"+
+		"\u0000\u0000\u0092\u0093\u0001\u0000\u0000\u0000\u0093\u001f\u0001\u0000"+
+		"\u0000\u0000\u0094\u0097\u0003\u001c\u000e\u0000\u0095\u0097\u0003\u001e"+
+		"\u000f\u0000\u0096\u0094\u0001\u0000\u0000\u0000\u0096\u0095\u0001\u0000"+
+		"\u0000\u0000\u0097!\u0001\u0000\u0000\u0000\u0098\u009c\u0005\u000b\u0000"+
+		"\u0000\u0099\u009a\u0003$\u0012\u0000\u009a\u009b\u0005\u0016\u0000\u0000"+
+		"\u009b\u009d\u0001\u0000\u0000\u0000\u009c\u0099\u0001\u0000\u0000\u0000"+
+		"\u009d\u009e\u0001\u0000\u0000\u0000\u009e\u009c\u0001\u0000\u0000\u0000"+
+		"\u009e\u009f\u0001\u0000\u0000\u0000\u009f\u00a0\u0001\u0000\u0000\u0000"+
+		"\u00a0\u00a1\u0005\f\u0000\u0000\u00a1\u00a3\u0001\u0000\u0000\u0000\u00a2"+
+		"\u00a4\u0003\u0018\f\u0000\u00a3\u00a2\u0001\u0000\u0000\u0000\u00a3\u00a4"+
+		"\u0001\u0000\u0000\u0000\u00a4#\u0001\u0000\u0000\u0000\u00a5\u00a8\u0003"+
+		" \u0010\u0000\u00a6\u00a8\u0003\"\u0011\u0000\u00a7\u00a5\u0001\u0000"+
+		"\u0000\u0000\u00a7\u00a6\u0001\u0000\u0000\u0000\u00a8%\u0001\u0000\u0000"+
+		"\u0000\u00a9\u00aa\u0007\u0004\u0000\u0000\u00aa\'\u0001\u0000\u0000\u0000"+
+		"\u00ab\u00ac\u0007\u0005\u0000\u0000\u00ac)\u0001\u0000\u0000\u0000\u00ad"+
+		"\u00af\u0005\u001f\u0000\u0000\u00ae\u00b0\u0003&\u0013\u0000\u00af\u00ae"+
+		"\u0001\u0000\u0000\u0000\u00af\u00b0\u0001\u0000\u0000\u0000\u00b0\u00b2"+
+		"\u0001\u0000\u0000\u0000\u00b1\u00b3\u0003(\u0014\u0000\u00b2\u00b1\u0001"+
+		"\u0000\u0000\u0000\u00b2\u00b3\u0001\u0000\u0000\u0000\u00b3+\u0001\u0000"+
+		"\u0000\u0000\u00b4\u00b5\u0003\u0006\u0003\u0000\u00b5\u00b6\u0005\u0016"+
+		"\u0000\u0000\u00b6\u00b8\u0001\u0000\u0000\u0000\u00b7\u00b4\u0001\u0000"+
+		"\u0000\u0000\u00b7\u00b8\u0001\u0000\u0000\u0000\u00b8\u00bc\u0001\u0000"+
+		"\u0000\u0000\u00b9\u00ba\u0003$\u0012\u0000\u00ba\u00bb\u0005\u0016\u0000"+
+		"\u0000\u00bb\u00bd\u0001\u0000\u0000\u0000\u00bc\u00b9\u0001\u0000\u0000"+
+		"\u0000\u00bd\u00be\u0001\u0000\u0000\u0000\u00be\u00bc\u0001\u0000\u0000"+
+		"\u0000\u00be\u00bf\u0001\u0000\u0000\u0000\u00bf\u00c3\u0001\u0000\u0000"+
+		"\u0000\u00c0\u00c1\u0003*\u0015\u0000\u00c1\u00c2\u0005\u0016\u0000\u0000"+
+		"\u00c2\u00c4\u0001\u0000\u0000\u0000\u00c3\u00c0\u0001\u0000\u0000\u0000"+
+		"\u00c3\u00c4\u0001\u0000\u0000\u0000\u00c4-\u0001\u0000\u0000\u0000\u0014"+
+		"6@DKbt\u007f\u0084\u008a\u008e\u0092\u0096\u009e\u00a3\u00a7\u00af\u00b2"+
+		"\u00b7\u00be\u00c3";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -30,6 +30,7 @@ Class rb_cTokenContext;
 Class rb_cMetadataContext;
 Class rb_cSelectorContext;
 Class rb_cFilter_bboxContext;
+Class rb_cFilter_polyContext;
 Class rb_cFilter_osm_idContext;
 Class rb_cFilter_osm_idsContext;
 Class rb_cFilter_areaContext;
@@ -199,6 +200,14 @@ public:
 
 };
 
+class Filter_polyContextProxy : public ContextProxy {
+public:
+  Filter_polyContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
+
+  Object SIMPLE_QUOTED_STRING();
+  Object DOUBLE_QUOTED_STRING();
+};
+
 class Filter_osm_idContextProxy : public ContextProxy {
 public:
   Filter_osm_idContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
@@ -232,6 +241,7 @@ class FilterContextProxy : public ContextProxy {
 public:
   FilterContextProxy(tree::ParseTree* ctx) : ContextProxy(ctx) {};
   Object filter_bbox();
+  Object filter_poly();
   Object filter_osm_id();
   Object filter_osm_ids();
   Object filter_area();
@@ -446,6 +456,26 @@ namespace Rice::detail {
     VALUE convert(Filter_bboxContextProxy* const &x) {
       if (!x) return Nil;
       return Data_Object<Filter_bboxContextProxy>(x, false, rb_cFilter_bboxContext);
+    }
+  };
+}
+
+namespace Rice::detail {
+  template <>
+  class To_Ruby<OverpassParser::Filter_polyContext*> {
+  public:
+    VALUE convert(OverpassParser::Filter_polyContext* const &x) {
+      if (!x) return Nil;
+      return Data_Object<OverpassParser::Filter_polyContext>(x, false, rb_cFilter_polyContext);
+    }
+  };
+
+  template <>
+  class To_Ruby<Filter_polyContextProxy*> {
+  public:
+    VALUE convert(Filter_polyContextProxy* const &x) {
+      if (!x) return Nil;
+      return Data_Object<Filter_polyContextProxy>(x, false, rb_cFilter_polyContext);
     }
   };
 }
@@ -999,6 +1029,36 @@ Object Filter_bboxContextProxy::numberAt(size_t i) {
   return Nil;
 }
 
+Object Filter_polyContextProxy::SIMPLE_QUOTED_STRING() {
+  if (orig == nullptr) {
+    return Qnil;
+  }
+
+  auto token = ((OverpassParser::Filter_polyContext*)orig) -> SIMPLE_QUOTED_STRING();
+
+  if (token == nullptr) {
+    return Qnil;
+  }
+
+  TerminalNodeProxy proxy(token);
+  return detail::To_Ruby<TerminalNodeProxy>().convert(proxy);
+}
+
+Object Filter_polyContextProxy::DOUBLE_QUOTED_STRING() {
+  if (orig == nullptr) {
+    return Qnil;
+  }
+
+  auto token = ((OverpassParser::Filter_polyContext*)orig) -> DOUBLE_QUOTED_STRING();
+
+  if (token == nullptr) {
+    return Qnil;
+  }
+
+  TerminalNodeProxy proxy(token);
+  return detail::To_Ruby<TerminalNodeProxy>().convert(proxy);
+}
+
 Object Filter_osm_idContextProxy::osm_id() {
   if (orig == nullptr) {
     return Qnil;
@@ -1109,6 +1169,26 @@ Object FilterContextProxy::filter_bbox() {
   }
 
   auto ctx = ((OverpassParser::FilterContext*)orig) -> filter_bbox();
+
+  if (ctx == nullptr) {
+    return Qnil;
+  }
+
+  for (auto child : getChildren()) {
+    if (ctx == detail::From_Ruby<ContextProxy>().convert(child.value()).getOriginal()) {
+      return child;
+    }
+  }
+
+  return Nil;
+}
+
+Object FilterContextProxy::filter_poly() {
+  if (orig == nullptr) {
+    return Qnil;
+  }
+
+  auto ctx = ((OverpassParser::FilterContext*)orig) -> filter_poly();
 
   if (ctx == nullptr) {
     return Qnil;
@@ -1662,6 +1742,11 @@ public:
     return getSelf().call("visit_filter_bbox", &proxy);
   }
 
+  virtual antlrcpp::Any visitFilter_poly(OverpassParser::Filter_polyContext *ctx) override {
+    Filter_polyContextProxy proxy(ctx);
+    return getSelf().call("visit_filter_poly", &proxy);
+  }
+
   virtual antlrcpp::Any visitFilter_osm_id(OverpassParser::Filter_osm_idContext *ctx) override {
     Filter_osm_idContextProxy proxy(ctx);
     return getSelf().call("visit_filter_osm_id", &proxy);
@@ -1873,6 +1958,10 @@ Object ContextProxy::wrapParseTree(tree::ParseTree* node) {
     Filter_bboxContextProxy proxy((OverpassParser::Filter_bboxContext*)node);
     return detail::To_Ruby<Filter_bboxContextProxy>().convert(proxy);
   }
+  else if (antlrcpp::is<OverpassParser::Filter_polyContext*>(node)) {
+    Filter_polyContextProxy proxy((OverpassParser::Filter_polyContext*)node);
+    return detail::To_Ruby<Filter_polyContextProxy>().convert(proxy);
+  }
   else if (antlrcpp::is<OverpassParser::Filter_osm_idContext*>(node)) {
     Filter_osm_idContextProxy proxy((OverpassParser::Filter_osm_idContext*)node);
     return detail::To_Ruby<Filter_osm_idContextProxy>().convert(proxy);
@@ -1979,6 +2068,7 @@ void Init_overpass_parser() {
     .define_method("visit_metadata", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_selector", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_filter_bbox", &VisitorProxy::ruby_visitChildren)
+    .define_method("visit_filter_poly", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_filter_osm_id", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_filter_osm_ids", &VisitorProxy::ruby_visitChildren)
     .define_method("visit_filter_area", &VisitorProxy::ruby_visitChildren)
@@ -2037,6 +2127,10 @@ void Init_overpass_parser() {
     .define_method("number", &Filter_bboxContextProxy::number)
     .define_method("number_at", &Filter_bboxContextProxy::numberAt);
 
+  rb_cFilter_polyContext = define_class_under<Filter_polyContextProxy, ContextProxy>(rb_mOverpassParser, "Filter_polyContext")
+    .define_method("SIMPLE_QUOTED_STRING", &Filter_polyContextProxy::SIMPLE_QUOTED_STRING)
+    .define_method("DOUBLE_QUOTED_STRING", &Filter_polyContextProxy::DOUBLE_QUOTED_STRING);
+
   rb_cFilter_osm_idContext = define_class_under<Filter_osm_idContextProxy, ContextProxy>(rb_mOverpassParser, "Filter_osm_idContext")
     .define_method("osm_id", &Filter_osm_idContextProxy::osm_id);
 
@@ -2053,6 +2147,7 @@ void Init_overpass_parser() {
 
   rb_cFilterContext = define_class_under<FilterContextProxy, ContextProxy>(rb_mOverpassParser, "FilterContext")
     .define_method("filter_bbox", &FilterContextProxy::filter_bbox)
+    .define_method("filter_poly", &FilterContextProxy::filter_poly)
     .define_method("filter_osm_id", &FilterContextProxy::filter_osm_id)
     .define_method("filter_osm_ids", &FilterContextProxy::filter_osm_ids)
     .define_method("filter_area", &FilterContextProxy::filter_area)

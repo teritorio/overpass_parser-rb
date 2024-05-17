@@ -59,6 +59,11 @@ module OverpassParser
       sig do
         returns(String)
       end
+      def st_intersects = ''
+
+      sig do
+        returns(String)
+      end
       def st_intersects_extent = ''
     end
   end

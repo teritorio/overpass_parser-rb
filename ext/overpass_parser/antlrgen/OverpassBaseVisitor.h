@@ -39,6 +39,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual std::any visitFilter_poly(OverpassParser::Filter_polyContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual std::any visitFilter_osm_id(OverpassParser::Filter_osm_idContext *ctx) override {
     return visitChildren(ctx);
   }

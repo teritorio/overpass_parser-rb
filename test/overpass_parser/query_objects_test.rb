@@ -19,7 +19,7 @@ module OverpassParser
       end
 
       sig { void }
-      def test_matches_to_sql
+      def test_matches_bbox_to_sql
         d = OverpassParser::SqlDialect::Postgres.new
         assert_equal(
           "SELECT
@@ -31,6 +31,21 @@ WHERE
   (tags?'a' AND tags->>'a' = 'b') AND
   ST_Intersects(ST_Envelope('SRID=4326;LINESTRING(2.0 1.0, 4.0 3.0)'::geometry), geom)",
           parse('node.a[a=b](1,2,3,4)->.b').to_sql(d, '_')
+        )
+      end
+
+      sig { void }
+      def test_matches_poly_to_sql
+        d = OverpassParser::SqlDialect::Postgres.new
+        assert_equal(
+          "SELECT
+  *
+FROM
+  _a
+WHERE
+  osm_type = 'n' AND
+  ST_Intersects('SRID=4326;POLYGON(2.0 1.0, 4.0 3.0, 6.0 5.0)'::geometry, geom)",
+          parse('node.a(poly:"1 2 3 4 5 6")').to_sql(d, '_')
         )
       end
     end

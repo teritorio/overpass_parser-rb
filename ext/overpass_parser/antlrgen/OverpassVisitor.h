@@ -31,6 +31,8 @@ public:
 
     virtual std::any visitFilter_bbox(OverpassParser::Filter_bboxContext *context) = 0;
 
+    virtual std::any visitFilter_poly(OverpassParser::Filter_polyContext *context) = 0;
+
     virtual std::any visitFilter_osm_id(OverpassParser::Filter_osm_idContext *context) = 0;
 
     virtual std::any visitFilter_osm_ids(OverpassParser::Filter_osm_idsContext *context) = 0;

@@ -16,19 +16,19 @@ public:
     T__7 = 8, T__8 = 9, T__9 = 10, T__10 = 11, T__11 = 12, T__12 = 13, T__13 = 14, 
     T__14 = 15, T__15 = 16, T__16 = 17, T__17 = 18, T__18 = 19, T__19 = 20, 
     T__20 = 21, T__21 = 22, T__22 = 23, T__23 = 24, T__24 = 25, T__25 = 26, 
-    T__26 = 27, T__27 = 28, T__28 = 29, T__29 = 30, WS = 31, SL_COMMENT = 32, 
-    ML_COMMENT = 33, INTEGER = 34, FLOAT = 35, OPERATOR = 36, NOT = 37, 
-    UNQUOTED_STRING = 38, SIMPLE_QUOTED_STRING = 39, DOUBLE_QUOTED_STRING = 40, 
-    ID = 41, DOT_ID = 42
+    T__26 = 27, T__27 = 28, T__28 = 29, T__29 = 30, T__30 = 31, WS = 32, 
+    SL_COMMENT = 33, ML_COMMENT = 34, INTEGER = 35, FLOAT = 36, OPERATOR = 37, 
+    NOT = 38, UNQUOTED_STRING = 39, SIMPLE_QUOTE = 40, DOUBLE_QUOTE = 41, 
+    SIMPLE_QUOTED_STRING = 42, DOUBLE_QUOTED_STRING = 43, ID = 44, DOT_ID = 45
   };
 
   enum {
     RuleOsm_id = 0, RuleNumber = 1, RuleToken = 2, RuleMetadata = 3, RuleSelector = 4, 
-    RuleFilter_bbox = 5, RuleFilter_osm_id = 6, RuleFilter_osm_ids = 7, 
-    RuleFilter_area = 8, RuleFilter_around = 9, RuleFilter = 10, RuleAsignation = 11, 
-    RuleObject_type = 12, RuleQuery_object = 13, RuleQuery_recurse = 14, 
-    RuleQuery = 15, RuleQuery_union = 16, RuleQuery_sequence = 17, RuleOut_geom = 18, 
-    RuleOut_level_of_details = 19, RuleOut = 20, RuleRequest = 21
+    RuleFilter_bbox = 5, RuleFilter_poly = 6, RuleFilter_osm_id = 7, RuleFilter_osm_ids = 8, 
+    RuleFilter_area = 9, RuleFilter_around = 10, RuleFilter = 11, RuleAsignation = 12, 
+    RuleObject_type = 13, RuleQuery_object = 14, RuleQuery_recurse = 15, 
+    RuleQuery = 16, RuleQuery_union = 17, RuleQuery_sequence = 18, RuleOut_geom = 19, 
+    RuleOut_level_of_details = 20, RuleOut = 21, RuleRequest = 22
   };
 
   explicit OverpassParser(antlr4::TokenStream *input);
@@ -54,6 +54,7 @@ public:
   class MetadataContext;
   class SelectorContext;
   class Filter_bboxContext;
+  class Filter_polyContext;
   class Filter_osm_idContext;
   class Filter_osm_idsContext;
   class Filter_areaContext;
@@ -173,6 +174,22 @@ public:
 
   Filter_bboxContext* filter_bbox();
 
+  class  Filter_polyContext : public antlr4::ParserRuleContext {
+  public:
+    Filter_polyContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *SIMPLE_QUOTED_STRING();
+    antlr4::tree::TerminalNode *DOUBLE_QUOTED_STRING();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  Filter_polyContext* filter_poly();
+
   class  Filter_osm_idContext : public antlr4::ParserRuleContext {
   public:
     Filter_osm_idContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -240,6 +257,7 @@ public:
     FilterContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     Filter_bboxContext *filter_bbox();
+    Filter_polyContext *filter_poly();
     Filter_osm_idContext *filter_osm_id();
     Filter_osm_idsContext *filter_osm_ids();
     Filter_areaContext *filter_area();

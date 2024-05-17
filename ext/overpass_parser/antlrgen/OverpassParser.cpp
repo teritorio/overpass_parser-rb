@@ -45,86 +45,89 @@ void overpassParserInitialize() {
   auto staticData = std::make_unique<OverpassParserStaticData>(
     std::vector<std::string>{
       "osm_id", "number", "token", "metadata", "selector", "filter_bbox", 
-      "filter_osm_id", "filter_osm_ids", "filter_area", "filter_around", 
+      "filter_poly", "filter_osm_id", "filter_osm_ids", "filter_area", "filter_around", 
       "filter", "asignation", "object_type", "query_object", "query_recurse", 
       "query", "query_union", "query_sequence", "out_geom", "out_level_of_details", 
       "out", "request"
     },
     std::vector<std::string>{
-      "", "'['", "'out:json'", "']'", "'timeout:'", "','", "'id:'", "'area'", 
-      "'around'", "':'", "'('", "')'", "'->'", "'node'", "'way'", "'relation'", 
-      "'nwr'", "'<'", "'<<'", "'>'", "'>>'", "';'", "'geom'", "'center'", 
-      "'bb'", "'ids'", "'skel'", "'body'", "'tags'", "'meta'", "'out'", 
-      "", "", "", "", "", "", "'!'"
+      "", "'['", "'out:json'", "']'", "'timeout:'", "','", "'poly:'", "'id:'", 
+      "'area'", "'around'", "':'", "'('", "')'", "'->'", "'node'", "'way'", 
+      "'relation'", "'nwr'", "'<'", "'<<'", "'>'", "'>>'", "';'", "'geom'", 
+      "'center'", "'bb'", "'ids'", "'skel'", "'body'", "'tags'", "'meta'", 
+      "'out'", "", "", "", "", "", "", "'!'", "", "'''", "'\"'"
     },
     std::vector<std::string>{
       "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", 
-      "", "", "", "", "", "", "", "", "", "", "", "", "", "", "WS", "SL_COMMENT", 
-      "ML_COMMENT", "INTEGER", "FLOAT", "OPERATOR", "NOT", "UNQUOTED_STRING", 
-      "SIMPLE_QUOTED_STRING", "DOUBLE_QUOTED_STRING", "ID", "DOT_ID"
+      "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "WS", 
+      "SL_COMMENT", "ML_COMMENT", "INTEGER", "FLOAT", "OPERATOR", "NOT", 
+      "UNQUOTED_STRING", "SIMPLE_QUOTE", "DOUBLE_QUOTE", "SIMPLE_QUOTED_STRING", 
+      "DOUBLE_QUOTED_STRING", "ID", "DOT_ID"
     }
   );
   static const int32_t serializedATNSegment[] = {
-  	4,1,42,192,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
+  	4,1,45,198,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
   	7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,14,7,
   	14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,7,20,2,21,7,
-  	21,1,0,1,0,1,1,1,1,1,2,1,2,1,2,1,2,3,2,53,8,2,1,3,1,3,1,3,1,3,1,3,1,3,
-  	1,3,1,3,3,3,63,8,3,1,4,1,4,3,4,67,8,4,1,4,1,4,1,4,1,4,1,4,3,4,74,8,4,
-  	1,4,1,4,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,6,1,6,1,7,1,7,1,7,1,7,5,7,92,
-  	8,7,10,7,12,7,95,9,7,1,8,1,8,1,8,1,9,1,9,1,9,1,9,1,9,1,10,1,10,1,10,1,
-  	10,1,10,1,10,3,10,111,8,10,1,10,1,10,1,11,1,11,1,11,1,12,1,12,1,13,1,
-  	13,3,13,122,8,13,1,13,5,13,125,8,13,10,13,12,13,128,9,13,1,13,5,13,131,
-  	8,13,10,13,12,13,134,9,13,1,13,3,13,137,8,13,1,14,1,14,3,14,141,8,14,
-  	1,15,1,15,3,15,145,8,15,1,16,1,16,1,16,1,16,4,16,151,8,16,11,16,12,16,
-  	152,1,16,1,16,1,16,3,16,158,8,16,1,17,1,17,3,17,162,8,17,1,18,1,18,1,
-  	19,1,19,1,20,1,20,3,20,170,8,20,1,20,3,20,173,8,20,1,21,1,21,1,21,3,21,
-  	178,8,21,1,21,1,21,1,21,4,21,183,8,21,11,21,12,21,184,1,21,1,21,1,21,
-  	3,21,190,8,21,1,21,0,0,22,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,
-  	32,34,36,38,40,42,0,5,1,0,34,35,2,0,7,7,13,16,1,0,17,20,1,0,22,24,1,0,
-  	25,29,194,0,44,1,0,0,0,2,46,1,0,0,0,4,52,1,0,0,0,6,54,1,0,0,0,8,64,1,
-  	0,0,0,10,77,1,0,0,0,12,85,1,0,0,0,14,87,1,0,0,0,16,96,1,0,0,0,18,99,1,
-  	0,0,0,20,104,1,0,0,0,22,114,1,0,0,0,24,117,1,0,0,0,26,119,1,0,0,0,28,
-  	138,1,0,0,0,30,144,1,0,0,0,32,146,1,0,0,0,34,161,1,0,0,0,36,163,1,0,0,
-  	0,38,165,1,0,0,0,40,167,1,0,0,0,42,177,1,0,0,0,44,45,5,34,0,0,45,1,1,
-  	0,0,0,46,47,7,0,0,0,47,3,1,0,0,0,48,53,5,39,0,0,49,53,5,40,0,0,50,53,
-  	5,38,0,0,51,53,3,2,1,0,52,48,1,0,0,0,52,49,1,0,0,0,52,50,1,0,0,0,52,51,
-  	1,0,0,0,53,5,1,0,0,0,54,55,5,1,0,0,55,56,5,2,0,0,56,62,5,3,0,0,57,58,
-  	5,1,0,0,58,59,5,4,0,0,59,60,3,2,1,0,60,61,5,3,0,0,61,63,1,0,0,0,62,57,
-  	1,0,0,0,62,63,1,0,0,0,63,7,1,0,0,0,64,73,5,1,0,0,65,67,5,37,0,0,66,65,
-  	1,0,0,0,66,67,1,0,0,0,67,68,1,0,0,0,68,74,3,4,2,0,69,70,3,4,2,0,70,71,
-  	5,36,0,0,71,72,3,4,2,0,72,74,1,0,0,0,73,66,1,0,0,0,73,69,1,0,0,0,74,75,
-  	1,0,0,0,75,76,5,3,0,0,76,9,1,0,0,0,77,78,3,2,1,0,78,79,5,5,0,0,79,80,
-  	3,2,1,0,80,81,5,5,0,0,81,82,3,2,1,0,82,83,5,5,0,0,83,84,3,2,1,0,84,11,
-  	1,0,0,0,85,86,3,0,0,0,86,13,1,0,0,0,87,88,5,6,0,0,88,93,3,0,0,0,89,90,
-  	5,5,0,0,90,92,3,0,0,0,91,89,1,0,0,0,92,95,1,0,0,0,93,91,1,0,0,0,93,94,
-  	1,0,0,0,94,15,1,0,0,0,95,93,1,0,0,0,96,97,5,7,0,0,97,98,5,42,0,0,98,17,
-  	1,0,0,0,99,100,5,8,0,0,100,101,5,42,0,0,101,102,5,9,0,0,102,103,3,2,1,
-  	0,103,19,1,0,0,0,104,110,5,10,0,0,105,111,3,10,5,0,106,111,3,12,6,0,107,
-  	111,3,14,7,0,108,111,3,16,8,0,109,111,3,18,9,0,110,105,1,0,0,0,110,106,
-  	1,0,0,0,110,107,1,0,0,0,110,108,1,0,0,0,110,109,1,0,0,0,111,112,1,0,0,
-  	0,112,113,5,11,0,0,113,21,1,0,0,0,114,115,5,12,0,0,115,116,5,42,0,0,116,
-  	23,1,0,0,0,117,118,7,1,0,0,118,25,1,0,0,0,119,121,3,24,12,0,120,122,5,
-  	42,0,0,121,120,1,0,0,0,121,122,1,0,0,0,122,126,1,0,0,0,123,125,3,8,4,
-  	0,124,123,1,0,0,0,125,128,1,0,0,0,126,124,1,0,0,0,126,127,1,0,0,0,127,
-  	132,1,0,0,0,128,126,1,0,0,0,129,131,3,20,10,0,130,129,1,0,0,0,131,134,
-  	1,0,0,0,132,130,1,0,0,0,132,133,1,0,0,0,133,136,1,0,0,0,134,132,1,0,0,
-  	0,135,137,3,22,11,0,136,135,1,0,0,0,136,137,1,0,0,0,137,27,1,0,0,0,138,
-  	140,7,2,0,0,139,141,3,22,11,0,140,139,1,0,0,0,140,141,1,0,0,0,141,29,
-  	1,0,0,0,142,145,3,26,13,0,143,145,3,28,14,0,144,142,1,0,0,0,144,143,1,
-  	0,0,0,145,31,1,0,0,0,146,150,5,10,0,0,147,148,3,34,17,0,148,149,5,21,
-  	0,0,149,151,1,0,0,0,150,147,1,0,0,0,151,152,1,0,0,0,152,150,1,0,0,0,152,
-  	153,1,0,0,0,153,154,1,0,0,0,154,155,5,11,0,0,155,157,1,0,0,0,156,158,
-  	3,22,11,0,157,156,1,0,0,0,157,158,1,0,0,0,158,33,1,0,0,0,159,162,3,30,
-  	15,0,160,162,3,32,16,0,161,159,1,0,0,0,161,160,1,0,0,0,162,35,1,0,0,0,
-  	163,164,7,3,0,0,164,37,1,0,0,0,165,166,7,4,0,0,166,39,1,0,0,0,167,169,
-  	5,30,0,0,168,170,3,36,18,0,169,168,1,0,0,0,169,170,1,0,0,0,170,172,1,
-  	0,0,0,171,173,3,38,19,0,172,171,1,0,0,0,172,173,1,0,0,0,173,41,1,0,0,
-  	0,174,175,3,6,3,0,175,176,5,21,0,0,176,178,1,0,0,0,177,174,1,0,0,0,177,
-  	178,1,0,0,0,178,182,1,0,0,0,179,180,3,34,17,0,180,181,5,21,0,0,181,183,
-  	1,0,0,0,182,179,1,0,0,0,183,184,1,0,0,0,184,182,1,0,0,0,184,185,1,0,0,
-  	0,185,189,1,0,0,0,186,187,3,40,20,0,187,188,5,21,0,0,188,190,1,0,0,0,
-  	189,186,1,0,0,0,189,190,1,0,0,0,190,43,1,0,0,0,20,52,62,66,73,93,110,
-  	121,126,132,136,140,144,152,157,161,169,172,177,184,189
+  	21,2,22,7,22,1,0,1,0,1,1,1,1,1,2,1,2,1,2,1,2,3,2,55,8,2,1,3,1,3,1,3,1,
+  	3,1,3,1,3,1,3,1,3,3,3,65,8,3,1,4,1,4,3,4,69,8,4,1,4,1,4,1,4,1,4,1,4,3,
+  	4,76,8,4,1,4,1,4,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,6,1,6,1,6,1,7,1,7,
+  	1,8,1,8,1,8,1,8,5,8,97,8,8,10,8,12,8,100,9,8,1,9,1,9,1,9,1,10,1,10,1,
+  	10,1,10,1,10,1,11,1,11,1,11,1,11,1,11,1,11,1,11,3,11,117,8,11,1,11,1,
+  	11,1,12,1,12,1,12,1,13,1,13,1,14,1,14,3,14,128,8,14,1,14,5,14,131,8,14,
+  	10,14,12,14,134,9,14,1,14,5,14,137,8,14,10,14,12,14,140,9,14,1,14,3,14,
+  	143,8,14,1,15,1,15,3,15,147,8,15,1,16,1,16,3,16,151,8,16,1,17,1,17,1,
+  	17,1,17,4,17,157,8,17,11,17,12,17,158,1,17,1,17,1,17,3,17,164,8,17,1,
+  	18,1,18,3,18,168,8,18,1,19,1,19,1,20,1,20,1,21,1,21,3,21,176,8,21,1,21,
+  	3,21,179,8,21,1,22,1,22,1,22,3,22,184,8,22,1,22,1,22,1,22,4,22,189,8,
+  	22,11,22,12,22,190,1,22,1,22,1,22,3,22,196,8,22,1,22,0,0,23,0,2,4,6,8,
+  	10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,0,6,1,0,35,36,1,
+  	0,42,43,2,0,8,8,14,17,1,0,18,21,1,0,23,25,1,0,26,30,200,0,46,1,0,0,0,
+  	2,48,1,0,0,0,4,54,1,0,0,0,6,56,1,0,0,0,8,66,1,0,0,0,10,79,1,0,0,0,12,
+  	87,1,0,0,0,14,90,1,0,0,0,16,92,1,0,0,0,18,101,1,0,0,0,20,104,1,0,0,0,
+  	22,109,1,0,0,0,24,120,1,0,0,0,26,123,1,0,0,0,28,125,1,0,0,0,30,144,1,
+  	0,0,0,32,150,1,0,0,0,34,152,1,0,0,0,36,167,1,0,0,0,38,169,1,0,0,0,40,
+  	171,1,0,0,0,42,173,1,0,0,0,44,183,1,0,0,0,46,47,5,35,0,0,47,1,1,0,0,0,
+  	48,49,7,0,0,0,49,3,1,0,0,0,50,55,5,42,0,0,51,55,5,43,0,0,52,55,5,39,0,
+  	0,53,55,3,2,1,0,54,50,1,0,0,0,54,51,1,0,0,0,54,52,1,0,0,0,54,53,1,0,0,
+  	0,55,5,1,0,0,0,56,57,5,1,0,0,57,58,5,2,0,0,58,64,5,3,0,0,59,60,5,1,0,
+  	0,60,61,5,4,0,0,61,62,3,2,1,0,62,63,5,3,0,0,63,65,1,0,0,0,64,59,1,0,0,
+  	0,64,65,1,0,0,0,65,7,1,0,0,0,66,75,5,1,0,0,67,69,5,38,0,0,68,67,1,0,0,
+  	0,68,69,1,0,0,0,69,70,1,0,0,0,70,76,3,4,2,0,71,72,3,4,2,0,72,73,5,37,
+  	0,0,73,74,3,4,2,0,74,76,1,0,0,0,75,68,1,0,0,0,75,71,1,0,0,0,76,77,1,0,
+  	0,0,77,78,5,3,0,0,78,9,1,0,0,0,79,80,3,2,1,0,80,81,5,5,0,0,81,82,3,2,
+  	1,0,82,83,5,5,0,0,83,84,3,2,1,0,84,85,5,5,0,0,85,86,3,2,1,0,86,11,1,0,
+  	0,0,87,88,5,6,0,0,88,89,7,1,0,0,89,13,1,0,0,0,90,91,3,0,0,0,91,15,1,0,
+  	0,0,92,93,5,7,0,0,93,98,3,0,0,0,94,95,5,5,0,0,95,97,3,0,0,0,96,94,1,0,
+  	0,0,97,100,1,0,0,0,98,96,1,0,0,0,98,99,1,0,0,0,99,17,1,0,0,0,100,98,1,
+  	0,0,0,101,102,5,8,0,0,102,103,5,45,0,0,103,19,1,0,0,0,104,105,5,9,0,0,
+  	105,106,5,45,0,0,106,107,5,10,0,0,107,108,3,2,1,0,108,21,1,0,0,0,109,
+  	116,5,11,0,0,110,117,3,10,5,0,111,117,3,12,6,0,112,117,3,14,7,0,113,117,
+  	3,16,8,0,114,117,3,18,9,0,115,117,3,20,10,0,116,110,1,0,0,0,116,111,1,
+  	0,0,0,116,112,1,0,0,0,116,113,1,0,0,0,116,114,1,0,0,0,116,115,1,0,0,0,
+  	117,118,1,0,0,0,118,119,5,12,0,0,119,23,1,0,0,0,120,121,5,13,0,0,121,
+  	122,5,45,0,0,122,25,1,0,0,0,123,124,7,2,0,0,124,27,1,0,0,0,125,127,3,
+  	26,13,0,126,128,5,45,0,0,127,126,1,0,0,0,127,128,1,0,0,0,128,132,1,0,
+  	0,0,129,131,3,8,4,0,130,129,1,0,0,0,131,134,1,0,0,0,132,130,1,0,0,0,132,
+  	133,1,0,0,0,133,138,1,0,0,0,134,132,1,0,0,0,135,137,3,22,11,0,136,135,
+  	1,0,0,0,137,140,1,0,0,0,138,136,1,0,0,0,138,139,1,0,0,0,139,142,1,0,0,
+  	0,140,138,1,0,0,0,141,143,3,24,12,0,142,141,1,0,0,0,142,143,1,0,0,0,143,
+  	29,1,0,0,0,144,146,7,3,0,0,145,147,3,24,12,0,146,145,1,0,0,0,146,147,
+  	1,0,0,0,147,31,1,0,0,0,148,151,3,28,14,0,149,151,3,30,15,0,150,148,1,
+  	0,0,0,150,149,1,0,0,0,151,33,1,0,0,0,152,156,5,11,0,0,153,154,3,36,18,
+  	0,154,155,5,22,0,0,155,157,1,0,0,0,156,153,1,0,0,0,157,158,1,0,0,0,158,
+  	156,1,0,0,0,158,159,1,0,0,0,159,160,1,0,0,0,160,161,5,12,0,0,161,163,
+  	1,0,0,0,162,164,3,24,12,0,163,162,1,0,0,0,163,164,1,0,0,0,164,35,1,0,
+  	0,0,165,168,3,32,16,0,166,168,3,34,17,0,167,165,1,0,0,0,167,166,1,0,0,
+  	0,168,37,1,0,0,0,169,170,7,4,0,0,170,39,1,0,0,0,171,172,7,5,0,0,172,41,
+  	1,0,0,0,173,175,5,31,0,0,174,176,3,38,19,0,175,174,1,0,0,0,175,176,1,
+  	0,0,0,176,178,1,0,0,0,177,179,3,40,20,0,178,177,1,0,0,0,178,179,1,0,0,
+  	0,179,43,1,0,0,0,180,181,3,6,3,0,181,182,5,22,0,0,182,184,1,0,0,0,183,
+  	180,1,0,0,0,183,184,1,0,0,0,184,188,1,0,0,0,185,186,3,36,18,0,186,187,
+  	5,22,0,0,187,189,1,0,0,0,188,185,1,0,0,0,189,190,1,0,0,0,190,188,1,0,
+  	0,0,190,191,1,0,0,0,191,195,1,0,0,0,192,193,3,42,21,0,193,194,5,22,0,
+  	0,194,196,1,0,0,0,195,192,1,0,0,0,195,196,1,0,0,0,196,45,1,0,0,0,20,54,
+  	64,68,75,98,116,127,132,138,142,146,150,158,163,167,175,178,183,190,195
   };
   staticData->serializedATN = antlr4::atn::SerializedATNView(serializedATNSegment, sizeof(serializedATNSegment) / sizeof(serializedATNSegment[0]));
 
@@ -221,7 +224,7 @@ OverpassParser::Osm_idContext* OverpassParser::osm_id() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(44);
+    setState(46);
     match(OverpassParser::INTEGER);
    
   }
@@ -287,7 +290,7 @@ OverpassParser::NumberContext* OverpassParser::number() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(46);
+    setState(48);
     _la = _input->LA(1);
     if (!(_la == OverpassParser::INTEGER
 
@@ -368,26 +371,26 @@ OverpassParser::TokenContext* OverpassParser::token() {
     exitRule();
   });
   try {
-    setState(52);
+    setState(54);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case OverpassParser::SIMPLE_QUOTED_STRING: {
         enterOuterAlt(_localctx, 1);
-        setState(48);
+        setState(50);
         match(OverpassParser::SIMPLE_QUOTED_STRING);
         break;
       }
 
       case OverpassParser::DOUBLE_QUOTED_STRING: {
         enterOuterAlt(_localctx, 2);
-        setState(49);
+        setState(51);
         match(OverpassParser::DOUBLE_QUOTED_STRING);
         break;
       }
 
       case OverpassParser::UNQUOTED_STRING: {
         enterOuterAlt(_localctx, 3);
-        setState(50);
+        setState(52);
         match(OverpassParser::UNQUOTED_STRING);
         break;
       }
@@ -395,7 +398,7 @@ OverpassParser::TokenContext* OverpassParser::token() {
       case OverpassParser::INTEGER:
       case OverpassParser::FLOAT: {
         enterOuterAlt(_localctx, 4);
-        setState(51);
+        setState(53);
         number();
         break;
       }
@@ -463,26 +466,26 @@ OverpassParser::MetadataContext* OverpassParser::metadata() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(54);
+    setState(56);
     match(OverpassParser::T__0);
 
-    setState(55);
+    setState(57);
     antlrcpp::downCast<MetadataContext *>(_localctx)->out_json = match(OverpassParser::T__1);
-    setState(56);
+    setState(58);
     match(OverpassParser::T__2);
-    setState(62);
+    setState(64);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
     if (_la == OverpassParser::T__0) {
-      setState(57);
+      setState(59);
       match(OverpassParser::T__0);
-      setState(58);
+      setState(60);
       match(OverpassParser::T__3);
 
-      setState(59);
+      setState(61);
       antlrcpp::downCast<MetadataContext *>(_localctx)->timeout = number();
-      setState(60);
+      setState(62);
       match(OverpassParser::T__2);
     }
    
@@ -557,31 +560,31 @@ OverpassParser::SelectorContext* OverpassParser::selector() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(64);
+    setState(66);
     match(OverpassParser::T__0);
-    setState(73);
+    setState(75);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 3, _ctx)) {
     case 1: {
-      setState(66);
+      setState(68);
       _errHandler->sync(this);
 
       _la = _input->LA(1);
       if (_la == OverpassParser::NOT) {
-        setState(65);
+        setState(67);
         match(OverpassParser::NOT);
       }
-      setState(68);
+      setState(70);
       antlrcpp::downCast<SelectorContext *>(_localctx)->key = token();
       break;
     }
 
     case 2: {
-      setState(69);
-      antlrcpp::downCast<SelectorContext *>(_localctx)->key = token();
-      setState(70);
-      match(OverpassParser::OPERATOR);
       setState(71);
+      antlrcpp::downCast<SelectorContext *>(_localctx)->key = token();
+      setState(72);
+      match(OverpassParser::OPERATOR);
+      setState(73);
       antlrcpp::downCast<SelectorContext *>(_localctx)->value = token();
       break;
     }
@@ -589,7 +592,7 @@ OverpassParser::SelectorContext* OverpassParser::selector() {
     default:
       break;
     }
-    setState(75);
+    setState(77);
     match(OverpassParser::T__2);
    
   }
@@ -654,10 +657,6 @@ OverpassParser::Filter_bboxContext* OverpassParser::filter_bbox() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(77);
-    number();
-    setState(78);
-    match(OverpassParser::T__4);
     setState(79);
     number();
     setState(80);
@@ -668,6 +667,87 @@ OverpassParser::Filter_bboxContext* OverpassParser::filter_bbox() {
     match(OverpassParser::T__4);
     setState(83);
     number();
+    setState(84);
+    match(OverpassParser::T__4);
+    setState(85);
+    number();
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
+
+  return _localctx;
+}
+
+//----------------- Filter_polyContext ------------------------------------------------------------------
+
+OverpassParser::Filter_polyContext::Filter_polyContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+tree::TerminalNode* OverpassParser::Filter_polyContext::SIMPLE_QUOTED_STRING() {
+  return getToken(OverpassParser::SIMPLE_QUOTED_STRING, 0);
+}
+
+tree::TerminalNode* OverpassParser::Filter_polyContext::DOUBLE_QUOTED_STRING() {
+  return getToken(OverpassParser::DOUBLE_QUOTED_STRING, 0);
+}
+
+
+size_t OverpassParser::Filter_polyContext::getRuleIndex() const {
+  return OverpassParser::RuleFilter_poly;
+}
+
+void OverpassParser::Filter_polyContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<OverpassListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterFilter_poly(this);
+}
+
+void OverpassParser::Filter_polyContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<OverpassListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitFilter_poly(this);
+}
+
+
+std::any OverpassParser::Filter_polyContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<OverpassVisitor*>(visitor))
+    return parserVisitor->visitFilter_poly(this);
+  else
+    return visitor->visitChildren(this);
+}
+
+OverpassParser::Filter_polyContext* OverpassParser::filter_poly() {
+  Filter_polyContext *_localctx = _tracker.createInstance<Filter_polyContext>(_ctx, getState());
+  enterRule(_localctx, 12, OverpassParser::RuleFilter_poly);
+  size_t _la = 0;
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    enterOuterAlt(_localctx, 1);
+    setState(87);
+    match(OverpassParser::T__5);
+    setState(88);
+    _la = _input->LA(1);
+    if (!(_la == OverpassParser::SIMPLE_QUOTED_STRING
+
+    || _la == OverpassParser::DOUBLE_QUOTED_STRING)) {
+    _errHandler->recoverInline(this);
+    }
+    else {
+      _errHandler->reportMatch(this);
+      consume();
+    }
    
   }
   catch (RecognitionException &e) {
@@ -716,7 +796,7 @@ std::any OverpassParser::Filter_osm_idContext::accept(tree::ParseTreeVisitor *vi
 
 OverpassParser::Filter_osm_idContext* OverpassParser::filter_osm_id() {
   Filter_osm_idContext *_localctx = _tracker.createInstance<Filter_osm_idContext>(_ctx, getState());
-  enterRule(_localctx, 12, OverpassParser::RuleFilter_osm_id);
+  enterRule(_localctx, 14, OverpassParser::RuleFilter_osm_id);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -727,7 +807,7 @@ OverpassParser::Filter_osm_idContext* OverpassParser::filter_osm_id() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(85);
+    setState(90);
     osm_id();
    
   }
@@ -781,7 +861,7 @@ std::any OverpassParser::Filter_osm_idsContext::accept(tree::ParseTreeVisitor *v
 
 OverpassParser::Filter_osm_idsContext* OverpassParser::filter_osm_ids() {
   Filter_osm_idsContext *_localctx = _tracker.createInstance<Filter_osm_idsContext>(_ctx, getState());
-  enterRule(_localctx, 14, OverpassParser::RuleFilter_osm_ids);
+  enterRule(_localctx, 16, OverpassParser::RuleFilter_osm_ids);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -793,19 +873,19 @@ OverpassParser::Filter_osm_idsContext* OverpassParser::filter_osm_ids() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(87);
-    match(OverpassParser::T__5);
-    setState(88);
-    osm_id();
+    setState(92);
+    match(OverpassParser::T__6);
     setState(93);
+    osm_id();
+    setState(98);
     _errHandler->sync(this);
     _la = _input->LA(1);
     while (_la == OverpassParser::T__4) {
-      setState(89);
+      setState(94);
       match(OverpassParser::T__4);
-      setState(90);
-      osm_id();
       setState(95);
+      osm_id();
+      setState(100);
       _errHandler->sync(this);
       _la = _input->LA(1);
     }
@@ -857,7 +937,7 @@ std::any OverpassParser::Filter_areaContext::accept(tree::ParseTreeVisitor *visi
 
 OverpassParser::Filter_areaContext* OverpassParser::filter_area() {
   Filter_areaContext *_localctx = _tracker.createInstance<Filter_areaContext>(_ctx, getState());
-  enterRule(_localctx, 16, OverpassParser::RuleFilter_area);
+  enterRule(_localctx, 18, OverpassParser::RuleFilter_area);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -868,9 +948,9 @@ OverpassParser::Filter_areaContext* OverpassParser::filter_area() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(96);
-    match(OverpassParser::T__6);
-    setState(97);
+    setState(101);
+    match(OverpassParser::T__7);
+    setState(102);
     match(OverpassParser::DOT_ID);
    
   }
@@ -924,7 +1004,7 @@ std::any OverpassParser::Filter_aroundContext::accept(tree::ParseTreeVisitor *vi
 
 OverpassParser::Filter_aroundContext* OverpassParser::filter_around() {
   Filter_aroundContext *_localctx = _tracker.createInstance<Filter_aroundContext>(_ctx, getState());
-  enterRule(_localctx, 18, OverpassParser::RuleFilter_around);
+  enterRule(_localctx, 20, OverpassParser::RuleFilter_around);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -935,13 +1015,13 @@ OverpassParser::Filter_aroundContext* OverpassParser::filter_around() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(99);
-    match(OverpassParser::T__7);
-    setState(100);
-    match(OverpassParser::DOT_ID);
-    setState(101);
+    setState(104);
     match(OverpassParser::T__8);
-    setState(102);
+    setState(105);
+    match(OverpassParser::DOT_ID);
+    setState(106);
+    match(OverpassParser::T__9);
+    setState(107);
     number();
    
   }
@@ -962,6 +1042,10 @@ OverpassParser::FilterContext::FilterContext(ParserRuleContext *parent, size_t i
 
 OverpassParser::Filter_bboxContext* OverpassParser::FilterContext::filter_bbox() {
   return getRuleContext<OverpassParser::Filter_bboxContext>(0);
+}
+
+OverpassParser::Filter_polyContext* OverpassParser::FilterContext::filter_poly() {
+  return getRuleContext<OverpassParser::Filter_polyContext>(0);
 }
 
 OverpassParser::Filter_osm_idContext* OverpassParser::FilterContext::filter_osm_id() {
@@ -1007,7 +1091,7 @@ std::any OverpassParser::FilterContext::accept(tree::ParseTreeVisitor *visitor) 
 
 OverpassParser::FilterContext* OverpassParser::filter() {
   FilterContext *_localctx = _tracker.createInstance<FilterContext>(_ctx, getState());
-  enterRule(_localctx, 20, OverpassParser::RuleFilter);
+  enterRule(_localctx, 22, OverpassParser::RuleFilter);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -1018,37 +1102,43 @@ OverpassParser::FilterContext* OverpassParser::filter() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(104);
-    match(OverpassParser::T__9);
-    setState(110);
+    setState(109);
+    match(OverpassParser::T__10);
+    setState(116);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 5, _ctx)) {
     case 1: {
-      setState(105);
+      setState(110);
       filter_bbox();
       break;
     }
 
     case 2: {
-      setState(106);
-      filter_osm_id();
+      setState(111);
+      filter_poly();
       break;
     }
 
     case 3: {
-      setState(107);
-      filter_osm_ids();
+      setState(112);
+      filter_osm_id();
       break;
     }
 
     case 4: {
-      setState(108);
-      filter_area();
+      setState(113);
+      filter_osm_ids();
       break;
     }
 
     case 5: {
-      setState(109);
+      setState(114);
+      filter_area();
+      break;
+    }
+
+    case 6: {
+      setState(115);
       filter_around();
       break;
     }
@@ -1056,8 +1146,8 @@ OverpassParser::FilterContext* OverpassParser::filter() {
     default:
       break;
     }
-    setState(112);
-    match(OverpassParser::T__10);
+    setState(118);
+    match(OverpassParser::T__11);
    
   }
   catch (RecognitionException &e) {
@@ -1106,7 +1196,7 @@ std::any OverpassParser::AsignationContext::accept(tree::ParseTreeVisitor *visit
 
 OverpassParser::AsignationContext* OverpassParser::asignation() {
   AsignationContext *_localctx = _tracker.createInstance<AsignationContext>(_ctx, getState());
-  enterRule(_localctx, 22, OverpassParser::RuleAsignation);
+  enterRule(_localctx, 24, OverpassParser::RuleAsignation);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -1117,9 +1207,9 @@ OverpassParser::AsignationContext* OverpassParser::asignation() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(114);
-    match(OverpassParser::T__11);
-    setState(115);
+    setState(120);
+    match(OverpassParser::T__12);
+    setState(121);
     match(OverpassParser::DOT_ID);
    
   }
@@ -1165,7 +1255,7 @@ std::any OverpassParser::Object_typeContext::accept(tree::ParseTreeVisitor *visi
 
 OverpassParser::Object_typeContext* OverpassParser::object_type() {
   Object_typeContext *_localctx = _tracker.createInstance<Object_typeContext>(_ctx, getState());
-  enterRule(_localctx, 24, OverpassParser::RuleObject_type);
+  enterRule(_localctx, 26, OverpassParser::RuleObject_type);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1177,14 +1267,14 @@ OverpassParser::Object_typeContext* OverpassParser::object_type() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(117);
+    setState(123);
     _la = _input->LA(1);
     if (!((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & ((1ULL << OverpassParser::T__6)
-      | (1ULL << OverpassParser::T__12)
+      ((1ULL << _la) & ((1ULL << OverpassParser::T__7)
       | (1ULL << OverpassParser::T__13)
       | (1ULL << OverpassParser::T__14)
-      | (1ULL << OverpassParser::T__15))) != 0))) {
+      | (1ULL << OverpassParser::T__15)
+      | (1ULL << OverpassParser::T__16))) != 0))) {
     _errHandler->recoverInline(this);
     }
     else {
@@ -1263,7 +1353,7 @@ std::any OverpassParser::Query_objectContext::accept(tree::ParseTreeVisitor *vis
 
 OverpassParser::Query_objectContext* OverpassParser::query_object() {
   Query_objectContext *_localctx = _tracker.createInstance<Query_objectContext>(_ctx, getState());
-  enterRule(_localctx, 26, OverpassParser::RuleQuery_object);
+  enterRule(_localctx, 28, OverpassParser::RuleQuery_object);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1275,42 +1365,42 @@ OverpassParser::Query_objectContext* OverpassParser::query_object() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(119);
+    setState(125);
     object_type();
-    setState(121);
+    setState(127);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
     if (_la == OverpassParser::DOT_ID) {
-      setState(120);
+      setState(126);
       match(OverpassParser::DOT_ID);
-    }
-    setState(126);
-    _errHandler->sync(this);
-    _la = _input->LA(1);
-    while (_la == OverpassParser::T__0) {
-      setState(123);
-      selector();
-      setState(128);
-      _errHandler->sync(this);
-      _la = _input->LA(1);
     }
     setState(132);
     _errHandler->sync(this);
     _la = _input->LA(1);
-    while (_la == OverpassParser::T__9) {
+    while (_la == OverpassParser::T__0) {
       setState(129);
-      filter();
+      selector();
       setState(134);
       _errHandler->sync(this);
       _la = _input->LA(1);
     }
-    setState(136);
+    setState(138);
+    _errHandler->sync(this);
+    _la = _input->LA(1);
+    while (_la == OverpassParser::T__10) {
+      setState(135);
+      filter();
+      setState(140);
+      _errHandler->sync(this);
+      _la = _input->LA(1);
+    }
+    setState(142);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
-    if (_la == OverpassParser::T__11) {
-      setState(135);
+    if (_la == OverpassParser::T__12) {
+      setState(141);
       asignation();
     }
    
@@ -1361,7 +1451,7 @@ std::any OverpassParser::Query_recurseContext::accept(tree::ParseTreeVisitor *vi
 
 OverpassParser::Query_recurseContext* OverpassParser::query_recurse() {
   Query_recurseContext *_localctx = _tracker.createInstance<Query_recurseContext>(_ctx, getState());
-  enterRule(_localctx, 28, OverpassParser::RuleQuery_recurse);
+  enterRule(_localctx, 30, OverpassParser::RuleQuery_recurse);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1373,25 +1463,25 @@ OverpassParser::Query_recurseContext* OverpassParser::query_recurse() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(138);
+    setState(144);
     _la = _input->LA(1);
     if (!((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & ((1ULL << OverpassParser::T__16)
-      | (1ULL << OverpassParser::T__17)
+      ((1ULL << _la) & ((1ULL << OverpassParser::T__17)
       | (1ULL << OverpassParser::T__18)
-      | (1ULL << OverpassParser::T__19))) != 0))) {
+      | (1ULL << OverpassParser::T__19)
+      | (1ULL << OverpassParser::T__20))) != 0))) {
     _errHandler->recoverInline(this);
     }
     else {
       _errHandler->reportMatch(this);
       consume();
     }
-    setState(140);
+    setState(146);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
-    if (_la == OverpassParser::T__11) {
-      setState(139);
+    if (_la == OverpassParser::T__12) {
+      setState(145);
       asignation();
     }
    
@@ -1446,7 +1536,7 @@ std::any OverpassParser::QueryContext::accept(tree::ParseTreeVisitor *visitor) {
 
 OverpassParser::QueryContext* OverpassParser::query() {
   QueryContext *_localctx = _tracker.createInstance<QueryContext>(_ctx, getState());
-  enterRule(_localctx, 30, OverpassParser::RuleQuery);
+  enterRule(_localctx, 32, OverpassParser::RuleQuery);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -1456,26 +1546,26 @@ OverpassParser::QueryContext* OverpassParser::query() {
     exitRule();
   });
   try {
-    setState(144);
+    setState(150);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
-      case OverpassParser::T__6:
-      case OverpassParser::T__12:
+      case OverpassParser::T__7:
       case OverpassParser::T__13:
       case OverpassParser::T__14:
-      case OverpassParser::T__15: {
+      case OverpassParser::T__15:
+      case OverpassParser::T__16: {
         enterOuterAlt(_localctx, 1);
-        setState(142);
+        setState(148);
         query_object();
         break;
       }
 
-      case OverpassParser::T__16:
       case OverpassParser::T__17:
       case OverpassParser::T__18:
-      case OverpassParser::T__19: {
+      case OverpassParser::T__19:
+      case OverpassParser::T__20: {
         enterOuterAlt(_localctx, 2);
-        setState(143);
+        setState(149);
         query_recurse();
         break;
       }
@@ -1539,7 +1629,7 @@ std::any OverpassParser::Query_unionContext::accept(tree::ParseTreeVisitor *visi
 
 OverpassParser::Query_unionContext* OverpassParser::query_union() {
   Query_unionContext *_localctx = _tracker.createInstance<Query_unionContext>(_ctx, getState());
-  enterRule(_localctx, 32, OverpassParser::RuleQuery_union);
+  enterRule(_localctx, 34, OverpassParser::RuleQuery_union);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1551,38 +1641,38 @@ OverpassParser::Query_unionContext* OverpassParser::query_union() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(146);
-    match(OverpassParser::T__9);
-    setState(150); 
+    setState(152);
+    match(OverpassParser::T__10);
+    setState(156); 
     _errHandler->sync(this);
     _la = _input->LA(1);
     do {
-      setState(147);
+      setState(153);
       query_sequence();
-      setState(148);
-      match(OverpassParser::T__20);
-      setState(152); 
+      setState(154);
+      match(OverpassParser::T__21);
+      setState(158); 
       _errHandler->sync(this);
       _la = _input->LA(1);
     } while ((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & ((1ULL << OverpassParser::T__6)
-      | (1ULL << OverpassParser::T__9)
-      | (1ULL << OverpassParser::T__12)
+      ((1ULL << _la) & ((1ULL << OverpassParser::T__7)
+      | (1ULL << OverpassParser::T__10)
       | (1ULL << OverpassParser::T__13)
       | (1ULL << OverpassParser::T__14)
       | (1ULL << OverpassParser::T__15)
       | (1ULL << OverpassParser::T__16)
       | (1ULL << OverpassParser::T__17)
       | (1ULL << OverpassParser::T__18)
-      | (1ULL << OverpassParser::T__19))) != 0));
-    setState(154);
-    match(OverpassParser::T__10);
-    setState(157);
+      | (1ULL << OverpassParser::T__19)
+      | (1ULL << OverpassParser::T__20))) != 0));
+    setState(160);
+    match(OverpassParser::T__11);
+    setState(163);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
-    if (_la == OverpassParser::T__11) {
-      setState(156);
+    if (_la == OverpassParser::T__12) {
+      setState(162);
       asignation();
     }
    
@@ -1637,7 +1727,7 @@ std::any OverpassParser::Query_sequenceContext::accept(tree::ParseTreeVisitor *v
 
 OverpassParser::Query_sequenceContext* OverpassParser::query_sequence() {
   Query_sequenceContext *_localctx = _tracker.createInstance<Query_sequenceContext>(_ctx, getState());
-  enterRule(_localctx, 34, OverpassParser::RuleQuery_sequence);
+  enterRule(_localctx, 36, OverpassParser::RuleQuery_sequence);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -1647,27 +1737,27 @@ OverpassParser::Query_sequenceContext* OverpassParser::query_sequence() {
     exitRule();
   });
   try {
-    setState(161);
+    setState(167);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
-      case OverpassParser::T__6:
-      case OverpassParser::T__12:
+      case OverpassParser::T__7:
       case OverpassParser::T__13:
       case OverpassParser::T__14:
       case OverpassParser::T__15:
       case OverpassParser::T__16:
       case OverpassParser::T__17:
       case OverpassParser::T__18:
-      case OverpassParser::T__19: {
+      case OverpassParser::T__19:
+      case OverpassParser::T__20: {
         enterOuterAlt(_localctx, 1);
-        setState(159);
+        setState(165);
         query();
         break;
       }
 
-      case OverpassParser::T__9: {
+      case OverpassParser::T__10: {
         enterOuterAlt(_localctx, 2);
-        setState(160);
+        setState(166);
         query_union();
         break;
       }
@@ -1719,7 +1809,7 @@ std::any OverpassParser::Out_geomContext::accept(tree::ParseTreeVisitor *visitor
 
 OverpassParser::Out_geomContext* OverpassParser::out_geom() {
   Out_geomContext *_localctx = _tracker.createInstance<Out_geomContext>(_ctx, getState());
-  enterRule(_localctx, 36, OverpassParser::RuleOut_geom);
+  enterRule(_localctx, 38, OverpassParser::RuleOut_geom);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1731,12 +1821,12 @@ OverpassParser::Out_geomContext* OverpassParser::out_geom() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(163);
+    setState(169);
     _la = _input->LA(1);
     if (!((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & ((1ULL << OverpassParser::T__21)
-      | (1ULL << OverpassParser::T__22)
-      | (1ULL << OverpassParser::T__23))) != 0))) {
+      ((1ULL << _la) & ((1ULL << OverpassParser::T__22)
+      | (1ULL << OverpassParser::T__23)
+      | (1ULL << OverpassParser::T__24))) != 0))) {
     _errHandler->recoverInline(this);
     }
     else {
@@ -1787,7 +1877,7 @@ std::any OverpassParser::Out_level_of_detailsContext::accept(tree::ParseTreeVisi
 
 OverpassParser::Out_level_of_detailsContext* OverpassParser::out_level_of_details() {
   Out_level_of_detailsContext *_localctx = _tracker.createInstance<Out_level_of_detailsContext>(_ctx, getState());
-  enterRule(_localctx, 38, OverpassParser::RuleOut_level_of_details);
+  enterRule(_localctx, 40, OverpassParser::RuleOut_level_of_details);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1799,14 +1889,14 @@ OverpassParser::Out_level_of_detailsContext* OverpassParser::out_level_of_detail
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(165);
+    setState(171);
     _la = _input->LA(1);
     if (!((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & ((1ULL << OverpassParser::T__24)
-      | (1ULL << OverpassParser::T__25)
+      ((1ULL << _la) & ((1ULL << OverpassParser::T__25)
       | (1ULL << OverpassParser::T__26)
       | (1ULL << OverpassParser::T__27)
-      | (1ULL << OverpassParser::T__28))) != 0))) {
+      | (1ULL << OverpassParser::T__28)
+      | (1ULL << OverpassParser::T__29))) != 0))) {
     _errHandler->recoverInline(this);
     }
     else {
@@ -1865,7 +1955,7 @@ std::any OverpassParser::OutContext::accept(tree::ParseTreeVisitor *visitor) {
 
 OverpassParser::OutContext* OverpassParser::out() {
   OutContext *_localctx = _tracker.createInstance<OutContext>(_ctx, getState());
-  enterRule(_localctx, 40, OverpassParser::RuleOut);
+  enterRule(_localctx, 42, OverpassParser::RuleOut);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1877,30 +1967,30 @@ OverpassParser::OutContext* OverpassParser::out() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(167);
-    match(OverpassParser::T__29);
-    setState(169);
+    setState(173);
+    match(OverpassParser::T__30);
+    setState(175);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
     if ((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & ((1ULL << OverpassParser::T__21)
-      | (1ULL << OverpassParser::T__22)
-      | (1ULL << OverpassParser::T__23))) != 0)) {
-      setState(168);
+      ((1ULL << _la) & ((1ULL << OverpassParser::T__22)
+      | (1ULL << OverpassParser::T__23)
+      | (1ULL << OverpassParser::T__24))) != 0)) {
+      setState(174);
       out_geom();
     }
-    setState(172);
+    setState(178);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
     if ((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & ((1ULL << OverpassParser::T__24)
-      | (1ULL << OverpassParser::T__25)
+      ((1ULL << _la) & ((1ULL << OverpassParser::T__25)
       | (1ULL << OverpassParser::T__26)
       | (1ULL << OverpassParser::T__27)
-      | (1ULL << OverpassParser::T__28))) != 0)) {
-      setState(171);
+      | (1ULL << OverpassParser::T__28)
+      | (1ULL << OverpassParser::T__29))) != 0)) {
+      setState(177);
       out_level_of_details();
     }
    
@@ -1963,7 +2053,7 @@ std::any OverpassParser::RequestContext::accept(tree::ParseTreeVisitor *visitor)
 
 OverpassParser::RequestContext* OverpassParser::request() {
   RequestContext *_localctx = _tracker.createInstance<RequestContext>(_ctx, getState());
-  enterRule(_localctx, 42, OverpassParser::RuleRequest);
+  enterRule(_localctx, 44, OverpassParser::RuleRequest);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1975,47 +2065,47 @@ OverpassParser::RequestContext* OverpassParser::request() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(177);
+    setState(183);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
     if (_la == OverpassParser::T__0) {
-      setState(174);
+      setState(180);
       metadata();
-      setState(175);
-      match(OverpassParser::T__20);
+      setState(181);
+      match(OverpassParser::T__21);
     }
-    setState(182); 
+    setState(188); 
     _errHandler->sync(this);
     _la = _input->LA(1);
     do {
-      setState(179);
+      setState(185);
       query_sequence();
-      setState(180);
-      match(OverpassParser::T__20);
-      setState(184); 
+      setState(186);
+      match(OverpassParser::T__21);
+      setState(190); 
       _errHandler->sync(this);
       _la = _input->LA(1);
     } while ((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & ((1ULL << OverpassParser::T__6)
-      | (1ULL << OverpassParser::T__9)
-      | (1ULL << OverpassParser::T__12)
+      ((1ULL << _la) & ((1ULL << OverpassParser::T__7)
+      | (1ULL << OverpassParser::T__10)
       | (1ULL << OverpassParser::T__13)
       | (1ULL << OverpassParser::T__14)
       | (1ULL << OverpassParser::T__15)
       | (1ULL << OverpassParser::T__16)
       | (1ULL << OverpassParser::T__17)
       | (1ULL << OverpassParser::T__18)
-      | (1ULL << OverpassParser::T__19))) != 0));
-    setState(189);
+      | (1ULL << OverpassParser::T__19)
+      | (1ULL << OverpassParser::T__20))) != 0));
+    setState(195);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
-    if (_la == OverpassParser::T__29) {
-      setState(186);
+    if (_la == OverpassParser::T__30) {
+      setState(192);
       out();
-      setState(187);
-      match(OverpassParser::T__20);
+      setState(193);
+      match(OverpassParser::T__21);
     }
    
   }

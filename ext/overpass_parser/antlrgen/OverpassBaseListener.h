@@ -34,6 +34,9 @@ public:
   virtual void enterFilter_bbox(OverpassParser::Filter_bboxContext * /*ctx*/) override { }
   virtual void exitFilter_bbox(OverpassParser::Filter_bboxContext * /*ctx*/) override { }
 
+  virtual void enterFilter_poly(OverpassParser::Filter_polyContext * /*ctx*/) override { }
+  virtual void exitFilter_poly(OverpassParser::Filter_polyContext * /*ctx*/) override { }
+
   virtual void enterFilter_osm_id(OverpassParser::Filter_osm_idContext * /*ctx*/) override { }
   virtual void exitFilter_osm_id(OverpassParser::Filter_osm_idContext * /*ctx*/) override { }
 
