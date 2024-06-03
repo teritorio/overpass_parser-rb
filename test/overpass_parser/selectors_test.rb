@@ -43,11 +43,6 @@ module OverpassParser
       end
 
       sig { void }
-      def test_sort
-        parse('[highway=footway][!footway]')
-      end
-
-      sig { void }
       def test_matches_to_overpass
         assert_equal('[amenity]', parse('[amenity]').to_overpass)
         assert_equal('[shop=florist]', parse('[shop=florist]').to_overpass)
@@ -80,6 +75,15 @@ module OverpassParser
 
         d = OverpassParser::SqlDialect::Postgres.new(postgres_escape_literal: ->(s) { "_#{s}_" })
         assert_equal("(tags?_name_ AND tags->>_name_ = _l'l_)", parse('[name="l\'l"]').to_sql(d))
+      end
+
+      sig { void }
+      def test_sort
+        d = OverpassParser::SqlDialect::Postgres.new
+        assert_equal(
+          "tags?'power' AND (NOT tags?'power' OR tags->>'power' !~ '(no|cable|line|minor_line$)')",
+          parse('[power!~"no|cable|line|minor_line$"][power]').sort.to_sql(d)
+        )
       end
     end
   end

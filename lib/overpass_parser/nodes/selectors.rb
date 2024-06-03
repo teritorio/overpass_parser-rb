@@ -100,6 +100,27 @@ module OverpassParser
         end
       end
 
+      # Based on T::Struct::ActsAsComparable
+      def <=>(other)
+        return NOT_COMPARABLE if other.class != T.unsafe(self).class
+
+        T.unsafe(self).class.decorator.props.keys.each do |attribute_key|
+          a = T.unsafe(self).send(attribute_key)
+          b = other.send(attribute_key)
+          compare_result = (
+            if a.nil? && b.nil?
+              0
+            elsif a.nil? && !b.nil?
+              -1
+            else
+              !a.nil? && b.nil? ? 1 : a <=> b
+            end
+          )
+          return T.cast(compare_result, T.nilable(Integer)) if compare_result != EQUAL
+        end
+        EQUAL
+      end
+
       private
 
       def quote(string)
