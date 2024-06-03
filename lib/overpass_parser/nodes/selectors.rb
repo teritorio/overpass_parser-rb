@@ -104,7 +104,7 @@ module OverpassParser
       def <=>(other)
         return NOT_COMPARABLE if other.class != T.unsafe(self).class
 
-        T.unsafe(self).class.decorator.props.keys.each do |attribute_key|
+        T.unsafe(self).class.decorator.props.each_key do |attribute_key|
           a = T.unsafe(self).send(attribute_key)
           b = other.send(attribute_key)
           compare_result = (
