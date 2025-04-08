@@ -75,6 +75,11 @@ module OverpassParser
         params(_geom: String, _srid: T.any(Integer, String)).returns(String)
       end
       def st_transform_reverse(_geom, _srid) = ''
+
+      sig do
+        params(_geom: String, _maxdecimaldigits: Integer).returns(String)
+      end
+      def st_asgeojson(_geom, _maxdecimaldigits) = ''
     end
   end
 end

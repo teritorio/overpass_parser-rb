@@ -71,8 +71,12 @@ FROM #{sql_dialect.st_dump_points}(geom))"
       else
         "replace(replace(replace(replace(replace((
           CASE ST_GeometryType(geom)
-          WHEN 'LINESTRING' THEN ST_AsGeoJson(#{sql_dialect.st_transform_reverse('geom', srid)}, 7)->'coordinates'
-          ELSE ST_AsGeoJson(#{sql_dialect.st_transform_reverse('geom', srid)}, 7)->'coordinates'->0
+          WHEN 'LINESTRING' THEN #{sql_dialect.st_asgeojson(
+            sql_dialect.st_transform_reverse('geom', srid), 7
+          )}->'coordinates'
+          ELSE #{sql_dialect.st_asgeojson(
+            sql_dialect.st_transform_reverse('geom', srid), 7
+          )}->'coordinates'->0
           END
         )::text, '[', '{\"lon\":'), \
 ',', ',\"lat\":'), \

@@ -95,6 +95,13 @@ module OverpassParser
       def st_transform_reverse(geom, srid)
         "ST_Transform(#{geom}, 'EPSG:#{srid}', 'EPSG:4326')"
       end
+
+      sig do
+        params(geom: String, _maxdecimaldigits: Integer).returns(String)
+      end
+      def st_asgeojson(geom, _maxdecimaldigits)
+        "ST_AsGeoJSON(#{geom})"
+      end
     end
   end
 end
