@@ -25,10 +25,11 @@ module OverpassParser
       sig do
         params(
           _sql_dialect: SqlDialect::SqlDialect,
+          _srid: Integer,
           default_set: T.nilable(String)
         ).returns(String)
       end
-      def to_sql(_sql_dialect, default_set)
+      def to_sql(_sql_dialect, _srid, default_set)
         "SELECT
   way.*
 FROM

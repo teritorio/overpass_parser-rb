@@ -65,6 +65,16 @@ module OverpassParser
         returns(String)
       end
       def st_intersects_extent = ''
+
+      sig do
+        params(_geom: String, _srid: T.any(Integer, String)).returns(String)
+      end
+      def st_transform(_geom, _srid) = ''
+
+      sig do
+        params(_geom: String, _srid: T.any(Integer, String)).returns(String)
+      end
+      def st_transform_reverse(_geom, _srid) = ''
     end
   end
 end

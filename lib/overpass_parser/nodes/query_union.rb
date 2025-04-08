@@ -26,13 +26,14 @@ module OverpassParser
       sig do
         params(
           sql_dialect: SqlDialect::SqlDialect,
+          srid: Integer,
           _default_set: T.nilable(String)
         ).returns(String)
       end
-      def to_sql(sql_dialect, _default_set)
+      def to_sql(sql_dialect, srid, _default_set)
         default_set = T.let(nil, T.nilable(String))
         with = queries.collect do |querie|
-          sql = querie.to_sql(sql_dialect, default_set).gsub(/^/, '  ')
+          sql = querie.to_sql(sql_dialect, srid, default_set).gsub(/^/, '  ')
           default_set = querie.asignation
           "#{querie.asignation} AS (\n#{sql}\n)"
         end.join(",\n")

@@ -98,6 +98,20 @@ module OverpassParser
       def st_intersects_extent
         'ST_Intersects'
       end
+
+      sig do
+        params(geom: String, srid: T.any(Integer, String)).returns(String)
+      end
+      def st_transform(geom, srid)
+        "ST_Transform(#{geom}, #{srid})"
+      end
+
+      sig do
+        params(geom: String, _srid: T.any(Integer, String)).returns(String)
+      end
+      def st_transform_reverse(geom, _srid)
+        "ST_Transform(#{geom}, 4326)"
+      end
     end
   end
 end

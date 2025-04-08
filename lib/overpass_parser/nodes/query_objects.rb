@@ -31,10 +31,11 @@ module OverpassParser
       sig do
         params(
           sql_dialect: SqlDialect::SqlDialect,
+          srid: Integer,
           default_set: T.nilable(String)
         ).returns(String)
       end
-      def to_sql(sql_dialect, default_set)
+      def to_sql(sql_dialect, srid, default_set)
         from = (
           if set.nil?
             object_type
@@ -53,7 +54,7 @@ module OverpassParser
             "osm_type = '#{object_type[0]}'"
           end,
           selectors&.to_sql(sql_dialect) || nil,
-          filters&.to_sql(sql_dialect) || nil
+          filters&.to_sql(sql_dialect, srid) || nil
         ].compact.join(" AND\n  ")
 
         sql = "SELECT

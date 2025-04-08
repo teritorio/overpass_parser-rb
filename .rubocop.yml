@@ -12,6 +12,9 @@ Layout/LineLength:
 Style/Documentation:
   Enabled: false
 
+Style/StringConcatenation:
+  Enabled: false
+
 Metrics/AbcSize:
   Max: 40
 

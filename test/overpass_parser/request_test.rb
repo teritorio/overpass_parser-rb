@@ -30,8 +30,8 @@ SELECT
   jsonb_strip_nulls(jsonb_build_object(
     'type', CASE osm_type WHEN 'n' THEN 'node' WHEN 'w' THEN 'way' WHEN 'r' THEN 'relation' WHEN 'a' THEN 'area' END,
     'id', id,
-    'lon', CASE osm_type WHEN 'n' THEN ST_X(geom)::numeric END,
-    'lat', CASE osm_type WHEN 'n' THEN ST_Y(geom)::numeric END,
+    'lon', CASE osm_type WHEN 'n' THEN ST_X(ST_Transform(geom, 4326))::numeric END,
+    'lat', CASE osm_type WHEN 'n' THEN ST_Y(ST_Transform(geom, 4326))::numeric END,
     'timestamp', created,
     'version', version,
     'changeset', changeset,
@@ -39,8 +39,8 @@ SELECT
     'uid', uid,
     'center', CASE osm_type = 'w' OR osm_type = 'r'
       WHEN true THEN jsonb_build_object(
-        'lon', ST_X(ST_PointOnSurface(geom))::numeric,
-        'lat', ST_Y(ST_PointOnSurface(geom))::numeric
+        'lon', ST_X(ST_PointOnSurface(ST_Transform(geom, 4326)))::numeric,
+        'lat', ST_Y(ST_PointOnSurface(ST_Transform(geom, 4326)))::numeric
       )
     END,
     'nodes', nodes,
@@ -51,6 +51,7 @@ FROM
 ;",
           OverpassParser.parse('[out:json][timeout:25];node(1)->.a;out center meta;').to_sql(
             d,
+            4326,
             'SELECT * FROM {{query}}'
           )
         )

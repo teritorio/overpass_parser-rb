@@ -19,13 +19,14 @@ module OverpassParser
       sig do
         params(
           sql_dialect: SqlDialect::SqlDialect,
+          srid: Integer,
           finalizer: T.nilable(String)
         ).returns(String)
       end
-      def to_sql(sql_dialect, finalizer = nil)
+      def to_sql(sql_dialect, srid, finalizer = nil)
         default_set = T.let(nil, T.nilable(String))
         with = queries.collect do |querie|
-          sql = querie.to_sql(sql_dialect, default_set).gsub(/^/, '  ')
+          sql = querie.to_sql(sql_dialect, srid, default_set).gsub(/^/, '  ')
           default_set = querie.asignation
           "#{querie.asignation} AS (\n#{sql}\n)"
         end
@@ -35,7 +36,7 @@ module OverpassParser
           default_set = '__finalizer'
         end
         with = with.join(",\n")
-        select = out.to_sql(sql_dialect)
+        select = out.to_sql(sql_dialect, srid)
         "#{sql_dialect.statement_timeout([timeout || 180, 500].min * 1000)}
 WITH
 #{with}

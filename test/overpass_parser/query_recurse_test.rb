@@ -47,7 +47,7 @@ FROM
     way.id = members.ref
 WHERE
   relation.osm_type = 'r'",
-          OverpassParser.parse('way;>;').queries[1]&.to_sql(d, '_')
+          OverpassParser.parse('way;>;').queries[1]&.to_sql(d, 4326, '_')
         )
       end
     end

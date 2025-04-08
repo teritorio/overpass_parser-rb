@@ -29,8 +29,8 @@ FROM
 WHERE
   osm_type = 'n' AND
   (tags?'a' AND tags->>'a' = 'b') AND
-  ST_Intersects(ST_Envelope('SRID=4326;LINESTRING(2.0 1.0, 4.0 3.0)'::geometry), geom)",
-          parse('node.a[a=b](1,2,3,4)->.b').to_sql(d, '_')
+  ST_Intersects(ST_Transform(ST_Envelope('SRID=4326;LINESTRING(2.0 1.0, 4.0 3.0)'::geometry), 4326), geom)",
+          parse('node.a[a=b](1,2,3,4)->.b').to_sql(d, 4326, '_')
         )
       end
 
@@ -44,8 +44,8 @@ FROM
   _a
 WHERE
   osm_type = 'n' AND
-  ST_Intersects('SRID=4326;POLYGON(2.0 1.0, 4.0 3.0, 6.0 5.0)'::geometry, geom)",
-          parse('node.a(poly:"1 2 3 4 5 6")').to_sql(d, '_')
+  ST_Intersects(ST_Transform('SRID=4326;POLYGON(2.0 1.0, 4.0 3.0, 6.0 5.0)'::geometry, 4326), geom)",
+          parse('node.a(poly:"1 2 3 4 5 6")').to_sql(d, 4326, '_')
         )
       end
     end
