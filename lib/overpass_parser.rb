@@ -2,7 +2,12 @@
 # typed: strict
 
 # load the native extension
-require File.expand_path(File.join('..', 'ext', 'overpass_parser', 'overpass_parser'), __dir__)
+begin
+  require File.expand_path(File.join('..', 'ext', 'overpass_parser', 'overpass_parser'), __dir__)
+rescue LoadError => _e
+  require "#{Gem.loaded_specs['overpass_parser'].require_paths.first}/overpass_parser"
+end
+
 require 'sorbet-runtime'
 require_relative('overpass_parser/visitor')
 require_relative('overpass_parser/sql_dialect/duckdb')
