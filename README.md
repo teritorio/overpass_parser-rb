@@ -1,3 +1,5 @@
+# DEPRECATED : This project have been replaced by https://github.com/teritorio/overpass_parser_ruby
+
 Gem based on (antlr-gemerator)[https://github.com/camertron/antlr-gemerator].
 
 After change in the g4 file:
